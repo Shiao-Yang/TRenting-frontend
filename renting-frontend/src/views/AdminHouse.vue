@@ -1,0 +1,15 @@
+<template>
+ <div class="adminHouse">
+   <h1>房源管理页面</h1>
+ </div>
+</template>
+
+<script>
+export default {
+  name: "AdminHouse"
+}
+</script>
+
+<style scoped>
+
+</style>
