@@ -6,6 +6,9 @@
 
 <script>
 export default {
+  created() {
+    this.$emit('active',5);
+  },
   name: "AdminContract"
 }
 </script>

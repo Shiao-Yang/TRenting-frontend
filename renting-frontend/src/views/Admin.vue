@@ -7,7 +7,7 @@
       <el-container>
         <el-aside class="el-aside">
           <el-menu
-              default-active="1"
+              :default-active="activeIndex"
               class="el-menu-vertical-demo"
               background-color="#545c64"
               text-color="#fff"
@@ -45,7 +45,7 @@
           </el-menu>
         </el-aside>
         <el-main class="el-main">
-          <router-view/>
+          <router-view @active="active"/>
         </el-main>
       </el-container>
     </el-container>
@@ -55,8 +55,15 @@
 <script>
 export default {
   name: "AdminUser",
+  data() {
+    return {
+      activeIndex: ''
+    }
+  },
   methods: {
-
+    active(num) {
+      this.activeIndex = num;
+    }
   }
 }
 </script>

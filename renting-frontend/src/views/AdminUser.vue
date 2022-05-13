@@ -2,13 +2,12 @@
   <div className="adminUser">
     <template>
       <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="租客管理" name="first">
-          租客管理
+        <el-tab-pane label="用户管理" name="first">
           <div style="margin-top: 15px;">
             <el-input style="width: 850px" placeholder="请输入内容" v-model="input1" class="input-with-select" clearable>
               <el-select style="width: 110px" v-model="select1" slot="prepend" placeholder="请选择">
-                <el-option label="租客ID" value="1"></el-option>
-                <el-option label="租客姓名" value="2"></el-option>
+                <el-option label="用户ID" value="1"></el-option>
+                <el-option label="用户姓名" value="2"></el-option>
               </el-select>
               <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
@@ -18,7 +17,6 @@
           </el-container>
         </el-tab-pane>
         <el-tab-pane label="师傅管理" name="second">
-          师傅管理
           <div style="margin-top: 15px;">
             <el-input style="width: 850px" placeholder="请输入内容" v-model="input2" class="input-with-select" clearable>
               <el-select style="width: 110px" v-model="select2" slot="prepend" placeholder="请选择">
@@ -42,6 +40,9 @@
 
 <script>
 export default {
+  created() {
+    this.$emit('active',1);
+  },
   name: "AdminUser",
   data() {
     return {
@@ -49,7 +50,7 @@ export default {
       input1: '',
       input2: '',
       select1: '1',
-      select2: '1'
+      select2: '1',
     };
   },
   methods: {
@@ -60,17 +61,17 @@ export default {
 }
 </script>
 
-<style>
-  .el-tabs__item.is-active {
+<style scoped>
+  >>> .el-tabs__item.is-active {
     color: #42b983 !important;
   }
-  .el-tabs__item:hover {
-    color: #42b983 !important;
+  >>> .el-tabs__item:hover {
+    color: #7fc4a5 !important;
   }
   .el-select-dropdown__item.selected, .el-select-dropdown__item:hover{
     color: #42b983 !important;
   }
-  .el-input-group__prepend + .el-input__inner:focus{
+  >>> .el-input-group__prepend + .el-input__inner:focus{
     border-color: #42b983 !important;
   }
 </style>
