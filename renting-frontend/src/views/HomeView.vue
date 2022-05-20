@@ -31,7 +31,7 @@
           <div class="f-shortcut-search-box">
             <div class="f-shortcut-search">
               <div class="box" style="display: flex;flex-direction: row;justify-content: flex-start;height: 32px; padding: 0">
-                <input type="text" placeholder="请输入区域、商圈或小区名开始找房" style="background-color: #f4f4f4; width:450px;height: 32px;padding: 2px 5px 2px 5px">
+                <input type="text" placeholder="请输入区域、商圈或小区名开始找房" style="background-color: #f4f4f4; width:450px;height: 32px;padding: 2px 15px 2px 15px">
                 <input type="button" value="开始找房" style="height: 36px;width: 100px">
               </div>
             </div>
@@ -95,17 +95,17 @@
           </li>
           <li>
             <div class="dt">
-              <a target="_blank">我的订单</a>
+              <router-link to="/">我的订单</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <a target="_blank">我的报修</a>
+              <router-link to="/">我的报修</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <a target="_blank">购物车</a>
+              <router-link to="/">购物车</router-link>
             </div>
           </li>
         </ul>
@@ -113,16 +113,34 @@
     </div>
     <div id="header">
       <div class="w">
-        <div class="logo">
+        <div class="logo" >
           <img src="../assets/logo.png" style="height: 50px; width: 50px">
         </div>
         <div class="web-text-box">
-          <h1 style="color:white;">用心创造温馨</h1>
+          <h1 style="color:white;font-size: 100px">用心创造温馨</h1>
         </div>
-        <div class="menu-box">
+        <div class="web-ftext-box">
+          <span id="web-ftext">平台已成功交易订单999次，为您竭诚服务</span>
         </div>
         <div class="search-box">
-          <div class="box" style="display: flex;flex-direction: row;justify-content: flex-start;">
+          <div class="box" style="height: 43px;padding: 20px 5px 2px 5px">
+            <ul style="padding-left: 5px">
+              <li class="menu-item" id="menu-quyu"
+                  onclick="document.querySelector('.menu-item-check').className='menu-item';document.querySelector('#menu-quyu').className='menu-item-check';document.getElementById('menu-i').style.left='40px'">
+                <span>找区域</span>
+              </li>
+              <li class="menu-item-check" id="menu-xiaoqu"
+                  onclick="document.querySelector('.menu-item-check').className='menu-item';document.querySelector('#menu-xiaoqu').className='menu-item-check';document.getElementById('menu-i').style.left='105px'">
+                <span>找小区</span>
+              </li>
+              <li class="menu-item" id="menu-shangquan"
+                  onclick="document.querySelector('.menu-item-check').className='menu-item';document.querySelector('#menu-shangquan').className='menu-item-check';document.getElementById('menu-i').style.left='170px'">
+                <span>找商圈</span>
+              </li>
+            </ul>
+            <i id="menu-i" style="left:105px"></i>
+          </div>
+          <div class="box" style="padding: 0">
             <input type="text" placeholder="请输入区域、商圈或小区名开始找房">
             <input type="button" value="开始找房">
           </div>
@@ -642,7 +660,7 @@ export default {
 
   data () {
     return {
-      needFixed: true
+      needFixed: false,
     }
   },
 
@@ -651,7 +669,7 @@ export default {
     {
       let self = this
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      if (scrollTop > 300) {
+      if (scrollTop > 450) {
         self.needFixed = true;
       } else {
         self.needFixed = false;
@@ -661,12 +679,19 @@ export default {
 
   mounted() {
     window.addEventListener('scroll', this.handleScroll)
+    window.onload = function () {
+      let i=1;
+      let text= ["平台已成功交易订单999次，为您竭诚服务", "平台已处理报修999次，为您保驾护航", "平台已回复投诉999次，倾听您的声音"];
+      function changeText() {
+        i=i%3;
+        document.getElementById("web-ftext").innerText = text[i];
+        i++;
+      }
+      setInterval(changeText, 10000);
+    }
   }
 
 };
-
-
-
 
 </script>
 <style scoped>
@@ -701,6 +726,7 @@ export default {
 .w {
   width: 1190px;
   margin: auto;
+  display: block;
 }
 
 .logo {
@@ -709,31 +735,37 @@ export default {
   float:left;
   height:50px;
   position: relative;
+  display: block;
 }
 
 .search-box {
   padding: 20px;
-  margin:0 auto;
+  margin:auto;
   position: relative;
-  display: flex;
+  display: block;
 }
 
 .web-text-box {
+  display: block;
   margin: auto;
+  padding: 100px 40px 20px 40px;
   font-size: 40px;
   text-align: center;
-  height: 160px;
+  height: 200px;
   position:relative;
 }
 
-.menu-box {
+.web-ftext-box {
+  display: block;
   margin: auto;
+  padding: 0;
+  font-size: 20px;
   text-align: center;
-  width: 1190px;
-  height: 50px;
-  font-size: 14px;
-  padding-top: 30px;
-  float: left;
+  height: 45px;
+  line-height: 45px;
+  font-weight: 800;
+  color: #fff;
+  opacity:9;
 }
 
 .box {
@@ -742,6 +774,40 @@ export default {
   padding: 20px;
   margin:0 auto;
   position: relative;
+  display: flex;
+}
+.menu-item-check {
+  text-align: center;
+  border: none;
+  margin-left: 12px;
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.menu-item {
+  text-align: center;
+  border: none;
+  margin-left: 12px;
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  opacity: .5;
+  cursor: pointer;
+}
+
+#menu-i {
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  width: 0;
+  height: 0;
+  transition: all ease-in-out .3s;
+  position: absolute;
+  top: 55px;
+  border-bottom: 10px solid #fff;
+  z-index: 9;
 }
 
 input[type=text] {
