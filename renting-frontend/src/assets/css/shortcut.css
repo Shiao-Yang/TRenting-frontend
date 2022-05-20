@@ -1,0 +1,181 @@
+a {
+  text-decoration: none;
+}
+
+ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+  overflow: hidden;
+}
+
+li {
+  list-style: none;
+  display: inline;
+  border-right: 1px solid #bbb;
+}
+
+li:last-child{
+  border-right: none;
+}
+
+
+#shortcut {
+  position:absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  background-color: #e3e4e5;
+  height: 30px;
+  line-height: 30px;
+}
+
+#shortcut .w {
+  height: 30px;
+  line-height: 30px;
+  color: #999;
+}
+
+#shortcut .dt {
+  padding-left: 7px;
+  padding-right:7px;
+}
+
+#shortcut li{
+  float: left;
+}
+
+#shortcut a{
+  color: #999;
+}
+
+#shortcut a:hover {
+  color: #f10215;
+}
+
+#login-button{
+  text-align: left;
+  width: 90px;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 20;
+}
+
+.w {
+  margin: auto;
+  width: 1190px;
+}
+
+.top-left{
+  margin: 0;
+  float: left
+}
+
+.top-right{
+  margin: 0;
+  float:right;
+}
+
+.too-right li{
+  display:list-item;
+  text-align: -webkit-match-parent;
+}
+
+.shortcut_btn {
+  position: relative;
+}
+
+.f-shortcut {
+  width: 100%;
+  min-width: 999px;
+  min-height: 56px;
+  position: relative;
+  z-index: 99;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.f-header {
+  z-index: 1;
+  width: 100%;
+  height: 56px;
+  position: relative;
+  background: #fff;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 8%);
+}
+
+.f-header-content {
+  padding: 10px 24px;
+  line-height: 30px;
+  position: relative;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.f-shortcut-content {
+  line-height: 32px;
+  position: relative;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+
+.f-shortcut-ul {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.f-shortcut-item {
+  font-size: 20px;
+  display: flex;
+  border: none;
+  margin-right: 12px;
+}
+
+.f-shortcut-item:hover {
+  color: #00ae66;
+}
+
+.f-shortcut-logo {
+  fill: currentColor;
+  width: 70px;
+  height: 32px;
+  margin-right: 12px;
+}
+
+.link {
+  line-height: 32px;
+  white-space: nowrap;
+  display: flex;
+}
+
+.f-shortcut-search-box {
+  position: relative;
+  margin: auto;
+  width: 550px;
+  height: 32px;
+  transition: 0.3s width;
+}
+
+.f-shortcut-search {
+  position: relative;
+}
+
+.f-shortcut-user {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
