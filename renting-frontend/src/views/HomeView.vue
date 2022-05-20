@@ -698,7 +698,7 @@ export default {
   @import "../assets/css/shortcut.css";
 </style>
 
-<style>
+<style scoped>
 #header {
   width: 100%;
   height: 610px;
@@ -716,11 +716,6 @@ export default {
   top:641px;
   width: 100%;
   background-color: #f4f4f4;
-}
-
-* {
-  margin: 0;
-  padding: 0;
 }
 
 .w {
@@ -843,8 +838,6 @@ input[type=button]:hover{
 
 ul li {
   list-style: none;
-  margin: 0;
-  padding: 0;
 }
 
 a {

@@ -69,7 +69,7 @@
   @import "../assets/css/shortcut.css";
 </style>
 
-<style>
+<style scoped>
 #inner-content {
   display: block;
   padding: 60px 0 0 0;

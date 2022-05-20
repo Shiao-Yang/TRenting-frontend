@@ -1,6 +1,3 @@
-* {
-  padding: 0;
-}
 a {
   text-decoration: none;
 }
@@ -137,6 +134,7 @@ li:last-child{
   height: 36px;
   display: flex;
   align-items: center;
+  margin-right: 12px;
 }
 
 .f-shortcut-item {
