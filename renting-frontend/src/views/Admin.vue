@@ -30,7 +30,7 @@
                 <span slot="title">房源管理</span>
               </el-menu-item>
             </router-link>
-            <router-link to="/admin/workOrder">
+            <router-link to="/admin/ticket">
               <el-menu-item index="4">
                 <i class="el-icon-files"></i>
                 <span slot="title">工单管理</span>

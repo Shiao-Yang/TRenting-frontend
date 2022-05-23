@@ -25,7 +25,7 @@
               </el-select>
               <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
-            <el-button type="primary" style="background-color: #4a5c70;border: none;margin-left: 20px">
+            <el-button type="primary" id="upload" style="background-color: #4a5c70;border: none;margin-left: 20px;">
               导入<i class="el-icon-upload el-icon--right"></i>
             </el-button>
           </div>
@@ -73,5 +73,8 @@ export default {
   }
   >>> .el-input-group__prepend + .el-input__inner:focus{
     border-color: #42b983 !important;
+  }
+  #upload:hover {
+    background-color: #364354 !important;
   }
 </style>

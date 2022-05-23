@@ -6,7 +6,7 @@ const Admin = () => import('../views/Admin.vue')
 const AdminUser = () => import('../views/AdminUser.vue')
 const AdminOrder = () => import('../views/AdminOrder.vue')
 const AdminHouse = () => import('../views/AdminHouse.vue')
-const AdminWorkOrder = () => import('../views/AdminWorkOrder.vue')
+const AdminTicket = () => import('../views/AdminTicket.vue')
 const AdminContract = () => import('../views/AdminContract.vue')
 
 Vue.use(VueRouter)
@@ -45,9 +45,9 @@ const routes = [
         component: AdminHouse,
       },
       {
-        path: 'workOrder',
-        name: 'adminWorkOrder',
-        component: AdminWorkOrder,
+        path: 'ticket',
+        name: 'adminTicket',
+        component: AdminTicket,
       },
       {
         path: 'contract',

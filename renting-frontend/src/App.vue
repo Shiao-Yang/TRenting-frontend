@@ -13,7 +13,7 @@
       getRoute() {
         let path = this.$route.path;
         // console.log("path为"+path);
-        if (path ==="/admin/user"||path ==="/admin/order"||path ==="/admin/house"||path ==="/admin/workOrder"||path==="/admin/contract") {
+        if (path ==="/admin/user"||path ==="/admin/order"||path ==="/admin/house"||path ==="/admin/ticket"||path==="/admin/contract") {
           this.$refs.admin.$el.style.color = '#42b983';
           // console.log("color为"+link.style.color);
         } else {
