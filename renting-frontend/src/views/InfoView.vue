@@ -1,5 +1,63 @@
 <template>
   <div class="info">
+    <div id = "f-shortcut" class = "f-shortcut" v-if="this.needFixed === true" style="position: fixed;top:0;">
+      <div class="f-header" aria-label="顶部浮动导航栏" style="position: fixed;top:0;">
+        <div class="f-shortcut-content">
+          <div class="f-shortcut-link">
+            <ul class="f-shortcut-ul">
+              <li class="f-shortcut-item">
+                <span>
+                  <router-link to="/" class="link">
+                    <img class="f-shortcut-logo" src="../assets/logo.png">
+                    首页
+                  </router-link>
+                </span>
+              </li>
+              <li class="f-shortcut-item">
+                <router-link to="/about" class="link">联系我们</router-link>
+              </li>
+            </ul>
+          </div>
+          <div class="f-shortcut-search-box">
+            <div class="f-shortcut-search">
+              <div class="box" style="display: flex;flex-direction: row;justify-content: flex-start;height: 32px; padding: 0">
+                <input type="text" placeholder="请输入区域、商圈或小区名开始找房" style="background-color: #f4f4f4; width:450px;height: 32px;padding: 2px 15px 2px 15px">
+                <input type="button" value="开始找房" style="height: 36px;width: 100px">
+              </div>
+            </div>
+          </div>
+          <div class="f-shortcut-user">
+            <ul class="f-shortcut-ul">
+              <li class="f-shortcut-item">
+                <span>
+                  <router-link to="/" class="link">
+                    <img class="f-shortcut-logo" src="../assets/traveller.png" style="width: 32px;">
+                    <span style="color: #e1251b">
+                      登录
+                    </span>
+                  </router-link>
+                  <!--                  <router-link to="/" class="link">-->
+                  <!--                    <img class="f-shortcut-logo" src="../assets/traveller.png" style="border-radius: 50%; width: 40px; height: 40px;background-color: #f4f4f4">d-->
+                  <!--                  </router-link>-->
+                </span>
+              </li>
+              <li class="f-shortcut-item">
+                <router-link to="/" class="link">我的订单</router-link>
+              </li>
+              <li class="f-shortcut-item">
+                <router-link to="/">我的报修</router-link>
+              </li>
+              <li class="f-shortcut-item">
+                <router-link to="/">
+                  购物车
+                  <img src="../assets/cart.png" style="width:20px; height: 20px; margin-left: 12px;">
+                </router-link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
     <div id="shortcut">
       <div class="w" aria-label="顶部导航栏">
         <ul class="top-left">
@@ -110,6 +168,260 @@
         </div>
         <div class="main">
 
+          <div class="box">
+            <div class="user-box">
+              <div class="user-main">
+                <router-link to="/info" class="avatar">
+                  <img class="" src="../assets/logo.png" style="height: 64px; width: 64px">
+                </router-link>
+                <div class="user">
+                  <router-link to="/info" class="user-name">用户1234</router-link>
+                </div>
+                <div class="tags">
+                  <router-link to="/info" class="tag">账号设置</router-link>
+                  <span>小白</span>
+                </div>
+              </div>
+              <div class="user-bottom">
+                <div class="text">
+                  <span>为您个性化的推荐</span>
+                  <router-link to="/" class="button">去逛逛</router-link>
+                </div>
+              </div>
+            </div>
+            <div class="my-block my-cart">
+              <div class="mt">
+                <h3>我的购物车</h3>
+              </div>
+              <div class="mc">
+                <ul>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/info" >
+                      <img class = "more" src="../assets/more.png">
+                      <span style="text-align: center">全部信息</span>
+                    </router-link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-left">
+            <div class="my-block my-order">
+              <div class="mt">
+                <h3>我的订单</h3>
+              </div>
+              <div class="mc">
+                <div class="nav">
+                  <ul>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/pay.png">
+                        <span>待付款</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/valid.png">
+                        <span>当前有效</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/comment.png">
+                        <span>待评价</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/finish.png">
+                        <span>已完成</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/more.png">
+                        <span>全部订单</span>
+                      </router-link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="my-block my-repair">
+              <div class="mt">
+                <h3>我的报修</h3>
+              </div>
+              <div class="mc">
+                <div class="nav">
+                  <ul>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/waiting.png">
+                        <span>待处理</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/repairing.png">
+                        <span>正在处理</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/comment.png">
+                        <span>待评价</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/finish.png">
+                        <span>已完成</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/more.png">
+                        <span>全部报修</span>
+                      </router-link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="my-block my-complaint">
+              <div class="mt">
+                <h3>我的投诉</h3>
+              </div>
+              <div class="mc">
+                <div class="nav">
+                  <ul>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/submit.png">
+                        <span>待提交</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/reply.png">
+                        <span>待回复</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/comment.png">
+                        <span>待评价</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/finish.png">
+                        <span>已完成</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link to="/info">
+                        <img src="../assets/more.png">
+                        <span>全部投诉</span>
+                      </router-link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-right">
+            <div class="my-block my-rec">
+              <div class="mt">
+                <h3>为您推荐</h3>
+              </div>
+              <div class="mc">
+                <ul>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本测试文本测试文本</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本测试文本测试文本</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本测试文本测试文本</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本测试文本测试文本</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本测试文本测试文本</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本测试文本测试文本</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本测试文本测试文本</span>
+                    </router-link>
+                  </li>
+                  <li>
+                    <router-link to="/info">
+                      <img src="../assets/logo.png">
+                      <span>测试文本测试文本测试文本测试文本</span>
+                    </router-link>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -118,7 +430,29 @@
 
 <script>
 export default {
-  name: "InfoView"
+  name: "InfoView",
+  data () {
+    return {
+      needFixed: false,
+    }
+  },
+
+  methods:{
+    handleScroll()
+    {
+      let self = this
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      if (scrollTop > 82) {
+        self.needFixed = true;
+      } else {
+        self.needFixed = false;
+      }
+    },
+  },
+
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll)
+  }
 }
 </script>
 
@@ -127,11 +461,6 @@ export default {
 </style>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
-
 #info-nav {
   height: 82px;
   background-color: #fff;
@@ -282,4 +611,268 @@ a {
   width: 1000px;
 }
 
+.container .box {
+  padding: 20px 0;
+  height: 243px;
+}
+
+.user-box {
+  float:left;
+  margin-bottom: 0;
+  width: 250px;
+  height: 243px;
+  box-shadow: 2px 2px 10px rgb(0 0 0 / 30%);
+  overflow: hidden;
+  zoom: 1;
+}
+
+.user-main {
+  background-color: #f4ca3a;
+  position: relative;
+  height: 187px;
+  text-align: center;
+  overflow: hidden;
+  zoom: 1;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  display: block;
+  position: relative;
+  z-index: 2;
+  margin: 20px auto;
+  border-radius: 100%;
+  border:4px solid #fff;
+  box-shadow: 3px 2px 10px rgb(79 5 1 / 84%);
+  overflow: hidden;
+  background-color: #f4f4f4;
+}
+
+.user {
+  display: inline-block;
+  margin-bottom: 10px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.user-name {
+  margin: auto;
+  text-align: center;
+  font: 700 18px/20px Arial;
+  color: #232331;
+}
+
+.tags a, .tags span{
+  padding: 0 10px;
+  color: #232331;
+  border: 1px solid #000;
+  display: inline-block;
+  margin: 0 5px;
+  height: 22px;
+  line-height: 22px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.tags a:hover, .tags span:hover{
+  background-color: #fff;
+}
+
+.user-bottom {
+  height: 36px;
+  text-align: center;
+  background-color: #232331;
+  padding: 10px 20px;
+  overflow: hidden;
+  zoom: 1;
+}
+
+.user-bottom .text {
+  float: left;
+  margin:auto;
+  text-align: center;
+  color: #f4ca3a;
+}
+
+.user-bottom .text span {
+  line-height: 36px;
+  margin-left: 18px;
+  margin-right: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.user-bottom .button {
+  float:right;
+  padding: 0 10px;
+  margin-top: 5px;
+  height: 26px;
+  line-height: 26px;
+  border-radius: 14px;
+  background-color: #f4ca3a;
+  color: #232331;
+  font-weight: 700;
+  text-align: center;
+}
+
+.user-bottom .button:hover{
+  background-color: #fff;
+}
+
+.my-block {
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+
+.my-cart {
+  margin: 9px 0 9px 250px;
+  overflow: visible;
+}
+
+.my-block .mt {
+  padding: 0 20px;
+  height: 55px;
+  line-height: 55px;
+  border-bottom: 1px solid #f0f3ef;
+  overflow: visible;
+}
+
+.my-block h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.mc {
+  overflow: hidden;
+}
+
+.my-cart .mc ul {
+  display: flex;
+  padding: 20px;
+  height: 129px;
+}
+
+.my-cart .mc li {
+  position: relative;
+  width: 100px;
+  height: 129px;
+  margin: 0 10px 10px;
+  border: none;
+}
+
+.my-block .mc a {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+
+.my-block .mc a:hover {
+  box-shadow: 2px 2px 10px rgb(0 0 0 / 30%);
+}
+
+.my-cart .mc img {
+  width: 80px;
+  height: 80px;
+  margin: 10px;
+}
+
+.my-cart .mc .more {
+  width: 40px;
+  height: 40px;
+  margin: 30px;
+}
+
+.my-cart .mc span {
+  top: 0;
+  height: 24px;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: left;
+  margin: 0 5px 0 5px;
+  color: #666;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.my-block .nav{
+  padding: 15px 20px;
+  height: 90px;
+}
+
+.my-block .nav ul {
+  display: flex;
+  padding: 5px 20px 5px 20px;
+  height: 80px;
+}
+
+.my-block .nav li {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 20px 0 20px;
+  border: none;
+}
+
+.my-block .nav img {
+  width: 40px;
+  height: 40px;
+  margin: 10px 20px 5px 20px;
+}
+
+.my-block .nav span {
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  position: relative;
+  display: block;
+}
+
+.box-left {
+  float: left;
+  width: 694px;
+}
+
+.box-right {
+  float: none;
+  margin-left: 714px;
+  width: 286px;
+}
+
+.my-rec ul {
+  display: block;
+  padding: 10px;
+}
+
+.my-rec li {
+  float: left;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 5px 10px;
+  border: none;
+}
+
+.my-rec img {
+  width: 60px;
+  height: 60px;
+  margin: 5px 20px;
+}
+
+.my-rec span {
+  top: 0;
+  height: 24px;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: left;
+  margin: 0 5px 0 5px;
+  color: #666;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
 </style>
