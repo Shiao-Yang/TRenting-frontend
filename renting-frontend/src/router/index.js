@@ -42,7 +42,6 @@ const routes = [
     name: 'info',
     component: InfoView
   },
-
 ]
 
 const router = new VueRouter({

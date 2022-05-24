@@ -21,38 +21,38 @@
               auto-complete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item id="password" prop="pass">
+        <el-form-item id="password" prop="password1">
           <el-input
               placeholder="密码"
               show-password
               type="password"
               prefix-icon="el-icon-lock"
-              v-model="ruleForm.pass"
+              v-model="ruleForm.password1"
               autocomplete="off"
               @keyup.enter.native="login"
           ></el-input>
         </el-form-item>
-        <el-form-item prop="checkPass">
+        <el-form-item prop="password2">
           <el-input
               placeholder="确认密码"
               show-password
               type="password"
               prefix-icon="el-icon-lock"
-              v-model="ruleForm.checkPass"
+              v-model="ruleForm.password2"
               autocomplete="off"
               @keyup.enter.native="register('ruleForm')"
           ></el-input>
         </el-form-item>
         <el-form-item class="login_btn">
-          <el-button type="success" @click="submitForm('ruleForm')">注&nbsp;&nbsp;册</el-button>
+          <el-button type="success" @click="register">注&nbsp;&nbsp;册</el-button>
           <el-button @click="resetForm('ruleForm')">重&nbsp;&nbsp;置</el-button>
         </el-form-item>
         <el-form-item class="register_link">
-          <el-link type="info" icon="" class="login_link">已有账号？立即登录</el-link>
+          <el-link @click="login" type="info" icon="" class="login_link">已有账号？立即登录</el-link>
           <span class="division">
             &nbsp;&nbsp;| &nbsp;&nbsp;
           </span>
-          <el-link type="info" class="cancel_link">取消</el-link>
+          <el-link type="info" class="cancel_link" @click="toHome">取消</el-link>
         </el-form-item>
       </el-form>
     </div>
@@ -60,14 +60,16 @@
 </template>
 
 <script>
+import qs from "qs";
+
 export default {
   name: "Register",
   data() {
-    var validatePass = (rule, value, callback) => {
+    var validatePass1 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
       } else {
-        if (this.ruleForm.checkPass !== '') {
+        if (this.ruleForm.password2 !== '') {
           this.$refs.ruleForm.validateField('checkPass');
         }
         callback();
@@ -76,7 +78,7 @@ export default {
     var validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'));
-      } else if (value !== this.ruleForm.pass) {
+      } else if (value !== this.ruleForm.password1) {
         callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
@@ -102,8 +104,8 @@ export default {
       ruleForm: {
         username: '',
         email: '',
-        pass: '',
-        checkPass: '',
+        password1: '',
+        password2: '',
       },
       rules: {
         username: [
@@ -112,29 +114,75 @@ export default {
         email: [
           { validator: checkEmail, trigger: 'blur'}
         ],
-        pass: [
-          { validator: validatePass, trigger: 'blur' }
+        password1: [
+          { validator: validatePass1, trigger: 'blur' }
         ],
-        checkPass: [
+        password2: [
           { validator: validatePass2, trigger: 'blur' }
         ],
       }
     };
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!');
-        } else {
-          console.log('error submit!!');
-          return false;
+    register() {
+      var formData = {
+        'username': this.ruleForm.username,
+        'email': this.ruleForm.email,
+        'password1': this.ruleForm.password1,
+        'password2': this.ruleForm.password2,
+      };
+      console.log(formData);
+
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/register/",
+        data: qs.stringify(formData)
+      })
+      .then(res => {
+        switch(res.data.errno) {
+          case 0:
+            this.$store.dispatch('saveUserInfo', {
+              user: {
+                'username': this.ruleForm.username,
+                'authorization': 1,
+              }
+            });
+            this.$message.success('注册成功！');
+            setTimeout(() => {
+              this.$router.push('/login');
+            },1000);
+            break;
+          case 1001:
+            this.$message.warning("请求方式错误！");
+            break;
+          case 1002:
+            this.$message.warning("两次输入的密码不一致！");
+            break;
+          case 1003:
+            this.$message.warning("用户名不合法！");
+            break;
+          case 1004:
+            this.$message.warning("用户名已存在！");
+            break;
+          case 1005:
+            this.$message.warning("密码必须包含数字和字母！");
+            break;
         }
-      });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    }
+    },
+    login() {
+      this.$router.push("/login");
+    },
+    toHome() {
+      this.$router.push("/");
+    },
   }
 
 }
@@ -155,7 +203,7 @@ export default {
 }
 .login_frame {
   width: 350px;
-  height: 450px;
+  height: 440px;
   padding: 20px 25px 0 25px;
   border: 0;
   position: absolute;
@@ -164,14 +212,19 @@ export default {
   left: 0;
   right: 0;
   margin: auto;
-  line-height: 40px;
+  line-height: 70px;
   display: inline-block;
   background-color: rgb(255, 255, 255, 0.85);
   border-radius: 20px;
   z-index: 1;
 }
 .title {
-  color: rgba(85,79,63,0.82)
+  font-size: 30px;
+  color: rgba(85,79,63,0.82);
+  text-align: center;
+}
+.login_btn {
+  text-align: center;
 }
 .login_btn button{
   width: 40%;
@@ -179,6 +232,10 @@ export default {
   font-size: 15px;
   vertical-align:middle;
   text-align: center;
+}
+.register_link {
+  position: absolute;
+  left: 90px;
 }
 .register_link link {
   font-size: 20px;
