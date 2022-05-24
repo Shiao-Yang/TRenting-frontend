@@ -32,7 +32,7 @@
             </router-link>
             <router-link to="/admin/ticket">
               <el-menu-item index="4">
-                <i class="el-icon-files"></i>
+                <i class="el-icon-tickets"></i>
                 <span slot="title">工单管理</span>
               </el-menu-item>
             </router-link>
