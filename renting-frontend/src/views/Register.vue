@@ -70,7 +70,7 @@ export default {
         callback(new Error('请输入密码'));
       } else {
         if (this.ruleForm.password2 !== '') {
-          this.$refs.ruleForm.validateField('checkPass');
+          this.$refs.ruleForm.validateField('password2');
         }
         callback();
       }
@@ -139,6 +139,7 @@ export default {
         data: qs.stringify(formData)
       })
       .then(res => {
+        console.log(res);
         switch(res.data.errno) {
           case 0:
             this.$store.dispatch('saveUserInfo', {
