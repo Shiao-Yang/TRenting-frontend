@@ -125,20 +125,16 @@
         <div class="search-box">
           <div class="box" style="height: 43px;padding: 20px 5px 2px 5px">
             <ul style="padding-left: 5px">
-              <li class="menu-item" id="menu-quyu"
-                  onclick="document.querySelector('.menu-item-check').className='menu-item';document.querySelector('#menu-quyu').className='menu-item-check';document.getElementById('menu-i').style.left='40px'">
-                <span>找区域</span>
+              <li class="menu-item" id="menu-short"
+                  onclick="document.querySelector('.menu-item-check').className='menu-item';document.querySelector('#menu-short').className='menu-item-check';document.getElementById('menu-i').style.left='30px'">
+                <span>短租</span>
               </li>
-              <li class="menu-item-check" id="menu-xiaoqu"
-                  onclick="document.querySelector('.menu-item-check').className='menu-item';document.querySelector('#menu-xiaoqu').className='menu-item-check';document.getElementById('menu-i').style.left='105px'">
-                <span>找小区</span>
-              </li>
-              <li class="menu-item" id="menu-shangquan"
-                  onclick="document.querySelector('.menu-item-check').className='menu-item';document.querySelector('#menu-shangquan').className='menu-item-check';document.getElementById('menu-i').style.left='170px'">
-                <span>找商圈</span>
+              <li class="menu-item-check" id="menu-long"
+                  onclick="document.querySelector('.menu-item-check').className='menu-item';document.querySelector('#menu-long').className='menu-item-check';document.getElementById('menu-i').style.left='80px'">
+                <span>长租</span>
               </li>
             </ul>
-            <i id="menu-i" style="left:105px"></i>
+            <i id="menu-i" style="left:80px"></i>
           </div>
           <div class="box" style="padding: 0">
             <input type="text" placeholder="请输入区域、商圈或小区名开始找房">
