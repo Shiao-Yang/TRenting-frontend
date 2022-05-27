@@ -481,7 +481,7 @@ export default {
     border: none;
   }
   .el-tab-pane {
-    height: 525px;
+    height: 520px;
     overflow-y: scroll;
   }
   >>> .label-userid, >>> .label-phoneNum, >>> .label-name, >>> .label-workerTel {

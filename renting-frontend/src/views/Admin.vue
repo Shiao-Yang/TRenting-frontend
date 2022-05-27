@@ -1,8 +1,10 @@
 <template>
   <div class="adminUser">
     <el-container class="operation-wrapper">
-      <el-header class="el-header" style="height: 140px;background-image: url("../assets/AdminBackground.jpg")">
-        <h1 class="head">客服管理页面</h1>
+      <el-header class="el-header" style="height: 140px; padding: 0px">
+        <div id="head">
+          <h1 class="title">客服管理页面</h1>
+        </div>
       </el-header>
       <el-container>
         <el-aside class="el-aside">
@@ -69,10 +71,19 @@ export default {
 </script>
 
 <style scoped>
-
-  .head {
+  #head {
+    height: 140px;
+    width: 100%;
+    background-image: url(../assets/AdminBackground.jpg);
+    background-size: 100% 140px;
+  }
+  .title {
     text-align: center;
     margin: 0px;
+    padding-top: 40px;
+    font-size: 40px;
+    font-family: Avenir, Helvetica, Arial, sans-serif;;
+    color: rgba(255, 255, 255, 0.8);
   }
   a {
     text-decoration: none;
