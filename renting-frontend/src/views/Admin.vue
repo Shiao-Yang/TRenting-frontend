@@ -1,7 +1,7 @@
 <template>
   <div class="adminUser">
     <el-container class="operation-wrapper">
-      <el-header class="el-header">
+      <el-header class="el-header" style="height: 140px;background-image: url("../assets/AdminBackground.jpg")">
         <h1 class="head">客服管理页面</h1>
       </el-header>
       <el-container>
