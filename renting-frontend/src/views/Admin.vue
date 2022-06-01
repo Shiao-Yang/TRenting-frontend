@@ -3,7 +3,7 @@
     <el-container class="operation-wrapper">
       <el-header class="el-header" style="height: 140px; padding: 0px">
         <div id="head">
-          <h1 class="title">客服管理页面</h1>
+          <h1 class="title">客 服 管 理 页 面</h1>
         </div>
       </el-header>
       <el-container>
@@ -82,8 +82,8 @@ export default {
     margin: 0px;
     padding-top: 40px;
     font-size: 40px;
-    font-family: Avenir, Helvetica, Arial, sans-serif;;
-    color: rgba(255, 255, 255, 0.8);
+    font-family: MicrosoftYahei-regular,Arial,Helvetica,sans-serif;
+    color: rgba(255, 255, 255, 0.85);
   }
   a {
     text-decoration: none;

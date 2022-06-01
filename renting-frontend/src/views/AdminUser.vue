@@ -16,9 +16,10 @@
             </el-input>
           </div>
           <el-empty description="暂无用户" :image-size="200" v-if="user.length === 0"></el-empty>
-          <el-empty description="搜索为空" :image-size="200" v-if="this.noUserVisible"></el-empty>
+          <el-empty description="搜索为空" :image-size="200" v-if="user.length !== 0 && this.noUserVisible"></el-empty>
           <!-- 显示用户 -->
-            <el-descriptions v-for='(item,index) in user' v-if="item.visible" class="margin-top" :title="'ID: '+item.userid" :column="3" border >
+            <el-descriptions v-for='(item,index) in user' v-if="item.visible" :key="index"
+                             class="margin-top" :title="'ID: '+item.userid" :column="3" border >
               <template slot="extra">
                 <!-- 修改用户信息 -->
                 <el-button type="primary" id="modify" size="small" @click="modify(index)">修改</el-button>
@@ -39,7 +40,7 @@
                      <el-form-item label="性别" :label-width="formLabelWidth">
                        <el-input v-model="form.sex" autocomplete="off" class="input" clearable></el-input>
                      </el-form-item>
-                    </el-form>
+                   </el-form>
                     <div slot="footer" class="dialog-footer">
                       <el-button @click="dialogFormVisible1 = false" class="cancel" style="margin-right: 10px">取 消</el-button>
                       <el-popconfirm
@@ -108,7 +109,7 @@
               <el-button slot="append" icon="el-icon-search" @click="searchWorker"></el-button>
             </el-input>
             <!-- 导入师傅 -->
-            <el-button type="primary" id="upload" @click="dialogFormVisible2 = true">
+            <el-button type="primary" id="upload" @click="upload">
               导入<i class="el-icon-upload el-icon--right"></i>
             </el-button>
               <el-dialog title="导入师傅" :visible.sync="dialogFormVisible2">
@@ -126,7 +127,18 @@
                     <el-input v-model="form2.phoneNum" autocomplete="off" class="input" clearable></el-input>
                   </el-form-item>
                   <el-form-item label="照片" :label-width="formLabelWidth">
-                    <el-input v-model="form2.photo" autocomplete="off" class="input" clearable></el-input>
+                    <el-upload
+                        class="upload-demo"
+                        action="#"
+                        ref="upload"
+                        :auto-upload="false"
+                        :on-change="onChangeUpload"
+                        :show-file-list="false"
+                        accept=".jpg,.jpeg,.png,.JPG,.JPEG"
+                        :limit="1">
+                      <el-button size="small" type="primary" class="upload">点击上传</el-button>
+                    </el-upload>
+                    <img v-if="form2.photo" :src="form2.photo" width="120px" height="120px">
                   </el-form-item>
                   <el-form-item label="信息" :label-width="formLabelWidth">
                     <el-input v-model="form2.description" autocomplete="off" class="input" clearable></el-input>
@@ -146,9 +158,10 @@
               </el-dialog>
           </div>
           <el-empty description="暂无师傅" :image-size="200" v-if="worker.length === 0"></el-empty>
-          <el-empty description="搜索为空" :image-size="200" v-if="this.noWorkerVisible"></el-empty>
+          <el-empty description="搜索为空" :image-size="200" v-if="worker.length !== 0 && this.noWorkerVisible"></el-empty>
           <!-- 显示师傅 -->
-          <el-descriptions v-for='(item,index) in worker' v-if="item.visible" class="margin-top" :title="'ID: '+item.workerid" :column="3" border >
+          <el-descriptions v-for='(item,index) in worker' v-if="item.visible" class="margin-top" :key="index"
+                           :title="'ID: '+item.workerid" :column="3" border >
             <template slot="extra">
               <!-- 删除师傅 -->
               <el-button type="primary" id="delete" size="small" @click="open2(index)">删除</el-button>
@@ -176,7 +189,7 @@
               <template slot="label">
                 照片
               </template>
-              <el-image :src="item.photoSrc"></el-image>
+              <el-image :src="item.photoSrc" style="width: 130px;height: 130px"></el-image>
             </el-descriptions-item>
             <el-descriptions-item>
               <template slot="label">
@@ -264,6 +277,7 @@ export default {
         visible: true
       }],
       worker: [{
+        // 待修改：后面要换成base64
         photoSrc: require('../assets/logo.png'),
         workerid: '1',
         username: '飒飒飒飒',
@@ -272,6 +286,7 @@ export default {
         description: '认真工作30年',
         visible: true
       }, {
+        // 待修改：后面要换成base64
         photoSrc: require('../assets/logo.png'),
         workerid: '2',
         username: '强强',
@@ -279,7 +294,7 @@ export default {
         name: '李师傅',
         description: '认真摸鱼30年',
         visible: true
-      }]
+      }],
     };
   },
   methods: {
@@ -369,7 +384,18 @@ export default {
       }
     },
     importWorker() {
-
+      this.dialogFormVisible2 = false;
+      let tmp = {
+        workerid: '10',
+        username: this.form2.username,
+        name: this.form2.name,
+        phoneNum: this.form2.phoneNum,
+        photoSrc: this.form2.photo,
+        description: this.form2.description,
+        visible: true
+      }
+      this.worker.push(tmp);
+      this.searchWorker();
     },
     modify(index) {
       console.log(index)
@@ -434,7 +460,32 @@ export default {
           message: '已取消删除'
         });
       });
-    }
+    },
+    upload() {
+      this.dialogFormVisible2 = true;
+      this.form2.photo = '';
+      this.form2.description = '';
+      this.form2.name = '';
+      this.form2.pwd = '';
+      this.form2.username = '';
+      this.form2.phoneNum = '';
+    },
+    onChangeUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!')
+        return
+      }
+      const self = this
+      const reader = new FileReader()
+      reader.onload = function (e) {
+        self.form2.photo = reader.result
+        self.$refs.upload.clearFiles()
+      }
+      reader.readAsDataURL(file.raw)
+      console.log(this.form2.photo)
+    },
+
   }
 }
 </script>
@@ -465,18 +516,13 @@ export default {
     width: 1050px;
     color: #42b983;
   }
-  #modify:hover, #delete:hover, .confirm:hover {
+  #modify:hover, #delete:hover, .confirm:hover, .upload:hover {
     background-color: #3cad7a;
   }
   #delete {
     margin-left: 10px;
   }
-  .cancel:hover {
-    background-color: #d7eae2;
-    color: #42b983;
-    border-color: #d7eae2;
-  }
-  #modify, #delete, .confirm {
+  #modify, #delete, .confirm, .upload {
     background-color: #42b983;
     border: none;
   }

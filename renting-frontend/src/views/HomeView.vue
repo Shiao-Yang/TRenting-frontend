@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div style="text-align: center;">
+    <router-link to="admin/user" >to admin |</router-link>
+    <router-link to="worker" > to worker</router-link>
   </div>
 </template>
 

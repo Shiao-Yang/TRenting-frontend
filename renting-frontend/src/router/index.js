@@ -8,6 +8,7 @@ const AdminOrder = () => import('../views/AdminOrder.vue')
 const AdminHouse = () => import('../views/AdminHouse.vue')
 const AdminTicket = () => import('../views/AdminTicket.vue')
 const AdminContract = () => import('../views/AdminContract.vue')
+const Worker = () => import('../views/Worker')
 
 Vue.use(VueRouter)
 
@@ -15,12 +16,17 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
   },
   {
     path: '/about',
     name: 'about',
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    path: '/worker',
+    name: 'worker',
+    component: Worker
   },
   {
     path: '/admin',
