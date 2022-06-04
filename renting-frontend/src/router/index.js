@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import InfoView from "@/views/InfoView";
+import ListView from "@/views/ListView";
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,16 @@ const routes = [
     path: '/info',
     name: 'info',
     component: InfoView
+  },
+  {
+    path: '/list',
+    name: "list",
+    component: ListView
+  },
+  {
+    path: '/list/:type',
+    name: 'list-s',
+    component: ListView
   }
 ]
 

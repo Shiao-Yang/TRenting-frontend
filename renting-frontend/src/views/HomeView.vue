@@ -10,7 +10,7 @@
 <!--         <li style="float:right"><a target="_blank">我的报修</a></li>-->
 <!--      </ul>-->
 <!--    </div>-->
-    <div id = "f-shortcut" class = "f-shortcut" v-if="this.needFixed === true" style="position: fixed;top:0;">
+    <div id = "f-shortcut" class = "f-shortcut" v-show="needFixed">
       <div class="f-header" aria-label="顶部浮动导航栏" style="position: fixed;top:0;">
         <div class="f-shortcut-content">
           <div class="f-shortcut-link">
@@ -113,8 +113,8 @@
     </div>
     <div id="header">
       <div class="w">
-        <div class="logo" >
-          <img src="../assets/logo.png" style="height: 50px; width: 50px">
+        <div class="logo">
+          <img src="../assets/logo.png" style="position:absolute;top:0;left:0;height: 50px; width: 50px">
         </div>
         <div class="web-text-box">
           <h1 style="color:white;font-size: 100px">用心创造温馨</h1>
@@ -160,468 +160,11 @@
                   </div>
                   <div class="more-info">
                     <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
+                      <p class="locationInfo">
+                        <span>location</span>
                       </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                      </p>
-                    </div>
-                    <div class="more-info-price">
-                      <div class="mod-price">
-                        <i>￥</i>
-                        <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li class="more-item">
-              <a class="more-lk" target="_blank">
-                <div class="more-img">
-                  <img src="../assets/logo.png" width="150px" height="150px">
-                </div>
-                <div class="more-info">
-                  <div class="more-info-name">
-                    <p>
-                      测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                    </p>
-                  </div>
-                  <div class="more-info-price">
-                    <div class="mod-price">
-                      <i>￥</i>
-                      <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              </li>
-              <li class="more-item">
-              <a class="more-lk" target="_blank">
-                <div class="more-img">
-                  <img src="../assets/logo.png" width="150px" height="150px">
-                </div>
-                <div class="more-info">
-                  <div class="more-info-name">
-                    <p>
-                      测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                    </p>
-                  </div>
-                  <div class="more-info-price">
-                    <div class="mod-price">
-                      <i>￥</i>
-                      <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              </li>
-              <li class="more-item">
-              <a class="more-lk" target="_blank">
-                <div class="more-img">
-                  <img src="../assets/logo.png" width="150px" height="150px">
-                </div>
-                <div class="more-info">
-                  <div class="more-info-name">
-                    <p>
-                      测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                    </p>
-                  </div>
-                  <div class="more-info-price">
-                    <div class="mod-price">
-                      <i>￥</i>
-                      <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              </li>
-              <li class="more-item">
-              <a class="more-lk" target="_blank">
-                <div class="more-img">
-                  <img src="../assets/logo.png" width="150px" height="150px">
-                </div>
-                <div class="more-info">
-                  <div class="more-info-name">
-                    <p>
-                      测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
-                    </p>
-                  </div>
-                  <div class="more-info-price">
-                    <div class="mod-price">
-                      <i>￥</i>
-                      <span class="more-info-price-txt">
-                          99999
-                          <span class="more-info-price-decimal">/月</span>
-                        </span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              </li>
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
-                  <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
-                  </div>
-                  <div class="more-info">
-                    <div class="more-info-name">
-                      <p>
-                        测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本
+                      <p class="detailsInfo">
+                        type<span>·</span><span>area</span>
                       </p>
                     </div>
                     <div class="more-info-price">
@@ -645,18 +188,15 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
   name: 'HomeView',
-  // components: {
-  //   HelloWorld
-  // },
 
-  data () {
+  data() {
     return {
       needFixed: false,
+      houses: [
+
+      ]
     }
   },
 
@@ -664,13 +204,20 @@ export default {
     handleScroll()
     {
       let self = this
-      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
       if (scrollTop > 450) {
         self.needFixed = true;
+        document.getElementById('f-shortcut').style.height = "56px"
       } else {
         self.needFixed = false;
+        document.getElementById('f-shortcut').style.height = "0px";
       }
     },
+    getHouses()
+    {
+
+    }
+
   },
 
   mounted() {
@@ -917,25 +464,47 @@ p {
   height: 100%;
 }
 
+.more-lk:hover {
+  box-shadow: 2px 2px 10px rgb(0 0 0 / 30%);;
+}
+
 .more-img {
   width: 150px;
   height: 150px;
   margin:30px auto 40px;
 }
 
+.more-info {
+  margin: 0 20px;
+}
+
 .more-info-name {
   top:0;
   height: 48px;
-  font-size: 14px;
   line-height: 24px;
   text-align: left;
-  color:#666;
+  color:#000;
   word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.more-info-name .locationInfo {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.more-info-name .detailsInfo {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+}
+
+.more-info-name .detailsInfo span {
+  margin-left: 5px;
 }
 
 .more-info-price {
@@ -982,4 +551,6 @@ i {
 .more-info-price-decimal {
   font-size: 12px;
 }
+
+
 </style>

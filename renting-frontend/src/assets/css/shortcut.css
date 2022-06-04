@@ -35,7 +35,7 @@ a {
 }
 
 
-ul {
+.f-shortcut-ul {
   display: block;
   list-style-type: disc;
   margin-block-start: 1em;
@@ -124,14 +124,15 @@ li:last-child{
 }
 
 .f-shortcut {
+  position: fixed;
   width: 100%;
   min-width: 999px;
-  min-height: 56px;
-  position: relative;
+  /*min-height: 56px;*/
   z-index: 99;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: height 2s;
 }
 
 .f-header {
@@ -210,5 +211,9 @@ li:last-child{
   display: flex;
   flex-shrink: 0;
   align-items: center;
+}
+
+ol, ul {
+  list-style: none;
 }
 
