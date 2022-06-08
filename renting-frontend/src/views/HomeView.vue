@@ -1,15 +1,5 @@
 <template>
   <div class="home">
-<!--    <img alt="Vue logo" src="../assets/logo.png">-->
-<!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
-<!--    <div id = "navigation-bar">-->
-<!--      <ul>-->
-<!--        <li><router-link to="/">首页</router-link>></li>-->
-<!--        <li><router-link to="/About">联系我们</router-link></li>-->
-<!--        <li style="float:right"><a target="_blank">我的订单</a></li>-->
-<!--         <li style="float:right"><a target="_blank">我的报修</a></li>-->
-<!--      </ul>-->
-<!--    </div>-->
     <div id = "f-shortcut" class = "f-shortcut" v-show="needFixed">
       <div class="f-header" aria-label="顶部浮动导航栏" style="position: fixed;top:0;">
         <div class="f-shortcut-content">
@@ -31,7 +21,7 @@
           <div class="f-shortcut-search-box">
             <div class="f-shortcut-search">
               <div class="box" style="display: flex;flex-direction: row;justify-content: flex-start;height: 32px; padding: 0">
-                <input type="text" placeholder="请输入区域、商圈或小区名开始找房" style="background-color: #f4f4f4; width:450px;height: 32px;padding: 2px 15px 2px 15px">
+                <input v-model="input" type="text" placeholder="请输入区域、商圈或小区名开始找房" style="background-color: #f4f4f4; width:450px;height: 32px;padding: 2px 15px 2px 15px">
                 <input type="button" value="开始找房" style="height: 36px;width: 100px">
               </div>
             </div>
@@ -46,9 +36,6 @@
                       登录
                     </span>
                   </router-link>
-<!--                  <router-link to="/" class="link">-->
-<!--                    <img class="f-shortcut-logo" src="../assets/traveller.png" style="border-radius: 50%; width: 40px; height: 40px;background-color: #f4f4f4">d-->
-<!--                  </router-link>-->
                 </span>
               </li>
               <li class="f-shortcut-item">
@@ -120,7 +107,7 @@
           <h1 style="color:white;font-size: 100px">用心创造温馨</h1>
         </div>
         <div class="web-ftext-box">
-          <span id="web-ftext">平台已成功交易订单999次，为您竭诚服务</span>
+          <span id="web-ftext">平台已成功交易订单{{numData.complaints}}次，为您竭诚服务</span>
         </div>
         <div class="search-box">
           <div class="box" style="height: 43px;padding: 20px 5px 2px 5px">
@@ -137,8 +124,8 @@
             <i id="menu-i" style="left:80px"></i>
           </div>
           <div class="box" style="padding: 0">
-            <input type="text" placeholder="请输入区域、商圈或小区名开始找房">
-            <input type="button" value="开始找房">
+            <input v-model="input"  type="text" placeholder="请输入区域、商圈或小区名开始找房">
+            <input type="button" value="开始找房" @click="search()">
           </div>
         </div>
       </div>
@@ -153,25 +140,27 @@
         <div class="recommend-more-inner">
           <div>
             <ul id="recContent" class="more-list">
-              <li class="more-item">
-                <a class="more-lk" target="_blank">
+              <li class="more-item" v-for="house in houses">
+                <a @click="toDetail(house)" class="more-lk" target="_blank">
                   <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px">
+                    <img src="../assets/logo.png" width="150px" height="150px" v-if="house.pictures == null">
+                    <img :src= house.pictures width="150px" height="150px" v-else>
                   </div>
                   <div class="more-info">
                     <div class="more-info-name">
                       <p class="locationInfo">
-                        <span>location</span>
+                        <span>{{house.location}}</span>
                       </p>
                       <p class="detailsInfo">
-                        type<span>·</span><span>area</span>
+                        <span >{{houseType[house.type]}}</span>
+                        <span>·</span><span>{{house.area}} m<sup>2</sup></span>
                       </p>
                     </div>
                     <div class="more-info-price">
                       <div class="mod-price">
                         <i>￥</i>
                         <span class="more-info-price-txt">
-                          99999
+                          {{ house.long_price }}
                           <span class="more-info-price-decimal">/月</span>
                         </span>
                       </div>
@@ -194,9 +183,14 @@ export default {
   data() {
     return {
       needFixed: false,
-      houses: [
+      houses: [      ],
+      imgBase64_pre: "data:image/png;base64,",
+      user: {
 
-      ]
+      },
+      houseType:['未知', '单人间', '双人间', '三人间', '四人间'],
+      numData:[0, 0, 0],
+      input: '',
     }
   },
 
@@ -207,33 +201,130 @@ export default {
       let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
       if (scrollTop > 450) {
         self.needFixed = true;
-        document.getElementById('f-shortcut').style.height = "56px"
-      } else {
+        document.getElementById('f-shortcut').style.height = "56px";
+      }
+      else {
         self.needFixed = false;
         document.getElementById('f-shortcut').style.height = "0px";
       }
     },
-    getHouses()
-    {
-
-    }
-
-  },
-
-  mounted() {
-    window.addEventListener('scroll', this.handleScroll)
-    window.onload = function () {
-      let i=1;
-      let text= ["平台已成功交易订单999次，为您竭诚服务", "平台已处理报修999次，为您保驾护航", "平台已回复投诉999次，倾听您的声音"];
-      function changeText() {
+    handleText (){
+      let i=0;
+      let order=this.numData.order;
+      let tickets=this.numData.tickets;
+      let complaints=this.numData.complaints;
+      let text=["平台已处理报修"+tickets+"次，为您保驾护航", "平台已回复投诉"+complaints+"次，倾听您的声音","平台已成功交易订单"+order+"次，为您竭诚服务"]
+      function changeText(){
         i=i%3;
         document.getElementById("web-ftext").innerText = text[i];
         i++;
       }
-      setInterval(changeText, 10000);
-    }
-  }
+      setInterval(changeText, 3000);
+    },
 
+    getHouses()
+    {
+      const self = this;
+      self.$axios({
+        method: 'GET',
+        url: 'http://127.0.0.1:8000/homepage/get_house/'
+      })
+          .then(res => {
+            this.houses = res.data;
+            console.log(this.houses);
+          })
+          .catch((err =>{
+            console.log(err);
+          }))
+    },
+
+    getData()
+    {
+      const self = this;
+      self.$axios({
+        method: 'GET',
+        url: 'http://127.0.0.1:8000/homepage/get_data/'
+      })
+          .then(res => {
+            this.numData = res.data;
+            console.log(this.numData);
+          })
+          .catch((err => {
+            console.log(err);
+          }))
+    },
+
+    search() {
+      let self = this;
+      if(self.input === '' || self.input === undefined) {
+        self.$router.push({
+          path: '/list',
+          query: {
+            uid: self.$route.query.uid,
+          }})
+      }
+      else {
+        self.$router.push({
+          path: '/list',
+          query: {
+            uid: self.user.uid,
+            keywords: self.input,
+          }})
+      }
+      this.$router.go(0);
+    },
+
+    getUser(uid)
+    {
+      const self = this;
+      self.$axios({
+        method: 'GET',
+        url: 'http://127.0.0.1:8000/homepage/get_user',
+        params:uid,
+      })
+          .then(res => {
+            console.log(res.data);
+          })
+    },
+
+    toDetail(house) {
+      let self = this;
+      let type = self.$route.query.type;
+      let uid = self.user.uid;
+      if(type === undefined) {
+        type = ''
+      }
+
+      if(uid === undefined) {
+        uid = 0;
+      }
+      if(house.id === undefined) {
+        console.log("UNDEFINED");
+
+        return ;
+      }
+
+      this.$router.push({
+        path:'/details',
+        query: {
+          uid: uid,
+          type: type,
+          hid: house.id,
+        }
+      })
+    },
+  },
+
+  created() {
+    this.getHouses()
+    this.getData()
+    this.getUser({uid:1})
+  },
+
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll)
+    window.onload = this.handleText
+  },
 };
 
 </script>
@@ -480,7 +571,7 @@ p {
 
 .more-info-name {
   top:0;
-  height: 48px;
+  height: 50px;
   line-height: 24px;
   text-align: left;
   color:#000;
@@ -504,7 +595,7 @@ p {
 }
 
 .more-info-name .detailsInfo span {
-  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .more-info-price {
@@ -550,6 +641,10 @@ i {
 
 .more-info-price-decimal {
   font-size: 12px;
+}
+
+a {
+  cursor: pointer;
 }
 
 

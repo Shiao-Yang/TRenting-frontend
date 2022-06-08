@@ -1,61 +1,5 @@
 <template>
   <div class="list">
-    <div id = "f-shortcut" class = "f-shortcut" v-show="needFixed" style="position: fixed;top:0;">
-      <div class="f-header" aria-label="顶部浮动导航栏" style="position: fixed;top:0;">
-        <div class="f-shortcut-content">
-          <div class="f-shortcut-link">
-            <ul class="f-shortcut-ul">
-              <li class="f-shortcut-item">
-                <span>
-                  <router-link to="/" class="link">
-                    <img class="f-shortcut-logo" src="../assets/logo.png">
-                    首页
-                  </router-link>
-                </span>
-              </li>
-              <li class="f-shortcut-item">
-                <router-link to="/about" class="link">联系我们</router-link>
-              </li>
-            </ul>
-          </div>
-          <div class="f-shortcut-search-box">
-            <div class="f-shortcut-search">
-              <div class="box" style="display: flex;flex-direction: row;justify-content: flex-start;height: 32px; padding: 0">
-                <input type="text" placeholder="请输入区域、商圈或小区名开始找房" style="background-color: #f4f4f4; width:450px;height: 32px;padding: 2px 15px 2px 15px">
-                <input type="button" value="开始找房" style="height: 36px;width: 100px">
-              </div>
-            </div>
-          </div>
-          <div class="f-shortcut-user">
-            <ul class="f-shortcut-ul">
-              <li class="f-shortcut-item">
-                <span>
-                  <router-link to="/" class="link">
-                    <img class="f-shortcut-logo" src="../assets/traveller.png" style="width: 32px;">
-                    <span style="color: #e1251b">
-                      登录
-                    </span>
-                  </router-link>
-                </span>
-              </li>
-              <li class="f-shortcut-item">
-                <router-link to="/" class="link">我的订单</router-link>
-              </li>
-              <li class="f-shortcut-item">
-                <router-link to="/">我的报修</router-link>
-              </li>
-              <li class="f-shortcut-item">
-                <router-link to="/">
-                  购物车
-                  <img src="../assets/cart.png" style="width:20px; height: 20px; margin-left: 12px;">
-                </router-link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div id="shortcut">
       <div class="w" aria-label="顶部导航栏">
         <ul class="top-left">
@@ -108,30 +52,30 @@
         <ul>
           <li>
             <router-link to="/list">
-              <span style="color: #00ae66" v-if="this.$route.path === '/list'">首页</span>
-              <span v-else>首页</span>
+              <span>搜索首页</span>
             </router-link>
           </li>
           <li>
-            <router-link to="/list/short">
-              <span style="color: #00ae66" v-if="this.$route.params.type === 'short'">短租</span>
+            <router-link :to="{path:'/list',query:{type:'short', keywords: input}}">
+              <span style="color: #00ae66" v-if="this.$route.query.type === 'short'">短租</span>
               <span v-else>短租</span>
             </router-link>
           </li>
           <li>
-            <router-link to="/list/long">
-              <span style="color: #00ae66" v-if="this.$route.params.type === 'long'">长租</span>
-              <span v-else>长租</span>
+            <router-link :to="{path:'/list',query:{type:'long', keywords: input}}">
+              <span v-if="$route.query.type === 'short'">长租</span>
+              <span style="color: #00ae66" v-else>长租</span>
             </router-link>
           </li>
         </ul>
       </div>
       <div class="list-search">
         <div class="search-box">
-          <el-input v-model="input" placeholder="请输入内容" class="search-input" clearable><el-button slot="suffix" icon="el-icon-search"></el-button></el-input>
+          <el-input v-model="input" placeholder="请输入内容" class="search-input" clearable>
+            <el-button slot="suffix" icon="el-icon-search" @click="search"></el-button>
+          </el-input>
         </div>
       </div>
-
     </div>
     <div class="container">
       <div class="filter">
@@ -141,39 +85,48 @@
               <router-link to="/list">区域</router-link>
             </li>
             <li class="filter_item strong">
-              <router-link to="/list">不限</router-link>
+              <router-link to="#">不限</router-link>
             </li>
             <li class="filter_item">
-              <router-link to="/list">海淀</router-link>
+              <router-link to="#">海淀</router-link>
             </li>
             <li class="filter_item">
-              <router-link to="/list">朝阳</router-link>
+              <router-link to="#">朝阳</router-link>
             </li>
             <li class="filter_item">
-              <router-link to="/list">顺义</router-link>
+              <router-link to="#">顺义</router-link>
             </li>
             <li class="filter_item">
-              <router-link to="/list">大兴</router-link>
+              <router-link to="#">大兴</router-link>
             </li>
             <li class="filter_item">
-              <router-link to="/list">丰台</router-link>
+              <router-link to="#">丰台</router-link>
             </li>
             <li class="filter_item">
-              <router-link to="/list">昌平</router-link>
+              <router-link to="#">昌平</router-link>
             </li>
           </ul>
           <ul>
             <li class="filter_item filter_item_aside">
-              <router-link to="/list">方式</router-link>
+              <router-link to="#">方式</router-link>
             </li>
-            <li class="filter_item strong">
-              <router-link to="/list">不限</router-link>
+            <li class="filter_item_strong" id="fil1" v-if="this.$route.query.type === undefined">
+              <router-link :to="{path: '/list', query: {type: undefined, uid: user.uid}}">不限</router-link>
             </li>
-            <li class="filter_item">
-              <router-link to="/list">长租</router-link>
+            <li class="filter_item" id="fil1" v-else>
+              <router-link :to="{path: '/list', query: {type: undefined, uid: user.uid}}">不限</router-link>
             </li>
-            <li class="filter_item">
-              <router-link to="/list">短租</router-link>
+            <li class="filter_item_strong" v-if="this.$route.query.type === 'long'" id="fil2">
+              <router-link :to="{path: '/list', query: {type: 'long', uid: user.uid}}">长租</router-link>
+            </li>
+            <li class="filter_item" v-else id="fil2">
+              <router-link :to="{path: '/list', query: {type: 'long', uid: user.uid}}">长租</router-link>
+            </li>
+            <li class="filter_item_strong" v-if="this.$route.query.type === 'short'" id="fil3">
+              <router-link :to="{path: '/list', query: {type: 'short', uid: user.uid}}">短租</router-link>
+            </li>
+            <li class="filter_item" v-else id="fil3">
+              <router-link :to="{path: '/list', query: {type: 'short', uid: user.uid}}">短租</router-link>
             </li>
           </ul>
           <ul>
@@ -181,22 +134,22 @@
               <router-link to="/list">租金</router-link>
             </li>
             <li class="filter_item">
-              <el-checkbox label="≤1000元"></el-checkbox>
+              <el-checkbox label="≤1000元" value="[1000]" v-model="price"></el-checkbox>
             </li>
             <li>
-              <el-checkbox label="1000~1500元"></el-checkbox>
+              <el-checkbox label="1000~1500元" v-model="price"></el-checkbox>
             </li>
             <li>
-              <el-checkbox label="1500~2000元"></el-checkbox>
+              <el-checkbox label="1500~2000元" v-model="price"></el-checkbox>
             </li>
             <li>
-              <el-checkbox label="2000~2500元"></el-checkbox>
+              <el-checkbox label="2000~2500元" v-model="price"></el-checkbox>
             </li>
             <li>
-              <el-checkbox label="2500~5000元"></el-checkbox>
+              <el-checkbox label="2500~5000元" v-model="price"></el-checkbox>
             </li>
             <li>
-              <el-checkbox label=">5000元"></el-checkbox>
+              <el-checkbox label=">5000元" v-model="price"></el-checkbox>
             </li>
           </ul>
           <ul>
@@ -204,16 +157,16 @@
               <router-link to="/list">户型</router-link>
             </li>
             <li class="filter_item">
-              <el-checkbox label="一居"></el-checkbox>
+              <el-checkbox label="一居" v-model="houseType"></el-checkbox>
             </li>
             <li>
-              <el-checkbox label="两居"></el-checkbox>
+              <el-checkbox label="两居" v-model="houseType"></el-checkbox>
             </li>
             <li>
-              <el-checkbox label="三居"></el-checkbox>
+              <el-checkbox label="三居" v-model="houseType"></el-checkbox>
             </li>
             <li>
-              <el-checkbox label="四居+"></el-checkbox>
+              <el-checkbox label="四居+" v-model="houseType"></el-checkbox>
             </li>
           </ul>
         </div>
@@ -221,43 +174,56 @@
       <div class="content">
         <div class="content_main">
           <p class="content_title">
-            已为您找到<span style="color:#00ae66;margin: auto 5px;">1</span>套北京房源
+            已为您找到<span style="color:#00ae66;margin: auto 5px;">{{ this.houses.length }}</span>套房源
           </p>
           <ul class="content_filter">
-            <li>
-              <router-link to="/list">最新上架</router-link>
+            <li class="selected" id="cof1" @click="changeSelected('cof1')">
+              <router-link to="/list" >默认</router-link>
             </li>
-            <li class="selected">
-              <router-link to="/list">价格</router-link>
+            <li id="cof2" @click="changeSelected('cof2')">
+              <router-link to="#">最新上架</router-link>
             </li>
-            <li>
-              <router-link to="/list">面积</router-link>
+            <li id="cof3" @click="changeSelected('cof3')">
+              <router-link to="#" >价格</router-link>
+            </li>
+            <li id="cof4" @click="changeSelected('cof4')">
+              <router-link to="#" >面积</router-link>
             </li>
           </ul>
         </div>
       </div>
       <div class="content_list">
-        <div class="content_list_item">
-          <router-link to="/list" class="link"></router-link>
-          <router-link to="/list" class="content_list_item_aside">
-            <img src="../assets/logo.png">
-          </router-link>
+        <div class="content_list_item" v-for="(house, index) in houses">
+          <a @click="toDetail(house)" class="link"></a>
+          <a href="javascript:;" class="content_list_item_aside">
+            <img :src="house.pictures">
+          </a>
           <div class="content_list_item_main">
             <p class="title">
-              <router-link to="/list">
-                <span>长租·北航校内20公寓 1室无厅</span>
-              </router-link>
+              <a href="javascript:;" :to="{path:'/details', query:{hid:house.hid, type: $route.query.type, uid: $route.query.uid}}">
+                <span>
+                  <span v-if="$route.query.type === 'short'">短租</span>
+                  <span v-else>长租</span>
+                  ·
+                  <span>{{ house.location }}</span>
+                  ·
+                  <span>{{ hType[house.type] }}</span></span>
+              </a>
             </p>
             <p class="des">
-              <router-link to="/list">海淀·五道口·花园路街道</router-link>
+              <a href="javascript:;" :to="{path:'/details', query:{hid:house.hid, type: $route.query.type, uid: $route.query.uid}}">{{ house.detail }}</a>
               <i>/</i>
-              20㎡
-              <i>/</i>
-              1室0厅0卫
+              {{house.area}} ㎡
             </p>
             <span class="price">
-              <em>150</em>
-              元/月
+              <span v-if="$route.query.type === 'short'">
+                <em>{{house.short_price}}</em>
+                元/日
+              </span>
+              <span v-else>
+                <em>{{house.long_price}}</em>
+                元/月
+              </span>
             </span>
           </div>
         </div>
@@ -272,27 +238,173 @@ export default {
   data() {
     return {
       needFixed: false,
-      input: ''
+      input: this.$route.query.keywords,
+      user: {
+        uid: '',
+      },
+      price: [],
+      hType: ['未知', '单人间', '双人间', '三人间', '四人间+'],
+      houseType: [],
+      houses: [],
+      sType: '',
     }
   },
 
-  methods : {
-    handleScroll()
-    {
-      let self = this
-      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-      if (scrollTop > 186) {
-        self.needFixed = true;
-        document.getElementById('f-shortcut').style.height = "56px"
-      } else {
-        self.needFixed = false;
-        document.getElementById('f-shortcut').style.height = "0px";
+  watch : {
+    '$route.query.type': function () {
+      if(this.$route.query.type === 'short') {
+        document.getElementsByClassName('filter_item strong').className = 'filter_item';
+        document.getElementById('fil3').className = 'filter_item_strong';
       }
     },
+    '$route.query': function () {
+      this.getUser({uid:$route.query.uid});
+      this.searchHouses({keywords:$route.query.keywords});
+    },
   },
+
+  methods : {
+    changeSelected(targetID) {
+      console.log(document.querySelector('.selected').className);
+      document.querySelector('.selected').className = 'click';
+      console.log(document.querySelector('.click').className);
+      document.getElementById(targetID).className = 'selected';
+    },
+
+    unifyHouseType() {
+      for(let i=0; i< this.houseType.length; i++) {
+        if(this.houseType[i] === '一居') {
+          this.houseType[i] = 1;
+        }
+        else if(this.houseType[i] === '二居') {
+          this.houseType[i] = 2;
+        }
+        else if(this.houseType[i] === '三居') {
+          this.houseType[i] = 3;
+        }
+        else if(this.houseType[i] === '四居+') {
+          this.houseType[i] = 4;
+        }
+      }
+    },
+
+    getUser(uid) {
+      let self = this;
+      self.$axios({
+        method: 'GET',
+        url: 'http://127.0.0.1:8000/browse_house/get_user/',
+        params: uid,
+      })
+          .then(res =>{
+            self.user = res.data;
+            self.user['uid'] = uid.uid;
+            console.log(self.user);
+          })
+          .catch(err=>{
+            console.log(err);
+          })
+    },
+
+    searchHouses(keywords) {
+      let self = this;
+      if(keywords.keywords === undefined) {
+        self.$axios({
+          method: 'GET',
+          url: 'http://127.0.0.1:8000/homepage/get_house/',
+        })
+            .then(res => {
+              self.houses = res.data;
+              console.log(self.houses);
+            })
+            .catch(err => {
+              console.log(err);
+            })
+      }
+      else {
+        self.$axios({
+          method: 'GET',
+          url: 'http://127.0.0.1:8000/browse_house/searchSimple/',
+          params: keywords,
+        })
+            .then(res => {
+              self.houses = res.data;
+              console.log(self.houses);
+            })
+            .catch(err => {
+              console.log(err);
+            })
+      }
+
+    },
+
+    resetData() {
+      let self = this;
+      if(self.input === undefined) {
+        self.input = '';
+      }
+
+      if(self.$route.query.type !== undefined) {
+        self.sType = self.$route.query.type;
+      }
+    },
+
+    search() {
+      let self = this;
+      if(self.input === '' || self.input === undefined) {
+        self.$router.push({
+          path: '/list',
+          query: {
+            uid: self.$route.query.uid,
+          }})
+      }
+      else {
+        self.$router.push({
+          path: '/list',
+          query: {
+            uid: self.user.uid,
+            keywords: self.input,
+          }})
+      }
+      this.$router.go(0);
+    },
+
+    toDetail(house) {
+      let self = this;
+      let type = self.$route.query.type;
+      let uid = self.user.uid;
+      if(type === undefined) {
+        type = ''
+      }
+
+      if(uid === undefined) {
+        uid = 0;
+      }
+      if(house.id === undefined) {
+        console.log("UNDEFINED");
+
+        return ;
+      }
+
+      this.$router.push({
+        path:'/details',
+        query: {
+          uid: uid,
+          type: type,
+          hid: house.id,
+        }
+      })
+    },
+
+
+  },
+  created() {
+    this.getUser({uid: this.$route.query.uid});
+    this.searchHouses({keywords: this.$route.query.keywords});
+    this.resetData();
+  },
+
   mounted() {
-    window.addEventListener('scroll', this.handleScroll)
-  }
+  },
 }
 </script>
 
@@ -306,7 +418,7 @@ export default {
   width: 100%;
   height: 155px;
   padding: 25px 0;
-  background-color: #fff;
+  background-color: #f4f4f4;
   box-sizing: border-box;
 }
 
@@ -348,7 +460,7 @@ export default {
 
 .search-box {
   float: left;
-  box-shadow: 2px 4px 4px 4px rgb(0 0 0 / 10%);
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 10%);
   width: 710px;
   height: 48px;
   display: inline-block;
@@ -370,7 +482,7 @@ export default {
 .container {
   width: 100%;
   margin: auto;
-  background-color: #f4f4f4;
+  background-color: #fff;
   min-height: 1000px;
   position: absolute;
   top: 186px;
@@ -402,6 +514,11 @@ export default {
 
 .filter_item {
   margin-right: 24px;
+}
+
+.filter_item_strong a{
+  color: #00ae66;
+  font-weight: 700;
 }
 
 .filter_item_aside {
@@ -465,6 +582,7 @@ export default {
 
 .content_filter .selected a{
   color: #00ae66;
+  border-bottom: 2px solid #00ae66;
 }
 
 .content_list {
@@ -477,7 +595,7 @@ export default {
   position: relative;
 }
 
-.content_list_item>a.link {
+.content_list_item .link {
   display: block;
   position: absolute;
   width: 100%;
@@ -485,8 +603,13 @@ export default {
   z-index: 2;
 }
 
+.content_list_item .link:hover {
+  box-shadow: 0px 0px 10px rgb(0 0 0 / 10%);
+}
+
 .content_list_item_aside {
   position: relative;
+  margin-left: 10px;
   height: 122px;
   width: 160px;
   float: left;
@@ -539,7 +662,7 @@ export default {
 
 .content_list_item_main .price {
   position: absolute;
-  right: 0;
+  right: 10px;
   top: 0;
   color: #e1251b;
   font-weight: 700;
@@ -550,5 +673,9 @@ export default {
 .content_list_item_main .price em {
   font-size: 24px;
   margin-right: 5px;
+}
+
+a {
+  cursor: pointer;
 }
 </style>

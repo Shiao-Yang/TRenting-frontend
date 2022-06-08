@@ -1,63 +1,5 @@
 <template>
   <div class="info">
-    <div id = "f-shortcut" class = "f-shortcut" v-if="this.needFixed === true" style="position: fixed;top:0;">
-      <div class="f-header" aria-label="顶部浮动导航栏" style="position: fixed;top:0;">
-        <div class="f-shortcut-content">
-          <div class="f-shortcut-link">
-            <ul class="f-shortcut-ul">
-              <li class="f-shortcut-item">
-                <span>
-                  <router-link to="/" class="link">
-                    <img class="f-shortcut-logo" src="../assets/logo.png">
-                    首页
-                  </router-link>
-                </span>
-              </li>
-              <li class="f-shortcut-item">
-                <router-link to="/about" class="link">联系我们</router-link>
-              </li>
-            </ul>
-          </div>
-          <div class="f-shortcut-search-box">
-            <div class="f-shortcut-search">
-              <div class="box" style="display: flex;flex-direction: row;justify-content: flex-start;height: 32px; padding: 0">
-                <input type="text" placeholder="请输入区域、商圈或小区名开始找房" style="background-color: #f4f4f4; width:450px;height: 32px;padding: 2px 15px 2px 15px">
-                <input type="button" value="开始找房" style="height: 36px;width: 100px">
-              </div>
-            </div>
-          </div>
-          <div class="f-shortcut-user">
-            <ul class="f-shortcut-ul">
-              <li class="f-shortcut-item">
-                <span>
-                  <router-link to="/" class="link">
-                    <img class="f-shortcut-logo" src="../assets/traveller.png" style="width: 32px;">
-                    <span style="color: #e1251b">
-                      登录
-                    </span>
-                  </router-link>
-                  <!--                  <router-link to="/" class="link">-->
-                  <!--                    <img class="f-shortcut-logo" src="../assets/traveller.png" style="border-radius: 50%; width: 40px; height: 40px;background-color: #f4f4f4">d-->
-                  <!--                  </router-link>-->
-                </span>
-              </li>
-              <li class="f-shortcut-item">
-                <router-link to="/" class="link">我的订单</router-link>
-              </li>
-              <li class="f-shortcut-item">
-                <router-link to="/">我的报修</router-link>
-              </li>
-              <li class="f-shortcut-item">
-                <router-link to="/">
-                  购物车
-                  <img src="../assets/cart.png" style="width:20px; height: 20px; margin-left: 12px;">
-                </router-link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
     <div id="shortcut">
       <div class="w" aria-label="顶部导航栏">
         <ul class="top-left">
@@ -76,11 +18,8 @@
         </ul>
         <ul class="top-right">
           <li id="login-button" class="shortcut_btn">
-            <div v-if = !$store.state.isLogin>
-              <router-link to="/info">用户1234</router-link>
-            </div>
-            <div v-else>
-
+            <div>
+              <router-link :to="{path:'/info', query:{uid:this.$route.query.uid,}}">{{ user.username }}</router-link>
             </div>
           </li>
           <li>
@@ -109,16 +48,16 @@
         <div class="title">个人主页</div>
         <div class="nav-items">
           <div class="dte">
-            <router-link to="/info">个人首页</router-link>
+            <router-link :to="{path:'/info', query:{uid:this.$route.query.uid,}}">个人首页</router-link>
           </div>
           <div class="dte">
-            <router-link to="/info">账号设置</router-link>
+            <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'baseSet'}}">账号设置</router-link>
           </div>
         </div>
         <div class="info-nav-r">
           <div id="info-nav-search">
             <div class="form">
-              <input type="text" id="key" class="text"></input>
+              <input type="text" v-model="input" id="key" class="text"></input>
               <button type="button" class="button">
                 搜索
               </button>
@@ -158,27 +97,26 @@
             <dl>
               <dt>账号服务</dt>
               <dd>
-                <router-link to="/info">我的信息</router-link>
+                <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'baseSet'}}">我的信息</router-link>
               </dd>
               <dd>
-                <router-link to="/info">账号安全</router-link>
+                <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'safeSet'}}">账号安全</router-link>
               </dd>
             </dl>
           </div>
         </div>
-        <div class="main">
-
+        <div class="main" v-if="this.$route.query.type===undefined">
           <div class="box">
             <div class="user-box">
               <div class="user-main">
                 <router-link to="/info" class="avatar">
-                  <img class="" src="../assets/logo.png" style="height: 64px; width: 64px">
+                  <img class="" :src=user.avatar style="height: 64px; width: 64px">
                 </router-link>
                 <div class="user">
-                  <router-link to="/info" class="user-name">用户1234</router-link>
+                  <router-link to="/info" class="user-name">{{ user.username }}</router-link>
                 </div>
                 <div class="tags">
-                  <router-link to="/info" class="tag">账号设置</router-link>
+                  <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'baseSet'}}" class="tag">账号设置</router-link>
                   <span>小白</span>
                 </div>
               </div>
@@ -195,34 +133,10 @@
               </div>
               <div class="mc">
                 <ul>
-                  <li>
+                  <li v-for="cart in carts.slice(0, 5)">
                     <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本</span>
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本</span>
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本</span>
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本</span>
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本</span>
+                      <img :src=cart.pictures>
+                      <span>{{cart.location}}</span>
                     </router-link>
                   </li>
                   <li>
@@ -369,59 +283,119 @@
               </div>
               <div class="mc">
                 <ul>
-                  <li>
+                  <li v-for="house in houses.slice(0, 8)">
                     <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本测试文本测试文本</span>
+                      <img :src=house.pictures>
+                      <span>{{house.location}}</span>
                     </router-link>
                   </li>
-                  <li>
-                    <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本测试文本测试文本</span>
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本测试文本测试文本</span>
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本测试文本测试文本</span>
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本测试文本测试文本</span>
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本测试文本测试文本</span>
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本测试文本测试文本</span>
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link to="/info">
-                      <img src="../assets/logo.png">
-                      <span>测试文本测试文本测试文本测试文本</span>
-                    </router-link>
-                  </li>
-
                 </ul>
               </div>
             </div>
           </div>
+        </div>
+        <div class="main-infoSet" v-else>
+          <div class="setbox">
+            <div class="mt">
+              <ul>
+                <li class="baseSet">
+                  <router-link class="selected" :to="{path:'/info', query:{uid:this.$route.query.uid, type:'baseSet'}}" v-if="this.$route.query.type==='baseSet'">基本信息</router-link>
+                  <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'baseSet'}}" v-else>基本信息</router-link>
+                </li>
+                <li class="safeSet">
+                  <router-link class="selected" :to="{path:'/info', query:{uid:this.$route.query.uid, type:'safeSet'}}" v-if="this.$route.query.type==='safeSet'">安全信息</router-link>
+                  <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'safeSet'}}" v-else>安全信息</router-link>
+                </li>
+              </ul>
+            </div>
+            <div class="mc">
+              <div class="baseSet" v-if="this.$route.query.type==='baseSet'">
+                <div class="user-set">
+                  <div class="form">
+                    <div class="item">
+                      <span class="label">用户名 :</span>
+                      <div class="fl"><strong>{{user.username}}</strong></div>
+                    </div>
+                    <div class="item">
+                      <span class="label">联系电话 :</span>
+                      <div class="fl">
+                        <input v-model="user.tel"></input>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <span class="label">邮箱 :</span>
+                      <div class="fl">
+                        <input v-model="user.email"></input>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <span class="label">年龄 :</span>
+                      <div class="fl">
+                        <select v-model="user.age">
+                          <option v-for="(index, i) in this.ages" :key=i :value=index>{{index}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <span class="label">性别 :</span>
+                      <div class="fl">
+                        <input class ="sexIn" type="radio" name="sex" value=1 v-model="user.sex"></input>
+                        <label class="mr10">男</label>
+                        <input class = "sexIn" type="radio" name="sex" value=0 v-model="user.sex"></input>
+                        <label class="mr10">女</label>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <span class="label">&nbsp</span>
+                      <div class="fl">
+                        <el-button type="success" size="mini" round plain>提交修改</el-button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="user-info">
+                  <div class="u-ava">
+                    <img :src="user.avatar">
+                  </div>
+                  <div class="u-ext">
+                    <div class="einfo"><strong>用户名 : {{user.username}}</strong></div>
+                    <div class="einfo">信用等级 : <span style="color: #00ae66;margin-left: 5px">优秀</span></div>
+                    <div class="einfo">用户类型 : <span style="color: #f4ca3a;margin-left: 5px">VIP</span> </div>
+                    <div class="einfo">用户等级 : <span style="color: #f10215;margin-left: 5px">Lv6</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="safeSet" v-else>
+                <div class="user-set">
+                  <div class="form">
+                    <div class="item">
+                      <span class="label">原密码 :</span>
+                      <el-input placeholder="请输入原密码" v-model="oldPass" maxlength="18" show-password></el-input>
+                    </div>
+                    <div class="item">
+                      <span class="label">新密码 :</span>
+                      <el-input placeholder="请输入新密码" v-model="newPass1" maxlength="18" show-password></el-input>
+                    </div>
+                    <div class="item">
+                      <span class="label">确认密码 :</span>
+                      <el-input placeholder="请再次输入新密码" v-model="newPass2" maxlength="18" show-password></el-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="user-info">
+                  <div class="u-ava">
+                    <img :src="user.avatar">
+                  </div>
+                  <div class="u-ext">
+                    <div class="einfo"><strong>用户名 : {{user.username}}</strong></div>
+                    <div class="einfo">信用等级 : <span style="color: #00ae66;margin-left: 5px">优秀</span></div>
+                    <div class="einfo">用户类型 : <span style="color: #f4ca3a;margin-left: 5px">VIP</span> </div>
+                    <div class="einfo">用户等级 : <span style="color: #f10215;margin-left: 5px">Lv6</span></div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
         </div>
       </div>
     </div>
@@ -434,25 +408,80 @@ export default {
   data () {
     return {
       needFixed: false,
+      user: {
+        username:'',
+        avatar:''
+      },
+      carts: [],
+      houses: [],
+      input: '',
+      id: this.$route.query.uid,
+      ages: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],
+      oldPass: '',
+      newPass1: '',
+      newPass2: '',
     }
   },
 
   methods:{
-    handleScroll()
+    getUser(uid)
     {
-      let self = this
-      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      if (scrollTop > 82) {
-        self.needFixed = true;
-      } else {
-        self.needFixed = false;
-      }
+      let self = this;
+      self.$axios({
+        method: 'GET',
+        url: 'http://127.0.0.1:8000/personal_homepage/get_user',
+        params: uid,
+      })
+          .then(res=>{
+            self.user = res.data;
+            console.log(res.data);
+          })
+          .catch(err=>{
+            console.log(err);
+          })
+    },
+
+    getCart(uid)
+    {
+      let self = this;
+      self.$axios({
+        method: 'GET',
+        url: 'http://127.0.0.1:8000/personal_homepage/get_cart',
+        params: uid,
+      })
+          .then(res=>{
+            self.carts = res.data;
+            console.log(res.data);
+          })
+          .catch(err=>{
+            console.log(err);
+          })
+    },
+
+    getHouses() {
+      let self=this;
+      self.$axios({
+        method: 'GET',
+        url: 'http://127.0.0.1:8000/personal_homepage/get_house/',
+      })
+          .then(res=>{
+            self.houses = res.data;
+            console.log(res.data);
+          })
+          .catch(err=>{
+            console.log(err);
+          })
     },
   },
 
+  created() {
+    this.getUser({uid:this.$route.query.uid});
+    this.getCart({uid:this.$route.query.uid});
+    this.getHouses();
+  },
+
   mounted() {
-    window.addEventListener('scroll', this.handleScroll)
-  }
+  },
 }
 </script>
 
@@ -518,7 +547,6 @@ export default {
 #info-nav a:hover {
   color:#e1251b;
 }
-
 
 #info-nav .info-nav-r #info-nav-search{
   width: 210px;
@@ -784,13 +812,13 @@ a {
   margin: 30px;
 }
 
-.my-cart .mc span {
+.my-cart .mc span, .my-rec .mc span {
   top: 0;
   height: 24px;
   font-size: 14px;
+  font-weight: 600;
   line-height: 24px;
-  text-align: left;
-  margin: 0 5px 0 5px;
+  margin: 0 auto;
   color: #666;
   overflow: hidden;
   display: -webkit-box;
@@ -862,17 +890,125 @@ a {
   margin: 5px 20px;
 }
 
-.my-rec span {
-  top: 0;
-  height: 24px;
-  font-size: 14px;
-  line-height: 24px;
-  text-align: left;
-  margin: 0 5px 0 5px;
-  color: #666;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+.container .main-infoSet {
+  float: left;
+  width: 850px;
 }
+
+.setbox {
+  margin: 20px 0;
+  padding-bottom: 20px;
+  background-color: #fff;
+}
+
+.setbox .mt {
+  display: block;
+  padding: 10px 10px 10px 40px;
+}
+
+.setbox .mt ul{
+  display: flex;
+  border-right: none;
+}
+
+.setbox .mt li{
+  border-right: none;
+  margin-right: 20px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #666666;
+  opacity: .5;
+}
+
+.setbox .mt .selected {
+  color: #00ae66;
+  opacity: 100;
+  border-bottom: 2px solid #00ae66;
+}
+
+.setbox .mc .user-set {
+  float: left;
+  width: 500px;
+  padding: 10px;
+}
+
+.mc .user-set .form .item {
+  display: block;
+  margin-bottom: 20px;
+  line-height: 30px;
+}
+
+.mc .user-set .form .item:after{
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.mc .user-set .form .item span.label{
+  float: left;
+  height: 18px;
+  line-height: 18px;
+  padding: 6px 0;
+  width: 100px;
+  text-align: right;
+}
+
+.mc .user-set .form .item .fl{
+  margin-left: 40px;
+  float: left;
+}
+
+.mc .user-set .form .item input.sexIn{
+  vertical-align: -2px;
+  margin-right: 3px;
+}
+
+.mr10 {
+  margin-right: 10px;
+}
+
+.user-info {
+  overflow: hidden;
+  width: 280px;
+  float: left;
+  padding: 10px;
+  margin-bottom: 10px;
+  height: 102px;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  color: #666;
+  line-height: 20px;
+}
+
+.user-info .u-ava {
+  position: relative;
+  z-index: 0;
+  float: left;
+  width: 104px;
+  height: 104px;
+  overflow: hidden;
+  text-align: center;
+  margin-right: 6px;
+}
+
+.user-info .u-ava img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+}
+
+.u-ext {
+  float: left;
+  text-align: left;
+  padding-left: 5px;
+  width: 160px;
+}
+
+.u-ext .einfo {
+  height: 20px;
+  margin-bottom: 5px;
+}
+
 </style>
