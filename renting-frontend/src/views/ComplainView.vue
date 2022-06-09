@@ -1645,6 +1645,34 @@ export default {
         this.order_uncommented_paging.push(this.order_uncommented[i]);
       }
     },
+    getUser(uid) {
+      let self = this;
+      if(self.$store.state.userInfo.id === undefined || self.$store.state.userInfo.id === '') {
+        let msg = this.$message.error("尚未登录，3秒后跳转至首页");
+        setTimeout(()=>{
+          this.$router.push({
+            path:'/'
+          });
+          msg.close();
+        }, 3000);
+      }
+      else {
+        self.$axios({
+          method: 'GET',
+          url: 'http://127.0.0.1:8000/browse_house/get_user/',
+          params: uid,
+        })
+            .then(res =>{
+              self.user = res.data;
+              self.user['uid'] = uid.uid;
+              console.log(self.user);
+            })
+            .catch(err=>{
+              console.log(err);
+            })
+      }
+
+    },
   },
 
   mounted() {
@@ -1652,6 +1680,7 @@ export default {
   },
   created() {
     this.getOrders();
+    this.getUser(this.$store.state.userInfo.id);
   }
 }
 </script>
