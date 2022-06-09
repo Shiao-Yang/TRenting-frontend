@@ -439,6 +439,7 @@ export default {
 .house-info-pic-list .items {
   width: 380px;
   height: 65px;
+  margin: auto 22px;
   overflow: hidden;
 }
 
