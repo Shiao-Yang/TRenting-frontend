@@ -57,6 +57,10 @@
 
 <script>
 export default {
+  created() {
+    this.getUser({uid: this.$store.state.userInfo.id})
+  },
+
   name: "AdminUser",
   data() {
     return {
@@ -64,6 +68,19 @@ export default {
     }
   },
   methods: {
+
+    getUser(uid) {
+      let self = this;
+      if (self.$store.state.userInfo.id === undefined || self.$store.state.userInfo.id === '') {
+        let msg = this.$message.error("尚未登录，3秒后跳转至首页");
+        setTimeout(() => {
+          this.$router.push({
+            path: '/'
+          });
+          msg.close();
+        }, 3000);
+      }
+    },
     active(num) {
       this.activeIndex = num;
     },

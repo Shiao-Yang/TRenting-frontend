@@ -13,6 +13,13 @@
               <router-link to="/about">联系我们</router-link>
             </div>
           </li>
+          <li v-if="$store.state.userInfo.id !== undefined && $store.state.userInfo.id !== ''">
+            <div class="dt">
+              <a @click="logOut" style="color: #f10215">
+                退出登录
+              </a>
+            </div>
+          </li>
         </ul>
         <ul class="top-right">
           <li id="login-button" class="shortcut_btn">
@@ -244,7 +251,7 @@ export default {
         uid: '',
       },
       price: [],
-      hType: ['未知', '单人间', '双人间', '三人间', '四人间+'],
+      hType: ['未知', '单人间', '双人间', '四人间+'],
       houseType: [],
       houses: [],
       sType: '',
@@ -392,6 +399,11 @@ export default {
         }
       })
     },
+
+    logOut() {
+      this.$store.commit('logout');
+      this.$router.go(0);
+    }
 
 
   },

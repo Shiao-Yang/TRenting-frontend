@@ -13,6 +13,13 @@
               <router-link to="/about">联系我们</router-link>
             </div>
           </li>
+          <li v-if="$store.state.userInfo.id !== undefined && $store.state.userInfo.id !== ''">
+            <div class="dt">
+              <a @click="logOut" style="color: #f10215">
+                退出登录
+              </a>
+            </div>
+          </li>
         </ul>
         <ul class="top-right">
           <li id="login-button" class="shortcut_btn">
@@ -77,10 +84,10 @@
             <dl>
               <dt>客户服务</dt>
               <dd>
-                <router-link to="/ticket">我的报修</router-link>
+                <router-link to="/ticket_test">我的报修</router-link>
               </dd>
               <dd>
-                <router-link to="/ticket">报修状态</router-link>
+                <router-link to="/ticket_test">报修状态</router-link>
               </dd>
               <dd>
                 <router-link to="/complain">我的投诉</router-link>
@@ -353,6 +360,14 @@ export default {
     close() {
       // 关闭支付弹窗
       this.bol = false;
+    },
+
+    logOut() {
+      this.$store.commit('logout');
+      this.$message.success("退出成功，3秒后将回到主页");
+      setTimeout(()=>{
+        this.$router.push({path:'/'});
+      }, 3000);
     }
   },
 
