@@ -20,6 +20,7 @@
               prefix-icon="el-icon-lock"
               v-model="form.password"
               autocomplete="off"
+              @keyup.enter.native="login"
           ></el-input>
         </el-form-item>
         <el-form-item class="login_btn">
@@ -131,6 +132,7 @@ export default {
 </script>
 
 <style scoped>
+* {margin: 0; padding: 0}
 .login {
   width: 100%;
   height: 100%;
