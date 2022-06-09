@@ -156,13 +156,13 @@
                 <el-input style="margin-bottom: 5px" placeholder="短租为日，长租为月" type="number" v-model="continueOrderForm.time"></el-input>
               </el-form-item>
 
-                <el-button type="success" @click="test2">test2</el-button>
-                <el-button type="success" @click="testAPI2">testAPI2</el-button>
+                <!--el-button type="success" @click="test2">test2</el-button>
+                <el-button type="success" @click="testAPI2">testAPI2</el-button-->
             </el-form>
 
             <div slot="footer" class="dialog-footer">
               <el-button @click="dialogVisible3 = false">取 消</el-button>
-              <el-button type="primary" @click="dialogVisible3 = false; ">确 定</el-button>
+              <el-button type="primary" @click="testAPI2 ">确 定</el-button>
             </div>
           </el-dialog>
 
@@ -431,7 +431,7 @@
                   <el-table-column align="center" prop="amount" label="交易额" >
                   </el-table-column>
                   <el-table-column align="center" label="订单操作" width="200">
-                    <template v-slot="scope" >
+                    <template v-slot="scope">
                       <div v-if="(scope.row.status===1||scope.row.status===0)&&scope.row.paid===0">
                         <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="payOrder2(scope.row.oid)">
                           支付订单
@@ -440,12 +440,20 @@
                         <el-popconfirm title="确定取消订单吗？" @confirm="cancelOrder(scope.row.oid)">
                           <el-button type="warning" size="mini" plain slot="reference">取消订单</el-button>
                         </el-popconfirm>
+                        <el-divider direction="vertical" v-if="scope.row.valid!==2"></el-divider>
+                        <el-button size="mini" type="primary" plain v-if="scope.row.valid!==2" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">
+                          续约
+                        </el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 0">
-                        <el-button type="info" plain size="mini" slot="reference" :disabled="true">暂无操作</el-button>
+                        <el-button type="info" plain size="mini" slot="reference" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">续约</el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 1">
                         <el-button type="primary" plain size="mini" slot="reference" @click="dialogVisible2=true; ticketForm.hid = scope.row.hid; ticketForm.info = ''; ticketForm.img='';">提交报修</el-button>
+                        <el-divider direction="vertical"></el-divider>
+                        <el-button size="mini" type="primary" plain @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">
+                          续约
+                        </el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 2">
                         <el-popconfirm title="确定删除订单吗？" icon-color="red" @confirm="deleteOrder(scope.row.oid)">
@@ -584,21 +592,29 @@
                   <el-table-column align="center" prop="amount" label="交易额" >
                   </el-table-column>
                   <el-table-column align="center" label="订单操作" width="200">
-                    <template v-slot="scope" >
+                    <template v-slot="scope">
                       <div v-if="(scope.row.status===1||scope.row.status===0)&&scope.row.paid===0">
-                        <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click=" payOrder2(scope.row.oid)">
+                        <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="payOrder2(scope.row.oid)">
                           支付订单
                         </el-button>
                         <el-divider direction="vertical" v-if="scope.row.status===1"></el-divider>
                         <el-popconfirm title="确定取消订单吗？" @confirm="cancelOrder(scope.row.oid)">
                           <el-button type="warning" size="mini" plain slot="reference">取消订单</el-button>
                         </el-popconfirm>
+                        <el-divider direction="vertical" v-if="scope.row.valid!==2"></el-divider>
+                        <el-button size="mini" type="primary" plain v-if="scope.row.valid!==2" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">
+                          续约
+                        </el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 0">
-                        <el-button type="info" plain size="mini" slot="reference" :disabled="true">暂无操作</el-button>
+                        <el-button type="info" plain size="mini" slot="reference" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">续约</el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 1">
                         <el-button type="primary" plain size="mini" slot="reference" @click="dialogVisible2=true; ticketForm.hid = scope.row.hid; ticketForm.info = ''; ticketForm.img='';">提交报修</el-button>
+                        <el-divider direction="vertical"></el-divider>
+                        <el-button size="mini" type="primary" plain @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">
+                          续约
+                        </el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 2">
                         <el-popconfirm title="确定删除订单吗？" icon-color="red" @confirm="deleteOrder(scope.row.oid)">
@@ -738,21 +754,29 @@
                   <el-table-column align="center" prop="amount" label="交易额" >
                   </el-table-column>
                   <el-table-column align="center" label="订单操作" width="200">
-                    <template v-slot="scope" >
+                    <template v-slot="scope">
                       <div v-if="(scope.row.status===1||scope.row.status===0)&&scope.row.paid===0">
-                        <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click=" payOrder2(scope.row.oid)">
+                        <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="payOrder2(scope.row.oid)">
                           支付订单
                         </el-button>
                         <el-divider direction="vertical" v-if="scope.row.status===1"></el-divider>
                         <el-popconfirm title="确定取消订单吗？" @confirm="cancelOrder(scope.row.oid)">
                           <el-button type="warning" size="mini" plain slot="reference">取消订单</el-button>
                         </el-popconfirm>
+                        <el-divider direction="vertical" v-if="scope.row.valid!==2"></el-divider>
+                        <el-button size="mini" type="primary" plain v-if="scope.row.valid!==2" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">
+                          续约
+                        </el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 0">
-                        <el-button type="info" plain size="mini" slot="reference" :disabled="true">暂无操作</el-button>
+                        <el-button type="info" plain size="mini" slot="reference" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">续约</el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 1">
                         <el-button type="primary" plain size="mini" slot="reference" @click="dialogVisible2=true; ticketForm.hid = scope.row.hid; ticketForm.info = ''; ticketForm.img='';">提交报修</el-button>
+                        <el-divider direction="vertical"></el-divider>
+                        <el-button size="mini" type="primary" plain @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">
+                          续约
+                        </el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 2">
                         <el-popconfirm title="确定删除订单吗？" icon-color="red" @confirm="deleteOrder(scope.row.oid)">
@@ -1173,6 +1197,8 @@ export default {
             type: 'success',
             message: '续约成功',
           });
+          this.getOrders();
+
         }
         else {
           this.$message({
@@ -1180,7 +1206,9 @@ export default {
             type: 'error',
             message: res.data.msg,
           });
+
         }
+        this.dialogVisible3 = false;
       }).catch(err => {
         console.log(err);
       })
