@@ -47,31 +47,33 @@
     <div class= "search-area">
       <div class="search-nav">
         <router-link to="/list" class="logo">
-          <img alt="logo" class="logo" src="../../assets/logo.png">
+          <img class="logo" src="../../assets/logo.png">
         </router-link>
         <ul>
           <li>
             <router-link to="/list">
-              <span>详情页</span>
+              <span>搜索首页</span>
             </router-link>
           </li>
           <li>
-            <router-link :to="{path:'/list', query:{type:'short', keywords: input} }">
+            <router-link :to="{path:'/list',query:{type:'short', keywords: input}}">
               <span style="color: #00ae66" v-if="this.$route.query.type === 'short'">短租</span>
               <span v-else>短租</span>
             </router-link>
           </li>
           <li>
-            <router-link :to="{path:'/list', query:{type:'long', keywords: input} }">
-              <span style="color: #00ae66" v-if="this.$route.query.type !== 'short'">长租</span>
-              <span v-else>长租</span>
+            <router-link :to="{path:'/list',query:{type:'long', keywords: input}}">
+              <span v-if="$route.query.type === 'short'">长租</span>
+              <span style="color: #00ae66" v-else>长租</span>
             </router-link>
           </li>
         </ul>
       </div>
       <div class="list-search">
         <div class="search-box">
-          <el-input v-model="input" placeholder="请输入内容" class="search-input" clearable><el-button slot="suffix" icon="el-icon-search"></el-button></el-input>
+          <el-input v-model="input" placeholder="请输入内容" class="search-input" clearable>
+          </el-input>
+          <el-button class="search-button" slot="suffix" icon="el-icon-search" @click="search"></el-button>
         </div>
       </div>
     </div>
@@ -305,7 +307,9 @@ export default {
 }
 
 .search-nav ul {
+  margin: auto 0;
   line-height: 30px;
+  height: 30px;
   font-size: 20px;
   font-weight: 600;
   color: #000;
@@ -319,6 +323,7 @@ export default {
   margin-right: 20px;
 }
 
+
 .list-search {
   margin: auto;
   position: relative;
@@ -328,22 +333,21 @@ export default {
 
 .search-box {
   float: left;
-  box-shadow: 0 0 4px rgb(0 0 0 / 10%);
-  width: 710px;
-  height: 48px;
-  display: inline-block;
-  line-height: 46px;
-  font-size: 14px;
-  border-radius: 4px;
-  background-color: #ffffff;
+  /*box-shadow: 0px 0px 4px rgb(0 0 0 / 10%);*/
+  /*width: 668px;*/
+  /*height: 46px;*/
+  /*display: inline-block;*/
+  /*line-height: 46px;*/
+  /*font-size: 14px;*/
+  /*border-radius: 4px;*/
+  /*background-color: #ffffff;*/
 }
 
 .search-input {
-  width: 668px;
+  width: 660px;
   box-sizing: border-box;
-  padding-top: 8px;
   border-width: 0;
-  font-size: 14px;
+  font-size: 16px;
   background-color: #fff;
 }
 
@@ -390,7 +394,8 @@ export default {
 }
 
 .house-info-img-main #img-main {
-  min-height: 300px;
+  width: 450px;
+  height: 300px;
 }
 
 .house-info-pic-list {
@@ -433,17 +438,14 @@ export default {
 
 .house-info-pic-list .items {
   width: 380px;
-  height: 58px;
+  height: 65px;
   overflow: hidden;
 }
 
 .house-info-pic-list .items ul {
-  position: absolute;
+  margin: 0;
   height: 58px;
-  margin-left: 22px;
   width: 360px;
-  top: 0;
-  left: 0;
 }
 
 .house-info-pic-list .items ul li {
@@ -519,6 +521,11 @@ export default {
   top: 127px;
   margin-left: 20px;
   padding-bottom: 15px;
+}
+
+.house-details {
+  padding: 0;
+  margin: 0;
 }
 
 .house-details li {

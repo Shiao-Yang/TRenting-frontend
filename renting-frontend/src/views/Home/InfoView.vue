@@ -134,10 +134,10 @@
               <div class="mc">
                 <ul>
                   <li v-for="cart in carts.slice(0, 5)">
-                    <router-link to="/info">
+                    <a @click="toDetail(cart)">
                       <img :src=cart.pictures>
                       <span>{{cart.location}}</span>
-                    </router-link>
+                    </a>
                   </li>
                   <li>
                     <router-link to="/info" >
@@ -284,10 +284,10 @@
               <div class="mc">
                 <ul>
                   <li v-for="house in houses.slice(0, 8)">
-                    <router-link to="/info">
+                    <a @click="toDetail(house)" >
                       <img :src=house.pictures>
                       <span>{{house.location}}</span>
-                    </router-link>
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -560,7 +560,34 @@ export default {
           .catch(err=> {
             console.log(err);
           })
-    }
+    },
+
+    toDetail(house) {
+      let self = this;
+      let type = self.$route.query.type;
+      let uid = self.user.uid;
+      if(type === undefined) {
+        type = ''
+      }
+
+      if(uid === undefined) {
+        uid = 0;
+      }
+      if(house.id === undefined) {
+        console.log("UNDEFINED");
+
+        return ;
+      }
+
+      this.$router.push({
+        path:'/details',
+        query: {
+          uid: uid,
+          type: type,
+          hid: house.id,
+        }
+      })
+    },
   },
 
   created() {
@@ -579,6 +606,10 @@ export default {
 </style>
 
 <style scoped>
+a {
+  cursor: pointer;
+}
+
 #info-nav {
   height: 82px;
   background-color: #fff;
@@ -844,7 +875,7 @@ a {
 }
 
 .my-cart {
-  margin: 9px 0 9px 250px;
+  margin: 0 0 0 245px;
   overflow: visible;
 }
 
@@ -911,6 +942,7 @@ a {
   color: #666;
   overflow: hidden;
   display: -webkit-box;
+  text-align: center;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
@@ -949,6 +981,7 @@ a {
 }
 
 .box-left {
+
   float: left;
   width: 694px;
 }

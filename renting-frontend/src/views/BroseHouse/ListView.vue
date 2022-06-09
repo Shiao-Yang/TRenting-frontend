@@ -43,7 +43,6 @@
         </ul>
       </div>
     </div>
-
     <div class= "search-area">
       <div class="search-nav">
         <router-link to="/list" class="logo">
@@ -72,8 +71,8 @@
       <div class="list-search">
         <div class="search-box">
           <el-input v-model="input" placeholder="请输入内容" class="search-input" clearable>
-            <el-button slot="suffix" icon="el-icon-search" @click="search"></el-button>
           </el-input>
+          <el-button class="search-button" slot="suffix" icon="el-icon-search" @click="search"></el-button>
         </div>
       </div>
     </div>
@@ -410,8 +409,8 @@ export default {
 <style lang="css" scoped src="../../assets/css/shortcut.css">
 
 </style>
-<style scoped>
 
+<style scoped>
 .search-area {
   position: absolute;
   left: 0;
@@ -438,7 +437,9 @@ export default {
 }
 
 .search-nav ul {
+  margin: auto 0;
   line-height: 30px;
+  height: 30px;
   font-size: 20px;
   font-weight: 600;
   color: #000;
@@ -452,6 +453,7 @@ export default {
   margin-right: 20px;
 }
 
+
 .list-search {
   margin: auto;
   position: relative;
@@ -461,22 +463,21 @@ export default {
 
 .search-box {
   float: left;
-  box-shadow: 0px 0px 4px rgb(0 0 0 / 10%);
-  width: 710px;
-  height: 48px;
-  display: inline-block;
-  line-height: 46px;
-  font-size: 14px;
-  border-radius: 4px;
-  background-color: #ffffff;
+  /*box-shadow: 0px 0px 4px rgb(0 0 0 / 10%);*/
+  /*width: 668px;*/
+  /*height: 46px;*/
+  /*display: inline-block;*/
+  /*line-height: 46px;*/
+  /*font-size: 14px;*/
+  /*border-radius: 4px;*/
+  /*background-color: #ffffff;*/
 }
 
 .search-input {
-  width: 668px;
+  width: 660px;
   box-sizing: border-box;
-  padding-top: 8px;
   border-width: 0;
-  font-size: 14px;
+  font-size: 16px;
   background-color: #fff;
 }
 
