@@ -151,39 +151,18 @@ export default {
       })
       .then(res => {
         console.log(res.data);
-        switch(res.data.errno) {
-          case 0:
-            /*
-            this.$store.dispatch('saveUserInfo', {
-              user: {
-                'username': this.ruleForm.username,
-                'authorization': 1,
-              }
-            });
-             */
-            var a = localStorage.getItem('user');
-            console.log(a);
-            this.$message.success('注册成功！');
-            setTimeout(() => {
-              this.$router.push('/login');
-            },1000);
-            break;
-          case 1001:
-            this.$message.warning("请求方式错误！");
-            break;
-          case 1002:
-            this.$message.warning("两次输入的密码不一致！");
-            break;
-          case 1003:
-            this.$message.warning("用户名不合法！");
-            break;
-          case 1004:
-            this.$message.warning("用户名已存在！");
-            break;
-          case 1005:
-            this.$message.warning("密码必须包含数字和字母！");
-            break;
+        if(res.data.errno === 0) {
+          var a = localStorage.getItem('user');
+          console.log(a);
+          this.$message.success('注册成功！');
+          setTimeout(() => {
+            this.$router.push('/login');
+          }, 1000);
         }
+        else {
+          this.$message.error(res.data.msg);
+        }
+
       })
       .catch(err => {
         console.log(err);
