@@ -602,7 +602,6 @@ export default {
   float: left;
   width: 1190px;
   margin-top: 10px;
-  /*padding: 30px 0;*/
   position: relative;
 }
 
