@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <div class="info">
     <div id="shortcut">
       <div class="w" aria-label="顶部导航栏">
@@ -316,7 +316,15 @@
                   <div class="form">
                     <div class="item">
                       <span class="label">用户名 :</span>
-                      <div class="fl"><strong>{{user.username}}</strong></div>
+                      <div class="fl"><input v-model="user.username"></input></div>
+                    </div>
+                    <div class="item">
+                      <span class="label">姓名 :</span>
+                      <div class="fl">
+                        <strong>
+                          {{ user.name }}
+                        </strong>
+                      </div>
                     </div>
                     <div class="item">
                       <span class="label">联系电话 :</span>
@@ -357,7 +365,9 @@
                 </div>
                 <div class="user-info">
                   <div class="u-ava">
-                    <img :src="user.avatar">
+                    <a @click="uploadOpen">
+                      <img :src="user.avatar">
+                    </a>
                   </div>
                   <div class="u-ext">
                     <div class="einfo"><strong>用户名 : {{user.username}}</strong></div>
@@ -366,6 +376,46 @@
                     <div class="einfo">用户等级 : <span style="color: #f10215;margin-left: 5px">Lv6</span></div>
                   </div>
                 </div>
+                <el-dialog
+                    title="上传头像"
+                    :visible.sync="dialogVisible"
+                    width="30%"
+                    :before-close="handleClose">
+                  <el-form :model="form">
+                    <el-form-item label="实拍图" :label-width="formLabelWidth" required>
+                       <span slot="label">
+                         <el-tooltip content="只能上传jpg/png格式图片，且不超过2M"
+                                     placement="top">
+                           <i class="el-icon-question"></i>
+                         </el-tooltip>
+                         头像
+                       </span>
+                            <el-upload
+                                class="upload-demo"
+                                action="#"
+                                ref="upload2"
+                                :auto-upload="false"
+                                :on-change="onChangeUpload"
+                                :show-file-list="false"
+                                accept=".jpg,.jpeg,.png,.JPG,.JPEG"
+                                :limit="1">
+                              <el-button size="small" type="primary" class="upload">点击上传</el-button>
+                            </el-upload>
+                            <img v-if="form.avatar" :src="form.avatar" width="120px" height="120px">
+                    </el-form-item>
+                  </el-form>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-popconfirm
+                                       confirm-button-text='是的'
+                                       cancel-button-text='不是'
+                                       @confirm="importAvatar"
+                                       title="是否确定导入信息？"
+                                   >
+                        <el-button slot="reference" type="primary"  class="confirm">确 定</el-button>
+                    </el-popconfirm>
+                  </span>
+                </el-dialog>
               </div>
               <div class="safeSet" v-else>
                 <div class="user-set">
@@ -392,7 +442,9 @@
                 </div>
                 <div class="user-info">
                   <div class="u-ava">
-                    <img :src="user.avatar">
+                    <a @click="uploadOpen">
+                      <img :src="user.avatar">
+                    </a>
                   </div>
                   <div class="u-ext">
                     <div class="einfo"><strong>用户名 : {{user.username}}</strong></div>
@@ -401,6 +453,46 @@
                     <div class="einfo">用户等级 : <span style="color: #f10215;margin-left: 5px">Lv6</span></div>
                   </div>
                 </div>
+                <el-dialog
+                    title="上传头像"
+                    :visible.sync="dialogVisible"
+                    width="30%"
+                    :before-close="handleClose">
+                  <el-form :model="form">
+                    <el-form-item label="实拍图" :label-width="formLabelWidth" required>
+                       <span slot="label">
+                         <el-tooltip content="只能上传jpg/png格式图片，且不超过2M"
+                                     placement="top">
+                           <i class="el-icon-question"></i>
+                         </el-tooltip>
+                         头像
+                       </span>
+                      <el-upload
+                          class="upload-demo"
+                          action="#"
+                          ref="upload2"
+                          :auto-upload="false"
+                          :on-change="onChangeUpload"
+                          :show-file-list="false"
+                          accept=".jpg,.jpeg,.png,.JPG,.JPEG"
+                          :limit="1">
+                        <el-button size="small" type="primary" class="upload">点击上传</el-button>
+                      </el-upload>
+                      <img v-if="form.avatar" :src="form.avatar" width="120px" height="120px">
+                    </el-form-item>
+                  </el-form>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-popconfirm
+                        confirm-button-text='是的'
+                        cancel-button-text='不是'
+                        @confirm="importAvatar"
+                        title="是否确定导入信息？"
+                    >
+                        <el-button slot="reference" type="primary"  class="confirm">确 定</el-button>
+                    </el-popconfirm>
+                  </span>
+                </el-dialog>
               </div>
               </div>
             </div>
@@ -411,6 +503,8 @@
 </template>
 
 <script>
+import qs from "qs";
+
 export default {
   name: "InfoView",
   data () {
@@ -423,11 +517,17 @@ export default {
       carts: [],
       houses: [],
       input: '',
+      formLabelWidth: '120px',
       id: this.$store.state.userInfo.id,
       ages: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],
       oldPass: '',
       newPass1: '',
       newPass2: '',
+      dialogVisible: false,
+      form: {
+        avatar: '',
+        uid: this.$store.state.userInfo.id,
+      },
     }
   },
 
@@ -517,7 +617,7 @@ export default {
     updateInfo() {
       let self=this;
       let formData = new FormData();
-      formData.append("uid", self.$store.state.userInfo.id);
+      formData.append("userid", self.$store.state.userInfo.id);
       formData.append("username", self.user.username);
       formData.append("phoneNum", self.user.tel);
       formData.append("email", self.user.email);
@@ -530,7 +630,8 @@ export default {
       })
           .then(res=>{
             console.log(res.data);
-            self.getUser(self.$store.state.userInfo.id);
+            self.$message.success("上传成功");
+            self.getUser({uid:self.$store.state.userInfo.id});
           })
           .catch(err=>{
             console.log(err);
@@ -603,6 +704,68 @@ export default {
         }
       })
     },
+
+    uploadOpen() {
+      this.dialogVisible = true;
+    },
+
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+    },
+
+    onChangeUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!')
+        return
+      }
+      const self = this
+      const reader = new FileReader()
+      reader.onload = function (e) {
+        self.form.avatar = reader.result
+        self.$refs.upload2.clearFiles()
+      }
+      reader.readAsDataURL(file.raw)
+      console.log(this.form.avatar)
+    },
+
+    importAvatar() {
+      let self = this;
+
+      let formData = {
+        uid: self.$store.state.userInfo.id,
+        avatar: self.form.avatar,
+      }
+      self.$axios({
+        method: 'POST',
+        url: 'http://127.0.0.1:8000/personal_homepage/update_avatar/',
+        data: qs.stringify(formData)
+      })
+          .then(res=>{
+            let msg;
+            switch (res.data.error) {
+              case 0:
+                msg = this.$message.success(res.data.msg);
+                this.dialogVisible = false;
+                this.form = {
+                  uid: this.$store.state.userInfo.id,
+                };
+                break;
+              case 2:
+                msg = this.$message.error(res.data.msg);
+            }
+            console.log(res.data);
+            this.$router.go(0);
+          })
+          .catch(err=>{
+            console.log(err);
+          })
+    },
+
   },
 
   created() {
