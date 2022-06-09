@@ -78,7 +78,7 @@
                  </el-upload>
                  <img v-if="form.pictures" :src="form.pictures" width="120px" height="120px">
                </el-form-item>
-               <el-form-item label="描述" :label-width="formLabelWidth">
+               <el-form-item label="具体地址" :label-width="formLabelWidth" prop="details">
                  <el-input type="textarea" v-model="form.details" autocomplete="off" class="input" clearable></el-input>
                </el-form-item>
              </el-form>
@@ -221,7 +221,7 @@
            </el-descriptions-item>
            <el-descriptions-item>
              <template slot="label">
-               描述
+               具体地址
              </template>
              {{ item.details }}
            </el-descriptions-item>
@@ -289,6 +289,9 @@ export default {
           { required: true, message: "请输入长租价格", trigger: 'blur' },
           {validator: checkFloat, trigger: 'blur'}
         ],
+        details: [
+          { required: true, message: "请输入具体地址", trigger: 'blur' }
+        ]
       },
       rules2: {
         uid: [
@@ -621,7 +624,7 @@ export default {
     },
     importHouse() {
       if (this.form.location===''||this.form.area===''||this.form.type==='' ||this.form.short_price===''
-          ||this.form.long_price===''||this.form.floor_plan===''||this.form.pictures==='') {
+          ||this.form.long_price===''||this.form.floor_plan===''||this.form.pictures===''||this.form.details==='') {
         this.$message.warning('请填写完整信息！')
         return
       }
