@@ -21,6 +21,15 @@
               auto-complete="off"
           ></el-input>
         </el-form-item>
+        <el-form-item prop="email">
+          <el-input
+              placeholder="姓名"
+              type="name"
+              v-model="ruleForm.name"
+              prefix-icon="el-icon-info"
+              auto-complete="off"
+          ></el-input>
+        </el-form-item>
         <el-form-item id="password" prop="password_1">
           <el-input
               placeholder="密码"
@@ -104,6 +113,7 @@ export default {
       ruleForm: {
         username: '',
         email: '',
+        name: '',
         password_1: '',
         password_2: '',
       },
@@ -128,6 +138,7 @@ export default {
       var formData = {
         'username': this.ruleForm.username,
         'email': this.ruleForm.email,
+        'name': this.ruleForm.name,
         'password_1': this.ruleForm.password_1,
         'password_2': this.ruleForm.password_2,
       };
@@ -208,7 +219,7 @@ export default {
 }
 .login_frame {
   width: 350px;
-  height: 440px;
+  height: 500px;
   padding: 20px 25px 0 25px;
   border: 0;
   position: absolute;
