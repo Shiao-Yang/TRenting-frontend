@@ -1686,7 +1686,6 @@ export default {
     },
 
     submit_complain(){
-
       let send_data = {
         uid: this.complainForm.uid,
         tid: this.complainForm.tid,
