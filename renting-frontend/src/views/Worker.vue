@@ -494,6 +494,7 @@ export default {
     },
     quit() {
       this.$store.state.userInfo.id = ''
+      this.$store.state.isLogin = false
     }
   }
 }
