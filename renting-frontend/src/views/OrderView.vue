@@ -140,6 +140,33 @@
           </el-dialog>
 
           <el-dialog
+              title="请输入续约时间"
+              :visible.sync="dialogVisible3"
+              width="50%"
+              center="true"
+              :before-close="handleClose">
+            <el-form ref="form" :model="continueOrderForm" label-width="80px" size="mini">
+              <el-form-item label="用户名" >
+                {{this.$store.state.userInfo.username}}
+              </el-form-item>
+              <el-form-item label="订单编号" prop="oid">
+                {{this.continueOrderForm.oid}}
+              </el-form-item>
+              <el-form-item label="续约时长" prop="info">
+                <el-input style="margin-bottom: 5px" placeholder="短租为日，长租为月" type="number" v-model="continueOrderForm.time"></el-input>
+              </el-form-item>
+
+                <el-button type="success" @click="test2">test2</el-button>
+                <el-button type="success" @click="testAPI2">testAPI2</el-button>
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible3 = false">取 消</el-button>
+              <el-button type="primary" @click="dialogVisible3 = false; ">确 定</el-button>
+            </div>
+          </el-dialog>
+
+          <el-dialog
               title="报修信息"
               :visible.sync="dialogVisible2"
               width="30%"
@@ -242,7 +269,7 @@
                   <el-table-column align="center" prop="amount" label="交易额" >
                   </el-table-column>
                   <el-table-column align="center" label="订单操作" width="200">
-                    <template v-slot="scope" >
+                    <template v-slot="scope">
                       <div v-if="(scope.row.status===1||scope.row.status===0)&&scope.row.paid===0">
                         <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="payOrder2(scope.row.oid)">
                           支付订单
@@ -251,12 +278,20 @@
                         <el-popconfirm title="确定取消订单吗？" @confirm="cancelOrder(scope.row.oid)">
                           <el-button type="warning" size="mini" plain slot="reference">取消订单</el-button>
                         </el-popconfirm>
+                        <el-divider direction="vertical" v-if="scope.row.valid!==2"></el-divider>
+                        <el-button size="mini" type="primary" plain v-if="scope.row.valid!==2" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">
+                          续约
+                        </el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 0">
-                        <el-button type="info" plain size="mini" slot="reference" :disabled="true">暂无操作</el-button>
+                        <el-button type="info" plain size="mini" slot="reference" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">续约</el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 1">
                         <el-button type="primary" plain size="mini" slot="reference" @click="dialogVisible2=true; ticketForm.hid = scope.row.hid; ticketForm.info = ''; ticketForm.img='';">提交报修</el-button>
+                        <el-divider direction="vertical"></el-divider>
+                        <el-button size="mini" type="primary" plain @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">
+                          续约
+                        </el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 2">
                         <el-popconfirm title="确定删除订单吗？" icon-color="red" @confirm="deleteOrder(scope.row.oid)">
@@ -831,8 +866,16 @@ export default {
         info: '', //文字描述
         img: '',//图片
       },
+      continueOrderForm: {
+        oid: 0,
+        uid: this.$store.state.userInfo.id,
+        //username: '',
+        time: 0,
+      },
       dialogVisible1: false,
       dialogVisible2: false,
+      dialogVisible3: false,
+      time: 0,
       showCard: false,
       currentDate: new Date(),
       order_id_to_pay: 0,
@@ -986,10 +1029,13 @@ export default {
       console.log(this.ticketForm);
     },
     test2() {
-      console.log(this.ticketForm);
+      console.log(this.continueOrderForm);
     },
     testAPI() {
       this.submit_ticket();
+    },
+    testAPI2() {
+      this.continueOrder();
     },
     handleRemove(file, fileList) {
       console.log(file, fileList);
@@ -1094,6 +1140,52 @@ export default {
 
 
     },
+    continueOrder() {
+
+      console.log(this.continueOrderForm);
+      let order_data = {
+        oid: this.continueOrderForm.oid,
+        uid: this.$store.state.userInfo.id,
+        time: parseInt(this.continueOrderForm.time),
+      };
+
+      console.log(order_data);
+      if(order_data.time <= 0) {
+        this.$message({
+          showClose: true,
+          type: 'error',
+          message: '请不要穿梭时空哦',
+        });
+        return;
+      }
+      console.log(order_data);
+
+
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/order/renew/",
+        data: qs.stringify(order_data),
+      }).then(res => {
+        console.log(res.data);
+        if(res.data.error === 0) {
+          this.$message({
+            showClose: true,
+            type: 'success',
+            message: '续约成功',
+          });
+        }
+        else {
+          this.$message({
+            showClose: true,
+            type: 'error',
+            message: res.data.msg,
+          });
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+
     storeOrder(order_id) {
       this.order_id_to_pay = order_id;
     },
