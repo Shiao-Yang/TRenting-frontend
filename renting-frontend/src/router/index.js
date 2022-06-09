@@ -13,6 +13,16 @@ const AdminHouse = () => import('../views/AdminHouse.vue')
 const AdminTicket = () => import('../views/AdminTicket.vue')
 const AdminContract = () => import('../views/AdminContract.vue')
 const Worker = () => import('../views/Worker')
+//import HomeView from '../views/HomeView.vue'
+import LoginView from "@/views/LoginView.vue";
+import Register from "@/views/Register.vue";
+//import InfoView from "@/views/InfoView";
+import OrderView from "@/views/OrderView";
+import CartView from "@/views/CartView";
+import TicketView from "@/views/TicketView";
+import test from "@/views/test";
+import TicketTestView from "@/views/TicketTestView";
+import ComplainView from "@/views/ComplainView";
 
 Vue.use(VueRouter)
 
@@ -26,6 +36,22 @@ const routes = [
     path: '/about',
     name: 'about',
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
+  },
+  {
+    path: '/login',
+    name: 'login',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/LoginView.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Register.vue')
   },
   {
     path: '/info',
@@ -85,6 +111,41 @@ const routes = [
       }
     ]
   },
+  /*
+    component: InfoView
+  },
+  */
+  {
+    path: '/order',
+    name: 'order',
+    component: OrderView
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: CartView
+  },
+  {
+    path: '/ticket',
+    name: 'ticket',
+    component: TicketView
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: test
+  },
+  {
+    path: '/ticket_test',
+    name: 'ticket_test',
+    component: TicketTestView
+  },
+  {
+    path: '/complain',
+    name: 'complain',
+    component: ComplainView
+  },
+
 ]
 
 const router = new VueRouter({
