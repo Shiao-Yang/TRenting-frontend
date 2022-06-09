@@ -221,12 +221,13 @@
                     <p>短租：{{house.short_price}} 元/天   长租：{{house.long_price}}</p>
                     <p>位置：{{house.location}} | 面积：{{house.area}}</p>
                     <p>户型：{{house.type}}</p-->
-                  <div style="font-size: 30px; color: #00ae66; font-weight:bold; margin-top: 10px; margin-bottom: 20px">
+                  <div style="font-size: 30px; color: #00ae66; font-weight:bold; margin-bottom: 5px">
                     精品好房
                     <span v-if="house.available===1" style="position: relative; bottom: 5px"><el-tag type="success" size="medium">在售</el-tag></span>
                     <span v-if="house.available===0" style="position: relative; bottom: 5px"><el-tag type="danger" size="medium">暂停出售</el-tag></span>
                   </div>
-                  <el-descriptions style="color: rgba(43,177,28,0.82)" border>
+                  <el-descriptions style="color: rgba(43,177,28,0.82)" border column="2" >
+                    <el-descriptions-item label="编号">{{house.id}}</el-descriptions-item>
                     <el-descriptions-item label="位置">{{house.location}}</el-descriptions-item>
                     <el-descriptions-item label="面积">{{house.area}}&nbsp;&nbsp;m²</el-descriptions-item>
                     <el-descriptions-item label="户型">
@@ -234,26 +235,35 @@
                       <div v-if="house.type === 2">双人间</div>
                       <div v-if="house.type === 3">四人间</div>
                     </el-descriptions-item>
-                    <el-descriptions-item label="备注">
-                      <el-tag size="small">学校</el-tag>
+                    <el-descriptions-item label="短租">
+                      {{house.short_price}}&nbsp;&nbsp;元/天
                     </el-descriptions-item>
-                    <el-descriptions-item label="联系地址">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+                    <el-descriptions-item label="长租">
+                      {{house.long_price}}&nbsp;&nbsp;元/天
+                    </el-descriptions-item>
+                    <el-descriptions-item label="相关描述">
+                      <div v-if="house.detail === null || house.detail === ''">
+                        暂无
+                      </div>
+                      <div v-if="house.detail !== null && house.detail !== ''">
+                        {{ house.detail }}
+                      </div>
+                    </el-descriptions-item>
                   </el-descriptions>
                 </div>
 
 
                 <div class="op_button">
-                  <el-button type="success" icon="el-icon-shop" @click="handOrder(house)">下单买房</el-button>
-                  <el-button type="danger" icon="el-icon-delete" @click="removeFromCart(house)">移除</el-button>
+                    <el-button style="position: relative; top: 60px; left:50px" plain type="success" icon="el-icon-sold-out" @click="handOrder(house)">下单买房</el-button>
+                    <el-button style="position: relative; top: 90px; left:50px" plain type="danger" icon="el-icon-delete" @click="removeFromCart(house)">移除</el-button>
                 </div>
 
               </div>
             </div>
 
-            <div>
+            <div style="margin-top: 60px">
               <el-pagination
-                  small
-                  :page-size="4"
+                  :page-size="3"
                   :pager-count="7"
                   :current-page="current_page"
                   layout="prev, pager, next"
@@ -314,7 +324,7 @@ export default {
     },
     getHouse() {
       var formData = {
-        'id': this.$store.state.userInfo.id,
+        'id': 1,
       };
       console.log(formData);
 
@@ -339,7 +349,7 @@ export default {
         this.house_paging = [];
         this.current_page = 1;
         if(this.house) {
-          for(let i = 0; i < this.house.length&&i<4; i++) {
+          for(let i = 0; i < this.house.length&&i<3; i++) {
             this.house_paging.push(this.house[i]);
           }
         }
@@ -356,7 +366,7 @@ export default {
       console.log(1);
       let houseData = {
         hid: house.id,
-        uid: this.$store.state.userInfo.id,
+        uid: 1,
       }
 
       console.log(2);
@@ -380,7 +390,7 @@ export default {
           this.house_paging = [];
           this.current_page = 1;
           if(this.house) {
-            for(let i = 0; i < this.house.length&&i<4; i++) {
+            for(let i = 0; i < this.house.length&&i<3; i++) {
               this.house_paging.push(this.house[i]);
             }
           }
@@ -417,7 +427,7 @@ export default {
       console.log(new_page);
       this.house_paging = [];
       this.current_page = new_page;
-      for(let i = 4*(new_page-1); i < this.house.length && i < 4*new_page; i++) {
+      for(let i = 3*(new_page-1); i < this.house.length && i < 3*new_page; i++) {
         this.house_paging.push(this.house[i]);
       }
       console.log(this.house_paging);
@@ -470,7 +480,7 @@ export default {
 }
 
 .house-item {
-  height: 200px;
+  height: 250px;
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
   position: relative;
@@ -488,10 +498,9 @@ export default {
   top: 25px
 }
 .house-image {
-  border-width: 1px;
-  border-style: solid;
-  height: 180px;
-  width: 210px;
+
+  height: 230px;
+  width: 250px;
   display: inline-block;
   position: relative;
   left: 10px;
@@ -505,9 +514,8 @@ export default {
 }
 
 .house-dsc {
-  border-width: 1px;
-  border-style: solid;
-  height: 180px;
+
+  height: 230px;
   width: 500px;
   display: inline-block;
   position: relative;
@@ -528,9 +536,8 @@ export default {
 }
 
 .op_button {
-  border-width: 1px;
-  border-style: solid;
-  height: 180px;
+
+  height: 230px;
   width: 200px;
   display: inline-block;
   position: relative;
