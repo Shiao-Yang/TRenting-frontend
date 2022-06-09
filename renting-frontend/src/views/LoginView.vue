@@ -70,9 +70,9 @@ export default {
               {
               'username': this.form.username,
               'authorization': 1,
-              'uid': res.data.uid,
+              'uid': res.data.id,
               }
-          this.$store.state.userInfo.id = user.id;
+          this.$store.state.userInfo.id = user.uid;
           this.$store.state.userInfo.username = user.username;
           //let user = localStorage.getItem('user');
           //console.log(user);

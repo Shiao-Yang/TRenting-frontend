@@ -5,9 +5,7 @@
         <ul class="top-left">
           <li>
             <div class="dt">
-              <router-link to="/">
-                <span>首页</span>
-              </router-link>
+              <router-link to="/">首页</router-link>
             </div>
           </li>
           <li>
@@ -18,23 +16,28 @@
         </ul>
         <ul class="top-right">
           <li id="login-button" class="shortcut_btn">
-            <div>
-              <router-link :to="{path:'/info', query:{uid:this.$route.query.uid,}}">{{ user.username }}</router-link>
+            <div v-if = "$store.state.userInfo.id === undefined || $store.state.userInfo.id === ''">
+              <router-link to="/login">登录</router-link>
+              &nbsp;&nbsp;
+              <router-link to="/register" style="color:#f10215;">免费注册</router-link>
+            </div>
+            <div v-else>
+              <router-link to="/info">{{ $store.state.userInfo.username }}</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <router-link to="/">我的订单</router-link>
+              <router-link to="/order">我的订单</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <router-link to="/">我的报修</router-link>
+              <router-link to="/ticket">我的报修</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <router-link to="/">购物车</router-link>
+              <router-link to="/cart">购物车</router-link>
             </div>
           </li>
         </ul>
@@ -48,10 +51,10 @@
         <div class="title">个人主页</div>
         <div class="nav-items">
           <div class="dte">
-            <router-link :to="{path:'/info', query:{uid:this.$route.query.uid,}}">个人首页</router-link>
+            <router-link :to="{path:'/info'}">个人首页</router-link>
           </div>
           <div class="dte">
-            <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'baseSet'}}">账号设置</router-link>
+            <router-link :to="{path:'/info', query:{type:'baseSet'}}">账号设置</router-link>
           </div>
         </div>
         <div class="info-nav-r">
@@ -97,10 +100,10 @@
             <dl>
               <dt>账号服务</dt>
               <dd>
-                <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'baseSet'}}">我的信息</router-link>
+                <router-link :to="{path:'/info', query:{type:'baseSet'}}">我的信息</router-link>
               </dd>
               <dd>
-                <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'safeSet'}}">账号安全</router-link>
+                <router-link :to="{path:'/info', query:{type:'safeSet'}}">账号安全</router-link>
               </dd>
             </dl>
           </div>
@@ -116,7 +119,7 @@
                   <router-link to="/info" class="user-name">{{ user.username }}</router-link>
                 </div>
                 <div class="tags">
-                  <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'baseSet'}}" class="tag">账号设置</router-link>
+                  <router-link :to="{path:'/info', query:{type:'baseSet'}}" class="tag">账号设置</router-link>
                   <span>小白</span>
                 </div>
               </div>
@@ -299,12 +302,12 @@
             <div class="mt">
               <ul>
                 <li class="baseSet">
-                  <router-link class="selected" :to="{path:'/info', query:{uid:this.$route.query.uid, type:'baseSet'}}" v-if="this.$route.query.type==='baseSet'">基本信息</router-link>
-                  <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'baseSet'}}" v-else>基本信息</router-link>
+                  <router-link class="selected" :to="{path:'/info', query:{type:'baseSet'}}" v-if="this.$route.query.type==='baseSet'">基本信息</router-link>
+                  <router-link :to="{path:'/info', query:{type:'baseSet'}}" v-else>基本信息</router-link>
                 </li>
                 <li class="safeSet">
-                  <router-link class="selected" :to="{path:'/info', query:{uid:this.$route.query.uid, type:'safeSet'}}" v-if="this.$route.query.type==='safeSet'">安全信息</router-link>
-                  <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'safeSet'}}" v-else>安全信息</router-link>
+                  <router-link class="selected" :to="{path:'/info', query:{type:'safeSet'}}" v-if="this.$route.query.type==='safeSet'">安全信息</router-link>
+                  <router-link :to="{path:'/info', query:{type:'safeSet'}}" v-else>安全信息</router-link>
                 </li>
               </ul>
             </div>
@@ -421,7 +424,7 @@ export default {
       carts: [],
       houses: [],
       input: '',
-      id: this.$route.query.uid,
+      id: this.$store.state.userInfo.id,
       ages: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],
       oldPass: '',
       newPass1: '',
@@ -453,7 +456,7 @@ export default {
         self.$router.push({
           path: '/list',
           query: {
-            uid: self.$route.query.uid,
+            uid: self.$store.state.userInfo.id,
           }})
       }
       else {
@@ -502,7 +505,7 @@ export default {
     updateInfo() {
       let self=this;
       let formData = new FormData();
-      formData.append("uid", self.$route.query.uid);
+      formData.append("uid", self.$store.state.userInfo.id);
       formData.append("username", self.user.username);
       formData.append("phoneNum", self.user.tel);
       formData.append("email", self.user.email);
@@ -515,7 +518,7 @@ export default {
       })
           .then(res=>{
             console.log(res.data);
-            self.getUser(self.$route.query.uid);
+            self.getUser(self.$store.state.userInfo.id);
           })
           .catch(err=>{
             console.log(err);
@@ -525,7 +528,7 @@ export default {
     updatePassword() {
       let self=this;
       let formData = new FormData();
-      formData.append("uid", self.$route.query.uid);
+      formData.append("uid", self.$store.state.userInfo.id);
       formData.append("oldPass", self.oldPass);
       formData.append("newPass1", self.newPass1);
       formData.append("newPass2", self.newPass2);
@@ -591,8 +594,8 @@ export default {
   },
 
   created() {
-    this.getUser({uid:this.$route.query.uid});
-    this.getCart({uid:this.$route.query.uid});
+    this.getUser({uid:this.$store.state.userInfo.id});
+    this.getCart({uid:this.$store.state.userInfo.id});
     this.getHouses();
   },
 

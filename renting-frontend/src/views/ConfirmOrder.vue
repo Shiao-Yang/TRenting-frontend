@@ -5,9 +5,7 @@
         <ul class="top-left">
           <li>
             <div class="dt">
-              <router-link to="/">
-                <span>首页</span>
-              </router-link>
+              <router-link to="/">首页</router-link>
             </div>
           </li>
           <li>
@@ -18,23 +16,28 @@
         </ul>
         <ul class="top-right">
           <li id="login-button" class="shortcut_btn">
-            <div>
-              <router-link :to="{path:'/info', query:{uid:this.$route.query.uid,}}">{{ user.username }}</router-link>
+            <div v-if = "$store.state.userInfo.id === undefined || $store.state.userInfo.id === ''">
+              <router-link to="/login">登录</router-link>
+              &nbsp;&nbsp;
+              <router-link to="/register" style="color:#f10215;">免费注册</router-link>
+            </div>
+            <div v-else>
+              <router-link to="/info">{{ $store.state.userInfo.username }}</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <router-link to="/">我的订单</router-link>
+              <router-link to="/order">我的订单</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <router-link to="/">我的报修</router-link>
+              <router-link to="/ticket">我的报修</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <router-link to="/">购物车</router-link>
+              <router-link to="/cart">购物车</router-link>
             </div>
           </li>
         </ul>
@@ -89,10 +92,10 @@
             <dl>
               <dt>账号服务</dt>
               <dd>
-                <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'baseSet'}}">我的信息</router-link>
+                <router-link :to="{path:'/info', query:{type:'baseSet'}}">我的信息</router-link>
               </dd>
               <dd>
-                <router-link :to="{path:'/info', query:{uid:this.$route.query.uid, type:'safeSet'}}">账号安全</router-link>
+                <router-link :to="{path:'/info', query:{type:'safeSet'}}">账号安全</router-link>
               </dd>
             </dl>
           </div>
@@ -235,19 +238,29 @@ export default {
   methods:{
     getUser(uid) {
       let self = this;
-      self.$axios({
-        method: 'GET',
-        url: 'http://127.0.0.1:8000/browse_house/get_user/',
-        params: uid,
-      })
-          .then(res =>{
-            self.user = res.data;
-            self.user['uid'] = uid.uid;
-            console.log(self.user);
-          })
-          .catch(err=>{
-            console.log(err);
-          })
+      if(self.$store.state.userInfo.id === undefined || self.$store.state.userInfo.id === '') {
+        this.$message.error("尚未登录，3秒后跳转至首页");
+        setTimeout(()=>{
+          this.$router.push({
+            path:'/'
+          })}, 3000);
+      }
+      else {
+        self.$axios({
+          method: 'GET',
+          url: 'http://127.0.0.1:8000/browse_house/get_user/',
+          params: uid,
+        })
+            .then(res =>{
+              self.user = res.data;
+              self.user['uid'] = uid.uid;
+              console.log(self.user);
+            })
+            .catch(err=>{
+              console.log(err);
+            })
+      }
+
     },
 
     search() {
@@ -255,9 +268,7 @@ export default {
       if(self.input === '' || self.input === undefined) {
         self.$router.push({
           path: '/list',
-          query: {
-            uid: self.$route.query.uid,
-          }})
+        })
       }
       else {
         self.$router.push({
@@ -345,8 +356,8 @@ export default {
   },
 
   created() {
-    this.getUser({uid: this.$route.query.uid})
-    this.getOrder({uid: this.$route.query.uid}, this.$route.query.oid);
+    this.getUser({uid: this.$store.state.userInfo.id})
+    this.getOrder({uid: this.$store.state.userInfo.id}, this.$route.query.oid);
 
   },
 

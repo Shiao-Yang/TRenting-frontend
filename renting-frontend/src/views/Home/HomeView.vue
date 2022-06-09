@@ -71,28 +71,28 @@
         </ul>
         <ul class="top-right">
           <li id="login-button" class="shortcut_btn">
-            <div v-if = !$store.state.isLogin>
+            <div v-if = "$store.state.userInfo.id === undefined || $store.state.userInfo.id === ''">
               <router-link to="/login">登录</router-link>
               &nbsp;&nbsp;
-              <router-link to="/login" style="color:#f10215;">免费注册</router-link>
+              <router-link to="/register" style="color:#f10215;">免费注册</router-link>
             </div>
             <div v-else>
-
+              <router-link to="/info">{{ $store.state.userInfo.username }}</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <router-link to="/">我的订单</router-link>
+              <router-link to="/order">我的订单</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <router-link to="/">我的报修</router-link>
+              <router-link to="/ticket">我的报修</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <router-link to="/">购物车</router-link>
+              <router-link to="/cart">购物车</router-link>
             </div>
           </li>
         </ul>
@@ -277,6 +277,7 @@ export default {
     getUser(uid)
     {
       const self = this;
+      console.log(self.$store.state.userInfo.id);
       self.$axios({
         method: 'GET',
         url: 'http://127.0.0.1:8000/homepage/get_user',
@@ -318,7 +319,7 @@ export default {
   created() {
     this.getHouses()
     this.getData()
-    this.getUser({uid:1})
+    this.getUser({uid:this.$store.state.userInfo.id})
   },
 
   mounted() {

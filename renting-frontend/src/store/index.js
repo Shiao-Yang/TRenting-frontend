@@ -35,7 +35,7 @@ export default new Vuex.Store({
     order_valid_count: 0,
     userInfo: {
       img: 0,
-      id: 1,
+      id: '',
       username: 'Peter',
       password: '',
       tel: '',

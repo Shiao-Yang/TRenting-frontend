@@ -63,9 +63,7 @@
         <ul class="top-left">
           <li>
             <div class="dt">
-              <router-link to="/">
-                <span>首页</span>
-              </router-link>
+              <router-link to="/">首页</router-link>
             </div>
           </li>
           <li>
@@ -76,26 +74,28 @@
         </ul>
         <ul class="top-right">
           <li id="login-button" class="shortcut_btn">
-            <div v-if = !$store.state.isLogin>
-              <router-link to="/info">用户1234</router-link>
+            <div v-if = "$store.state.userInfo.id === undefined || $store.state.userInfo.id === ''">
+              <router-link to="/login">登录</router-link>
+              &nbsp;&nbsp;
+              <router-link to="/register" style="color:#f10215;">免费注册</router-link>
             </div>
             <div v-else>
-
+              <router-link to="/info">{{ $store.state.userInfo.username }}</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <router-link to="/">我的订单</router-link>
+              <router-link to="/order">我的订单</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <router-link to="/">我的报修</router-link>
+              <router-link to="/ticket">我的报修</router-link>
             </div>
           </li>
           <li>
             <div class="dt">
-              <router-link to="/">购物车</router-link>
+              <router-link to="/cart">购物车</router-link>
             </div>
           </li>
         </ul>
@@ -437,8 +437,7 @@ export default {
 }
 </script>
 
-<style scoped>
-@import "../assets/css/shortcut.css";
+<style lang="css" scoped src="../assets/css/shortcut.css">
 
 </style>
 
