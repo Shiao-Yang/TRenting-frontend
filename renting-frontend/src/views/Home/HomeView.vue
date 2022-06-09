@@ -8,7 +8,7 @@
               <li class="f-shortcut-item">
                 <span>
                   <router-link to="/" class="link">
-                    <img class="f-shortcut-logo" src="../assets/logo.png">
+                    <img class="f-shortcut-logo" src="../../assets/logo.png">
                     首页
                   </router-link>
                 </span>
@@ -31,7 +31,7 @@
               <li class="f-shortcut-item">
                 <span>
                   <router-link to="/" class="link">
-                    <img class="f-shortcut-logo" src="../assets/traveller.png" style="width: 32px;">
+                    <img class="f-shortcut-logo" src="../../assets/traveller.png" style="width: 32px;">
                     <span style="color: #e1251b">
                       登录
                     </span>
@@ -47,7 +47,7 @@
               <li class="f-shortcut-item">
                 <router-link to="/">
                   购物车
-                  <img src="../assets/cart.png" style="width:20px; height: 20px; margin-left: 12px;">
+                  <img src="../../assets/cart.png" style="width:20px; height: 20px; margin-left: 12px;">
                 </router-link>
               </li>
             </ul>
@@ -101,7 +101,7 @@
     <div id="header">
       <div class="w">
         <div class="logo">
-          <img src="../assets/logo.png" style="position:absolute;top:0;left:0;height: 50px; width: 50px">
+          <img src="../../assets/logo.png" style="position:absolute;top:0;left:0;height: 50px; width: 50px">
         </div>
         <div class="web-text-box">
           <h1 style="color:white;font-size: 100px">用心创造温馨</h1>
@@ -143,7 +143,7 @@
               <li class="more-item" v-for="house in houses">
                 <a @click="toDetail(house)" class="more-lk" target="_blank">
                   <div class="more-img">
-                    <img src="../assets/logo.png" width="150px" height="150px" v-if="house.pictures == null">
+                    <img src="../../assets/logo.png" width="150px" height="150px" v-if="house.pictures == null">
                     <img :src= house.pictures width="150px" height="150px" v-else>
                   </div>
                   <div class="more-info">
@@ -329,7 +329,7 @@ export default {
 
 </script>
 <style scoped>
-  @import "../assets/css/shortcut.css";
+  @import "../../assets/css/shortcut.css";
 </style>
 
 <style scoped>
@@ -338,7 +338,7 @@ export default {
   height: 610px;
   left: 0;
   top: 31px;
-  background: #161616 url(../assets/HomeViewBG.jpg) no-repeat fixed center 0;
+  background: #161616 url(../../assets/HomeViewBG.jpg) no-repeat fixed center 0;
   background-size: 1920px;
   display: block;
   position: absolute;
@@ -510,7 +510,7 @@ p {
 .floorhd-tit:after, .floorhd-tit:before {
   background-size: 50px 20px;
   background-repeat: no-repeat;
-  background-image: url("../assets/sprite@2x.png");
+  background-image: url("../../assets/sprite@2x.png");
   width: 25px;
   height: 20px;
   content: "";

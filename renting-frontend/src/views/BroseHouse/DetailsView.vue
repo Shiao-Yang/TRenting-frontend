@@ -47,7 +47,7 @@
     <div class= "search-area">
       <div class="search-nav">
         <router-link to="/list" class="logo">
-          <img alt="logo" class="logo" src="../assets/logo.png">
+          <img alt="logo" class="logo" src="../../assets/logo.png">
         </router-link>
         <ul>
           <li>
@@ -85,10 +85,10 @@
               </div>
               <div class="house-info-pic-list">
                 <router-link id="prev" :to="this.$route.path">
-                  <img alt="left" class="prev-arrow" src="../assets/arrow-left.png">
+                  <img alt="left" class="prev-arrow" src="../../assets/arrow-left.png">
                 </router-link>
                 <router-link id="next" :to="this.$route.path">
-                  <img alt="right" class="next-arrow" src="../assets/arrow-right.png">
+                  <img alt="right" class="next-arrow" src="../../assets/arrow-right.png">
                 </router-link>
                 <div class="items">
                   <ul>
@@ -275,7 +275,7 @@ export default {
 </script>
 
 <style scoped>
-@import "../assets/css/shortcut.css";
+@import "../../assets/css/shortcut.css";
 </style>
 
 <style scoped>

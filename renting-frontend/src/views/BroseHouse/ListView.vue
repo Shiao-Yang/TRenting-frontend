@@ -47,7 +47,7 @@
     <div class= "search-area">
       <div class="search-nav">
         <router-link to="/list" class="logo">
-          <img class="logo" src="../assets/logo.png">
+          <img class="logo" src="../../assets/logo.png">
         </router-link>
         <ul>
           <li>
@@ -409,7 +409,7 @@ export default {
 </script>
 
 <style scoped>
-@import url("../assets/css/shortcut.css");
+@import url("../../assets/css/shortcut.css");
 
 .search-area {
   position: absolute;

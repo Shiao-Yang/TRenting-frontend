@@ -141,7 +141,7 @@
                   </li>
                   <li>
                     <router-link to="/info" >
-                      <img class = "more" src="../assets/more.png">
+                      <img class = "more" src="../../assets/more.png">
                       <span style="text-align: center">全部信息</span>
                     </router-link>
                   </li>
@@ -160,31 +160,31 @@
                   <ul>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/pay.png">
+                        <img src="../../assets/pay.png">
                         <span>待付款</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/valid.png">
+                        <img src="../../assets/valid.png">
                         <span>当前有效</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/comment.png">
+                        <img src="../../assets/comment.png">
                         <span>待评价</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/finish.png">
+                        <img src="../../assets/finish.png">
                         <span>已完成</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/more.png">
+                        <img src="../../assets/more.png">
                         <span>全部订单</span>
                       </router-link>
                     </li>
@@ -201,31 +201,31 @@
                   <ul>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/waiting.png">
+                        <img src="../../assets/waiting.png">
                         <span>待处理</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/repairing.png">
+                        <img src="../../assets/repairing.png">
                         <span>正在处理</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/comment.png">
+                        <img src="../../assets/comment.png">
                         <span>待评价</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/finish.png">
+                        <img src="../../assets/finish.png">
                         <span>已完成</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/more.png">
+                        <img src="../../assets/more.png">
                         <span>全部报修</span>
                       </router-link>
                     </li>
@@ -242,31 +242,31 @@
                   <ul>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/submit.png">
+                        <img src="../../assets/submit.png">
                         <span>待提交</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/reply.png">
+                        <img src="../../assets/reply.png">
                         <span>待回复</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/comment.png">
+                        <img src="../../assets/comment.png">
                         <span>待评价</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/finish.png">
+                        <img src="../../assets/finish.png">
                         <span>已完成</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link to="/info">
-                        <img src="../assets/more.png">
+                        <img src="../../assets/more.png">
                         <span>全部投诉</span>
                       </router-link>
                     </li>
@@ -575,7 +575,7 @@ export default {
 </script>
 
 <style scoped>
-  @import "../assets/css/shortcut.css";
+  @import "../../assets/css/shortcut.css";
 </style>
 
 <style scoped>
@@ -593,7 +593,7 @@ export default {
   display: block;
   width: 158px;
   height: 82px;
-  background: url("../assets/logo.png") no-repeat 0 0 ;
+  background: url("../../assets/logo.png") no-repeat 0 0 ;
 }
 
 #info-nav a {

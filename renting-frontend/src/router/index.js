@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import InfoView from "@/views/InfoView"
-import ListView from "@/views/ListView"
-import DetailsView from "@/views/DetailsView"
+import HomeView from '../views/Home/HomeView.vue'
+import InfoView from "@/views/Home/InfoView"
+import ListView from "@/views/BroseHouse/ListView"
+import DetailsView from "@/views/BroseHouse/DetailsView"
 import confirmOrder from "@/views/ConfirmOrder"
 
 Vue.use(VueRouter)
