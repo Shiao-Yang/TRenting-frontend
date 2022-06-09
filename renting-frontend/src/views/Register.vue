@@ -21,7 +21,7 @@
               auto-complete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item prop="email">
+        <el-form-item prop="name">
           <el-input
               placeholder="姓名"
               type="name"
@@ -109,6 +109,14 @@ export default {
         callback();
       }
     };
+    var checkName = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error("请输入姓名"));
+      }
+      else {
+        callback();
+      }
+    };
     return {
       ruleForm: {
         username: '',
@@ -123,6 +131,9 @@ export default {
         ],
         email: [
           { validator: checkEmail, trigger: 'blur'}
+        ],
+        name: [
+          {validator: checkName, trigger: 'blur'}
         ],
         password_1: [
           { validator: validatePass1, trigger: 'blur' }
