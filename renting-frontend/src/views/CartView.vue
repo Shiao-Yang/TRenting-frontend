@@ -174,7 +174,7 @@
                    {{this.orderForm.amount=(this.orderForm.duration*house_data.short_price)}}
                  </div>
                   <div v-if="orderForm.type===1">
-                    {{this.orderForm.amount=(this.orderForm.duration*house_data.long_price)}}
+                    {{this.orderForm.amount=house_data.long_price}}
                   </div>
                 </el-form-item>
 
