@@ -44,6 +44,9 @@ export default new Vuex.Store({
       name: '',
       email: '',
     },
+    order_initial: 'first',
+    ticket_initial: 'first',
+    complaint_initial: 'first',
     handOrderCartInfo: [ //提交订单时的house信息
       // {
       //   hid: 0,
@@ -66,6 +69,7 @@ export default new Vuex.Store({
     },
     logout(state) {
       state.isLogin = false;
+      state.userInfo.id = 0
     },
 
   },
