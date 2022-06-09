@@ -238,11 +238,11 @@
 
 
               </el-form>
-              <el-button type="success" @click="test">test</el-button>
-              <el-button type="success" @click="submit_order">testAPI3</el-button>
+              <!--el-button type="success" @click="test">test</el-button>
+              <el-button type="success" @click="submit_order">testAPI3</el-button-->
               <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false;">取 消</el-button>
-                <el-button type="success" @click=" submit_order;dialogVisible=false;">确定</el-button>
+                <el-button type="success" @click="this.submit_order">确定</el-button>
               </div>
             </el-dialog>
           </div>
@@ -387,6 +387,9 @@ export default {
   },
 
   methods:{
+    testAPI() {
+      this.submit_order();
+    },
     test() {
       console.log(this.orderForm);
     },
@@ -514,17 +517,51 @@ export default {
         url: 'http://127.0.0.1:8000/cart/submit/',
         data: qs.stringify(order),
       }).then(res => {
+        console.log(res.data);
         if(res.data.error === 0) {
           this.$message ({
             showClose: true,
             type: 'success',
             message: '下单成功',
           });
+          let o_id = res.data['订单id'];
+          console.log(o_id);
+
+          console.log(this.house);
+          for(let i = 0; i < this.house.length; i++) {
+            if(this.orderForm.hid === this.house[i].id) {
+              this.house.splice(i,1);
+              break;
+            }
+          }
+          console.log(this.house);
+          this.house_paging = [];
+          this.current_page = 1;
+          if(this.house) {
+            for(let i = 0; i < this.house.length&&i<3; i++) {
+              this.house_paging.push(this.house[i]);
+            }
+          }
+
+
+           /*
           this.$router.push({ path: '/confirm',
             query: {
-              oid : this.orderForm.id, // 必要传入参数，即需要进行确认的订单id
+              oid : o_id, // 必要传入参数，即需要进行确认的订单id
             } })
+
+            */
+
+
         }
+        else {
+          this.$message ({
+            showClose: true,
+            type: 'error',
+            message: 'msg',
+          });
+        }
+        this.dialogVisible=false;
       }).catch(err => {
         console.log(err);
       })
