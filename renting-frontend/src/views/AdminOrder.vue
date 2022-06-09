@@ -34,6 +34,7 @@
           <el-descriptions v-for='(item,index) in order' v-if="item.visible && value===false":key="index"
                            class="margin-top" :title="'ID: '+item.id" :column="3" border >
             <template slot="extra">
+              <el-button type="primary" class="button" size="small" v-if="item.paid==='0'" @click="sendEmail(index)">邮件提醒</el-button>
               <!-- 删除订单 -->
               <el-button type="primary" class="button" size="small" @click="open(index)">删除</el-button>
             </template>
@@ -262,6 +263,28 @@ export default {
     }
   },
   methods: {
+    sendEmail(index) {
+      let formData={'uid': this.order[index].uid}
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/order/send_alone_email/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            console.log(res)
+            switch (res.data.error) {
+              case 1:
+                this.$message.warning(res.data.msg)
+                    break
+              case 0:
+                this.$message.success(res.data.msg)
+                    break
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
     get_order_info() {
       this.$axios({
         method: 'get',
