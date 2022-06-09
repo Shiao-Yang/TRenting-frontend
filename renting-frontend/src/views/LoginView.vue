@@ -20,6 +20,7 @@
               prefix-icon="el-icon-lock"
               v-model="form.password"
               autocomplete="off"
+              @keyup.enter.native="login"
           ></el-input>
         </el-form-item>
         <el-form-item class="login_btn">
