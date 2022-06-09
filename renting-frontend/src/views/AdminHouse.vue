@@ -437,6 +437,8 @@ export default {
             switch (res.data.errno) {
               case 0:
                 this.$message.success(res.data.msg)
+                this.house = []
+                this.get_house_info()
                 this.dialogFormVisible2 = false
                 break
               case 1001:
