@@ -182,6 +182,70 @@
               <el-divider><i class="el-icon-house"></i></el-divider>
           </div>
 
+          <div>
+            <el-dialog
+                title="请填写您的评价"
+                :visible.sync="dialogVisible"
+                width="30%"
+                center="true"
+                :before-close="handleClose">
+              <el-form ref="form" :model="orderForm" label-width="80px" size="mini">
+                <el-form-item label="房源编号" prop="hid">{{this.orderForm.hid}}</el-form-item>
+                <el-form-item label="房源户型">
+                  <div v-if="house_data.type === 1">单人间</div>
+                  <div v-if="house_data.type === 2">双人间</div>
+                  <div v-if="house_data.type === 3">四人间</div>
+                </el-form-item>
+                <el-form-item label="短租价格">
+                  {{house_data.short_price}}&nbsp;&nbsp;元/天
+                </el-form-item>
+                <el-form-item label="长租价格">
+                  {{house_data.long_price}}&nbsp;&nbsp;元/月
+                </el-form-item>
+                <el-form-item label="租房类型" prop="type">
+                  <el-select v-model="orderForm.type" placeholder="请选择租房类型">
+                    <el-option label="短租" :value="0"></el-option>
+                    <el-option label="长租" :value="1"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="开始日期" prop="start_time">
+                  <el-date-picker
+                      v-model="orderForm.start_time"
+                      type="date"
+                      placeholder="选择日期">
+                  </el-date-picker>
+                </el-form-item>
+                <el-form-item label="租房时长" prop="duration">
+                    <el-input
+                        size="medium"
+                        placeholder="短租单位为天，长租单位为月，请输入整数哦"
+                        type="number"
+                        v-model="orderForm.duration"
+                        clearable>
+                    </el-input>
+                  <!--span v-if="this.orderForm.type===0" style="font-size: 15px">&nbsp;天</span>
+                  <span-- v-if="this.orderForm.type===1" style="font-size: 15px">&nbsp;月</span-->
+                </el-form-item>
+
+                <el-form-item label="总价" prop="amount">
+                 <div v-if="orderForm.type===0">
+                   {{this.orderForm.amount=(this.orderForm.duration*house_data.short_price)}}
+                 </div>
+                  <div v-if="orderForm.type===1">
+                    {{this.orderForm.amount=(this.orderForm.duration*house_data.long_price)}}
+                  </div>
+                </el-form-item>
+
+
+              </el-form>
+              <el-button type="success" @click="test">test</el-button>
+              <el-button type="success" @click="submit_order">testAPI3</el-button>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false;">取 消</el-button>
+                <el-button type="success" @click=" submit_order;dialogVisible=false;">确定</el-button>
+              </div>
+            </el-dialog>
+          </div>
 
           <div class="cart">
             <div v-if="this.house.length=== 0">
@@ -213,8 +277,10 @@
 
             <div style="margin-top: 10px">
               <div class="house-item" v-for="house in house_paging">
-                <div class="house-image">
-                  <img class="image" src="../assets/cart.png" alt="加载失败">
+                <div class="house-image" style="text-align: center; vertical-align: center">
+                  <el-image>
+                      加载失败
+                  </el-image>
                 </div>
                 <div class="house-dsc">
                     <!--h1 class="title">精品好房 <el-tag type="success">在售</el-tag></h1>
@@ -252,9 +318,8 @@
                   </el-descriptions>
                 </div>
 
-
                 <div class="op_button">
-                    <el-button style="position: relative; top: 60px; left:50px" plain type="success" icon="el-icon-sold-out" @click="handOrder(house)">下单买房</el-button>
+                    <el-button style="position: relative; top: 60px; left:50px" plain type="success" icon="el-icon-sold-out" @click="prepare(house); dialogVisible=true">下单租房</el-button>
                     <el-button style="position: relative; top: 90px; left:50px" plain type="danger" icon="el-icon-delete" @click="removeFromCart(house)">移除</el-button>
                 </div>
 
@@ -275,15 +340,6 @@
 
           </div>
 
-
-
-
-
-
-
-
-
-
         </div>
       </div>
     </div>
@@ -301,16 +357,62 @@ export default {
       house: [], //房源信息，由于有多个，以列表形式存储
       house_count: 0, //房源数量
       page_size: 10,
+      house_data: {
+        hid: null,
+        location: '',
+        short_price: 0,
+        long_price: 0,
+        type: 0,
+        area: 0,
+      },
       images: [],
       url: '../assets/cart.png',
       //当前页数
       current_page: 1,
       //当前 各个订单页面中所展示的订单
       house_paging: [],
+      orderForm: {
+        hid: null,
+        uid: 1,
+        type: null,
+        order_time: null,
+        start_time: null,
+        duration: null,
+        amount: null,
+        details: '',
+      },
+      cost: null,
+      dialogVisible: false,
     }
   },
 
   methods:{
+    test() {
+      console.log(this.orderForm);
+    },
+    cal() {
+      this.orderForm.order_time = new Date();
+      console.log(this.orderForm);
+    },
+    prepare(house) {
+      this.orderForm.hid=house.id;
+      this.house_data.hid=house.id;
+      //this.house_data.area=house.area;
+      this.house_data.type=house.type;
+      //this.house_data.location=house.location;
+      this.house_data.short_price=house.short_price;
+      this.house_data.long_price=house.long_price;
+      this.orderForm.order_time=new Date();
+      console.log(this.orderForm);
+    },
+
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+    },
 
     handleScroll()
     {
@@ -321,6 +423,112 @@ export default {
       } else {
         self.needFixed = false;
       }
+    },
+    DateCompare(date1, date2) {
+      var d1 = new Date(this.Date2String(date1));
+      var d2 = new Date(this.Date2String(date2));
+
+      //var d1 = date1;
+      //var d2 = date2;
+
+      //console.log(Object.prototype.toString.call(d1));
+      //console.log(Object.prototype.toString.call(d2));
+
+      //console.log(d1);
+      //console.log(d2);
+      var y1 = d1.getFullYear();
+      var y2 = d2.getFullYear();
+      var m1 = d1.getMonth();
+      var m2 = d2.getMonth();
+      var day1 = d1.getDate();
+      var day2 = d2.getDate();
+      //console.log('2022-06-06'>'2022-06-07');
+      //console.log(y1,m1,day1);
+      //console.log(y2,m2,day2);
+
+      //console.log(1);
+      if(y1 > y2) return 1
+      if(y1 === y2 && m1 > m2) return 1;
+      if(y1 === y2 && m1 === m2 && day1 > day2) return 1;
+      if(y1 === y2 && m1 === m2 && day1 === day2) return 0;
+      return -1;
+    },
+    Date2String(date_to_convert) {
+      var date=new Date(Date.parse(date_to_convert));
+      var y = date.getFullYear();
+      var m = date.getMonth() + 1;
+      m = m < 10 ? ('0' + m) : m;
+      var d = date.getDate();
+      d = d < 10 ? ('0' + d) : d;
+      return y + '-' + m + '-' + d;
+    },
+    submit_order(){
+      let order = this.orderForm;
+      let date = new Date();
+      let sign = this.DateCompare(this.Date2String(date),this.Date2String(this.orderForm.start_time));
+      if(this.orderForm.type === null || (this.orderForm.type !==0 && this.orderForm.type!==1)) {
+        this.$message ({
+          showClose: true,
+          type: 'error',
+          message: '请选择一个租房类型哦'
+        });
+        return;
+      }
+      if(this.orderForm.start_time === null) {
+        this.$message ({
+          showClose: true,
+          type: 'error',
+          message: '请选择开始日期哦'
+        });
+        return;
+      }
+      if(sign > 0) {
+        this.$message ({
+          showClose: true,
+          type: 'error',
+          message: '不要试图穿越到过去哦'
+        });
+        return ;
+      }
+      if(this.orderForm.duration === null) {
+        this.$message ({
+          showClose: true,
+          type: 'error',
+          message: '请输入租房时长哦',
+        });
+        return ;
+      }
+      if(this.orderForm.duration <= 0) {
+        this.$message ({
+          showClose: true,
+          type: 'error',
+          message: '不能让我们倒贴钱啊客官',
+        });
+        return ;
+      }
+      console.log(this.orderForm);
+      console.log(order);
+
+      this.$axios({
+        method: 'post',
+        url: 'http://127.0.0.1:8000/cart/submit/',
+        data: qs.stringify(order),
+      }).then(res => {
+        if(res.data.error === 0) {
+          this.$message ({
+            showClose: true,
+            type: 'success',
+            message: '下单成功',
+          });
+          this.$router.push({ path: '/confirm',
+            query: {
+              oid : this.orderForm.id, // 必要传入参数，即需要进行确认的订单id
+            } })
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+
     },
     getHouse() {
       var formData = {
