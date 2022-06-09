@@ -76,34 +76,34 @@
             <dl>
               <dt>订单中心</dt>
               <dd>
-                <router-link to="/info">我的订单</router-link>
+                <router-link to="/order">我的订单</router-link>
               </dd>
               <dd>
-                <router-link to="/info">评价晒单</router-link>
+                <router-link to="/order">评价晒单</router-link>
               </dd>
             </dl>
             <dl>
               <dt>客户服务</dt>
               <dd>
-                <router-link to="/info">我的报修</router-link>
+                <router-link to="/ticket">我的报修</router-link>
               </dd>
               <dd>
-                <router-link to="/info">报修状态</router-link>
+                <router-link to="/ticket">报修状态</router-link>
               </dd>
               <dd>
-                <router-link to="/info">我的投诉</router-link>
+                <router-link to="/complain">我的投诉</router-link>
               </dd>
               <dd>
-                <router-link to="/info">投诉状态</router-link>
+                <router-link to="/complain">投诉状态</router-link>
               </dd>
             </dl>
             <dl>
               <dt>账号服务</dt>
               <dd>
-                <router-link to="/info">我的信息</router-link>
+                <router-link :to="{path:'/info', query:{type:'baseSet'}}">我的信息</router-link>
               </dd>
               <dd>
-                <router-link to="/info">账号安全</router-link>
+                <router-link :to="{path:'/info', query:{type:'safeSet'}}">账号安全</router-link>
               </dd>
             </dl>
           </div>
