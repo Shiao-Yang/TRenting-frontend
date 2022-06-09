@@ -206,6 +206,11 @@ export default {
 </script>
 
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .login {
   width: 100%;
   height: 100%;
