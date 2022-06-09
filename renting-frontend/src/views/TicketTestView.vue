@@ -387,7 +387,7 @@
                                 报修图片:
                               </div>
                               <div>
-                                <el-image style="position: relative; top: 7px;" :preview-src-list="[scope.row.pictures]" class="ticket_img" :src="scope.row.pictures" alt="加载失败"></el-image>
+                                <el-image style="position: relative; top: 7px;" :preview-src-list="[scope.row.pictures]" class="ticket_img" :src="scope.row.pictures" alt="暂无图片"></el-image>
                               </div>
                             </div>
                           </el-card>
@@ -423,7 +423,7 @@
                                 维修图片: &nbsp;&nbsp;
                               </div>
                               <div>
-                                <el-image class="ticket_img" :preview-src-list="[scope.row.materials_pic]" style="position: relative; top: 7px;" :src="scope.row.materials_pic" alt="加载失败"></el-image>
+                                <el-image class="ticket_img" :preview-src-list="[scope.row.materials_pic]" style="position: relative; top: 7px;" :src="scope.row.materials_pic" alt="暂无图片"></el-image>
                               </div>
                             </div>
                           </el-card>
@@ -571,7 +571,7 @@
                                 报修图片:
                               </div>
                               <div>
-                                <el-image style="position: relative; top: 7px;" :preview-src-list="[scope.row.pictures]" class="ticket_img" :src="scope.row.pictures" alt="加载失败"></el-image>
+                                <el-image style="position: relative; top: 7px;" :preview-src-list="[scope.row.pictures]" class="ticket_img" :src="scope.row.pictures" alt="暂无图片"></el-image>
                               </div>
                             </div>
                           </el-card>
@@ -607,7 +607,7 @@
                                 维修图片: &nbsp;&nbsp;
                               </div>
                               <div>
-                                <el-image class="ticket_img" :preview-src-list="[scope.row.materials_pic]" style="position: relative; top: 7px;" :src="scope.row.materials_pic" alt="加载失败"></el-image>
+                                <el-image class="ticket_img" :preview-src-list="[scope.row.materials_pic]" style="position: relative; top: 7px;" :src="scope.row.materials_pic" alt="暂无图片"></el-image>
                               </div>
                             </div>
                           </el-card>
@@ -755,7 +755,7 @@
                                 报修图片:
                               </div>
                               <div>
-                                <el-image style="position: relative; top: 7px;" :preview-src-list="[scope.row.pictures]" class="ticket_img" :src="scope.row.pictures" alt="加载失败"></el-image>
+                                <el-image style="position: relative; top: 7px;" :preview-src-list="[scope.row.pictures]" class="ticket_img" :src="scope.row.pictures" alt="暂无图片"></el-image>
                               </div>
                             </div>
                           </el-card>
@@ -791,7 +791,7 @@
                                 维修图片: &nbsp;&nbsp;
                               </div>
                               <div>
-                                <el-image class="ticket_img" :preview-src-list="[scope.row.materials_pic]" style="position: relative; top: 7px;" :src="scope.row.materials_pic" alt="加载失败"></el-image>
+                                <el-image class="ticket_img" :preview-src-list="[scope.row.materials_pic]" style="position: relative; top: 7px;" :src="scope.row.materials_pic" alt="暂无图片"></el-image>
                               </div>
                             </div>
                           </el-card>
@@ -939,7 +939,7 @@
                                 报修图片:
                               </div>
                               <div>
-                                <el-image style="position: relative; top: 7px;" :preview-src-list="[scope.row.pictures]" class="ticket_img" :src="scope.row.pictures" alt="加载失败"></el-image>
+                                <el-image style="position: relative; top: 7px;" :preview-src-list="[scope.row.pictures]" class="ticket_img" :src="scope.row.pictures" alt="暂无图片"></el-image>
                               </div>
                             </div>
                           </el-card>
@@ -975,7 +975,7 @@
                                 维修图片: &nbsp;&nbsp;
                               </div>
                               <div>
-                                <el-image class="ticket_img" :preview-src-list="[scope.row.materials_pic]" style="position: relative; top: 7px;" :src="scope.row.materials_pic" alt="加载失败"></el-image>
+                                <el-image class="ticket_img" :preview-src-list="[scope.row.materials_pic]" style="position: relative; top: 7px;" :src="scope.row.materials_pic" alt="暂无图片"></el-image>
                               </div>
                             </div>
                           </el-card>
@@ -1124,7 +1124,7 @@
                                 报修图片:
                               </div>
                               <div>
-                                <el-image style="position: relative; top: 7px;" :preview-src-list="[scope.row.pictures]" class="ticket_img" :src="scope.row.pictures" alt="加载失败"></el-image>
+                                <el-image style="position: relative; top: 7px;" :preview-src-list="[scope.row.pictures]" class="ticket_img" :src="scope.row.pictures" alt="暂无图片"></el-image>
                               </div>
                             </div>
                           </el-card>
@@ -1160,7 +1160,7 @@
                                 维修图片: &nbsp;&nbsp;
                               </div>
                               <div>
-                                <el-image class="ticket_img" :preview-src-list="[scope.row.materials_pic]" style="position: relative; top: 7px;" :src="scope.row.materials_pic" alt="加载失败"></el-image>
+                                <el-image class="ticket_img" :preview-src-list="[scope.row.materials_pic]" style="position: relative; top: 7px;" :src="scope.row.materials_pic" alt="暂无图片"></el-image>
                               </div>
                             </div>
                           </el-card>

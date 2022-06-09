@@ -228,7 +228,7 @@
               <div class="house-item" v-for="house in house_paging">
                 <div class="house-image" style="text-align: center; vertical-align: center">
                   <el-image :src="house.pictures" style="width: 96%; height: 96%; position: relative; top: 1%; left: 1%">
-                      加载失败
+                      暂无图片
                   </el-image>
                 </div>
                 <div class="house-dsc">
