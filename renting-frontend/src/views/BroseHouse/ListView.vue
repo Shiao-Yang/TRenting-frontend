@@ -177,17 +177,17 @@
               已为您找到<span style="color:#00ae66;margin: auto 5px;">{{ this.houses.length }}</span>套房源
             </p>
             <ul class="content_filter">
-              <li class="selected" id="cof1" @click="changeSelected('cof1')">
-                <router-link to="/list" >默认</router-link>
+              <li class="selected" id="cof1">
+                <a @click="changeSelected('cof1')">默认</a>
               </li>
-              <li id="cof2" @click="changeSelected('cof2')">
-                <router-link to="#">最新上架</router-link>
+              <li id="cof2" >
+                <a @click="changeSelected('cof2')">最新上架</a>
               </li>
-              <li id="cof3" @click="changeSelected('cof3')">
-                <router-link to="#" >价格</router-link>
+              <li id="cof3" >
+                <a @click="changeSelected('cof3')">价格</a>
               </li>
-              <li id="cof4" @click="changeSelected('cof4')">
-                <router-link to="#" >面积</router-link>
+              <li id="cof4" >
+                <a @click="changeSelected('cof4')">面积</a>
               </li>
             </ul>
           </div>
