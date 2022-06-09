@@ -74,12 +74,22 @@ export default {
               }
           this.$store.state.userInfo.id = user.uid;
           this.$store.state.userInfo.username = user.username;
+          this.$store.state.isLogin = true;
+          if(res.data.type === 1) {
+            this.$router.push('/');
+          }
+          else if(res.data.type === 3) {
+            this.$router.push('/admin');
+          }
+          else if(res.data.type === 2) {
+            this.$router.push('/worker');
+          }
           //let user = localStorage.getItem('user');
           //console.log(user);
-          this.$router.push('/');
+
         }
         else {
-          this.$message.error("用户名或密码错误");
+          this.$message.error(res.data.msg);
         }
       })
           .catch(function (error) {
