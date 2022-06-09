@@ -52,7 +52,7 @@
         <div class="info-nav-r">
           <div id="info-nav-search">
             <div class="form">
-              <input type="text" v-model="input" id="key" class="text"></input>
+              <input type="text" v-model="input" id="key" class="text" v-on:keyup.enter="search"></input>
               <button type="button" class="button" @click="search">
                 搜索
               </button>
@@ -276,7 +276,6 @@ export default {
         self.$router.push({
           path: '/list',
           query: {
-            uid: self.user.uid,
             keywords: self.input,
           }})
       }

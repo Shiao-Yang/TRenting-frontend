@@ -69,7 +69,7 @@
             <i id="menu-i" style="left:80px"></i>
           </div>
           <div class="box" style="padding: 0">
-            <input v-model="input"  type="text" placeholder="请输入区域、商圈或小区名开始找房">
+            <input v-model="input"  type="text" placeholder="请输入区域、商圈或小区名开始找房"  v-on:keyup.enter="search">
             <input type="button" value="开始找房" @click="search()">
           </div>
         </div>
