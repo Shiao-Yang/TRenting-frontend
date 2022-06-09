@@ -244,7 +244,7 @@
                   <el-table-column align="center" label="订单操作" width="200">
                     <template v-slot="scope" >
                       <div v-if="(scope.row.status===1||scope.row.status===0)&&scope.row.paid===0">
-                        <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="dialogVisible1=true; storeOrder(scope.row.oid)">
+                        <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="payOrder2(scope.row.oid)">
                           支付订单
                         </el-button>
                         <el-divider direction="vertical" v-if="scope.row.status===1"></el-divider>
@@ -398,7 +398,7 @@
                   <el-table-column align="center" label="订单操作" width="200">
                     <template v-slot="scope" >
                       <div v-if="(scope.row.status===1||scope.row.status===0)&&scope.row.paid===0">
-                        <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="dialogVisible1=true; storeOrder(scope.row.oid)">
+                        <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="payOrder2(scope.row.oid)">
                           支付订单
                         </el-button>
                         <el-divider direction="vertical" v-if="scope.row.status===1"></el-divider>
@@ -551,7 +551,7 @@
                   <el-table-column align="center" label="订单操作" width="200">
                     <template v-slot="scope" >
                       <div v-if="(scope.row.status===1||scope.row.status===0)&&scope.row.paid===0">
-                        <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="dialogVisible1=true; storeOrder(scope.row.oid)">
+                        <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click=" payOrder2(scope.row.oid)">
                           支付订单
                         </el-button>
                         <el-divider direction="vertical" v-if="scope.row.status===1"></el-divider>
@@ -705,7 +705,7 @@
                   <el-table-column align="center" label="订单操作" width="200">
                     <template v-slot="scope" >
                       <div v-if="(scope.row.status===1||scope.row.status===0)&&scope.row.paid===0">
-                        <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="dialogVisible1=true; storeOrder(scope.row.oid)">
+                        <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click=" payOrder2(scope.row.oid)">
                           支付订单
                         </el-button>
                         <el-divider direction="vertical" v-if="scope.row.status===1"></el-divider>
@@ -1096,6 +1096,14 @@ export default {
     },
     storeOrder(order_id) {
       this.order_id_to_pay = order_id;
+    },
+    payOrder2(oid) {
+      this.$router.push({
+            path: '/confirm',
+            query: {
+              oid : oid, // 必要传入参数，即需要进行确认的订单id
+            }
+      })
     },
     payOrder(order_id) {
       let formData = {

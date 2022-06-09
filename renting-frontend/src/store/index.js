@@ -69,7 +69,7 @@ export default new Vuex.Store({
     },
     logout(state) {
       state.isLogin = false;
-      state.userInfo.id = 0
+      state.userInfo.id = '';
     },
 
   },
