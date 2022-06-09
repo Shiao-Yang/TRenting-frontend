@@ -600,7 +600,7 @@ export default {
 
 .content_list_item {
   float: left;
-  width: 1190px;
+  width: 100%;
   margin-top: 10px;
   position: relative;
 }
