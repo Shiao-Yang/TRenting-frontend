@@ -184,7 +184,7 @@
 
 
           <div class="cart">
-            <div v-if="/*this.$store.state.cartInfo.length === 0*/ 0">
+            <div v-if="this.house.length=== 0">
               <p style="margin-top: 200px; padding-left: 50%; font-family: 微软雅黑,serif; font-size: 66px">空空如也~</p>
             </div>
 
@@ -210,6 +210,46 @@
             </div>
             -->
 
+
+            <div style="margin-top: 10px">
+              <div class="house-item" v-for="house in house_paging">
+                <div class="house-image">
+                  <img class="image" src="../assets/cart.png" alt="加载失败">
+                </div>
+                <div class="house-dsc">
+                    <!--h1 class="title">精品好房 <el-tag type="success">在售</el-tag></h1>
+                    <p>短租：{{house.short_price}} 元/天   长租：{{house.long_price}}</p>
+                    <p>位置：{{house.location}} | 面积：{{house.area}}</p>
+                    <p>户型：{{house.type}}</p-->
+                  <div style="font-size: 30px; color: #00ae66; font-weight:bold; margin-top: 10px; margin-bottom: 20px">
+                    精品好房
+                    <span v-if="house.available===1" style="position: relative; bottom: 5px"><el-tag type="success" size="medium">在售</el-tag></span>
+                    <span v-if="house.available===0" style="position: relative; bottom: 5px"><el-tag type="danger" size="medium">暂停出售</el-tag></span>
+                  </div>
+                  <el-descriptions style="color: rgba(43,177,28,0.82)" border>
+                    <el-descriptions-item label="位置">{{house.location}}</el-descriptions-item>
+                    <el-descriptions-item label="面积">{{house.area}}&nbsp;&nbsp;m²</el-descriptions-item>
+                    <el-descriptions-item label="户型">
+                      <div v-if="house.type === 1">单人间</div>
+                      <div v-if="house.type === 2">双人间</div>
+                      <div v-if="house.type === 3">四人间</div>
+                    </el-descriptions-item>
+                    <el-descriptions-item label="备注">
+                      <el-tag size="small">学校</el-tag>
+                    </el-descriptions-item>
+                    <el-descriptions-item label="联系地址">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+                  </el-descriptions>
+                </div>
+
+
+                <div class="op_button">
+                  <el-button type="success" icon="el-icon-shop" @click="handOrder(house)">下单买房</el-button>
+                  <el-button type="danger" icon="el-icon-delete" @click="removeFromCart(house)">移除</el-button>
+                </div>
+
+              </div>
+            </div>
+
             <div>
               <el-pagination
                   small
@@ -221,30 +261,6 @@
                   :total="this.house.length"
                   style="float:right">
               </el-pagination>
-            </div>
-
-            <div style="margin-top: 10px">
-              <div class="house-item" v-for="house in house_paging">
-                <div class="house-image">
-                  <img class="image" src="../assets/cart.png" alt="加载失败">
-                </div>
-                <div class="house-dsc">
-                  <div class="house-info">
-                    <h1 class="title">精品好房 <span><el-tag type="success">在售</el-tag></span></h1>
-                    <p>短租：{{house.short_price}} 元/天   长租：{{house.long_price}}</p>
-                    <p>位置：{{house.location}} | 面积：{{house.area}}</p>
-                    <p>户型：{{house.type}}</p>
-
-                  </div>
-                </div>
-
-
-                <div class="op_button">
-                  <el-button type="success" icon="el-icon-shop" @click="handOrder(house)">下单买房</el-button>
-                  <el-button type="danger" icon="el-icon-delete" @click="removeFromCart(house)">移除</el-button>
-                </div>
-
-              </div>
             </div>
 
           </div>
@@ -298,7 +314,7 @@ export default {
     },
     getHouse() {
       var formData = {
-        'id': 1,
+        'id': this.$store.state.userInfo.id,
       };
       console.log(formData);
 
@@ -339,19 +355,23 @@ export default {
     removeFromCart(house) {
       console.log(1);
       let houseData = {
-        hid: house.hid,
-        uid: this.$store.state.userInfo.uid,
+        hid: house.id,
+        uid: this.$store.state.userInfo.id,
       }
 
-      axios({
-        methods: 'post',
-        url: 'http://127.0.0.1:8000/cart/delete/',
+      console.log(2);
+      console.log(houseData);
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/cart/delete/",
         data: qs.stringify(houseData),
       }).then(res => {
         let tmp = res.data;
+        console.log(res.data.error);
         if(tmp.error === 0) {
           for(let i = 0; i < this.house.length; i++) {
-            if(houseData.hid === house[i].hid) {
+
+            if(this.house[i].id===houseData.hid) {
               this.house.splice(i,1);
               break;
             }
@@ -456,6 +476,7 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
   position: relative;
   top: 35px;
+  margin-bottom: 10px;
 }
 
 .breadcrumb {
@@ -468,12 +489,15 @@ export default {
   top: 25px
 }
 .house-image {
+  border-width: 1px;
+  border-style: solid;
   height: 180px;
   width: 210px;
   display: inline-block;
   position: relative;
   left: 10px;
   top: 10px;
+  vertical-align: middle;
 }
 
 .image {
@@ -482,17 +506,21 @@ export default {
 }
 
 .house-dsc {
-
+  border-width: 1px;
+  border-style: solid;
   height: 180px;
   width: 500px;
   display: inline-block;
   position: relative;
-  top: -90px;
+  vertical-align: middle;
   left: 20px;
+  top: 10px;
 }
 
 .house-info {
 
+  border-width: 1px;
+  border-style: solid;
   height: 180px;
   width: 300px;
   display: inline-block;
@@ -501,12 +529,14 @@ export default {
 }
 
 .op_button {
-
+  border-width: 1px;
+  border-style: solid;
   height: 180px;
   width: 200px;
   display: inline-block;
   position: relative;
-  top: -110px;
+  vertical-align: middle;
+  top: 10px;
   left: 40px;
 }
 
