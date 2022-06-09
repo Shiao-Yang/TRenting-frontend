@@ -140,7 +140,7 @@
         <div class="recommend-more-inner">
           <div>
             <ul id="recContent" class="more-list">
-              <li class="more-item" v-for="house in houses.splice(0, 50)">
+              <li class="more-item" v-for="house in houses.slice(0, 50)">
                 <a @click="toDetail(house)" class="more-lk" target="_blank">
                   <div class="more-img">
                     <img src="../../assets/logo.png" width="150px" height="150px" v-if="house.pictures == null">
