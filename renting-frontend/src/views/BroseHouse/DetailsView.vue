@@ -70,7 +70,7 @@
       </div>
       <div class="list-search">
         <div class="search-box">
-          <el-input v-model="input" placeholder="请输入内容" class="search-input" clearable>
+          <el-input v-model="input" placeholder="请输入内容" class="search-input" @keyup.enter.native="search" clearable>
           </el-input>
           <el-button class="search-button" slot="suffix" icon="el-icon-search" @click="search"></el-button>
         </div>
@@ -275,6 +275,26 @@ export default {
       else if(option === 'next') {
         document.getElementById('img-main').setAttribute('src', this.house.floor_plan);
       }
+    },
+
+    search() {
+      let self = this;
+      if(self.input === '' || self.input === undefined) {
+        self.$router.push({
+          path: '/list',
+          query: {
+            uid: self.$store.state.userInfo.id,
+          }})
+      }
+      else {
+        self.$router.push({
+          path: '/list',
+          query: {
+            uid: self.$store.state.userInfo.id,
+            keywords: self.input,
+          }})
+      }
+      this.$router.go(0);
     },
   },
 

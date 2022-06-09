@@ -70,7 +70,7 @@
       </div>
       <div class="list-search">
         <div class="search-box">
-          <el-input v-model="input" placeholder="请输入内容" class="search-input" clearable>
+          <el-input v-model="input" placeholder="请输入内容" class="search-input" @keyup.enter.native="search" clearable>
           </el-input>
           <el-button class="search-button" slot="suffix" icon="el-icon-search" @click="search"></el-button>
         </div>
@@ -360,7 +360,6 @@ export default {
         self.$router.push({
           path: '/list',
           query: {
-            uid: self.user.uid,
             keywords: self.input,
           }})
       }
