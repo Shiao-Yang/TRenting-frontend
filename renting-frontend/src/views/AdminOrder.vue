@@ -74,29 +74,29 @@
               </template>
               已支付
             </el-descriptions-item>
-            <el-descriptions-item v-if="item.verify==='0'" label-class-name="label-verify" content-class-name="content-verify">
-              <template slot="label">
-                审核状态
-              </template>
-              未审核
-            </el-descriptions-item>
-            <el-descriptions-item v-else label-class-name="label-verify" content-class-name="content-verify">
-              <template slot="label">
-                审核状态
-              </template>
-              已审核
-            </el-descriptions-item>
             <el-descriptions-item label-class-name="label-order_time" content-class-name="content-order_time">
               <template slot="label">
                 交易时间
               </template>
               {{item.order_time}}
             </el-descriptions-item>
-            <el-descriptions-item label-class-name="label-duration" content-class-name="content-duration">
+            <el-descriptions-item label-class-name="label-start_time" content-class-name="content-order_time">
+              <template slot="label">
+                开始时间
+              </template>
+              {{item.start_time}}
+            </el-descriptions-item>
+            <el-descriptions-item v-if="item.type==='0'" label-class-name="label-duration" content-class-name="content-duration">
               <template slot="label">
                 租借时长
               </template>
-              {{item.duration}}
+              {{item.duration}}天
+            </el-descriptions-item>
+            <el-descriptions-item v-else label-class-name="label-duration" content-class-name="content-duration">
+              <template slot="label">
+                租借时长
+              </template>
+              {{item.duration}}月
             </el-descriptions-item>
             <el-descriptions-item label-class-name="label-amount" content-class-name="content-amount">
               <template slot="label">
@@ -132,7 +132,8 @@
                            class="margin-top" :title="'ID: '+item.id" :column="3" border >
             <template slot="extra">
               <!-- 审核订单 -->
-              <el-button type="primary" class="button" size="small" @click="check(index)">审核</el-button>
+              <el-button type="primary" class="button" size="small" @click="check1(index)">通过</el-button>
+              <el-button type="primary" class="button" size="small" @click="check2(index)">驳回</el-button>
               <!-- 删除订单 -->
               <el-button type="primary" class="button" size="small" @click="open2(index)">删除</el-button>
             </template>
@@ -173,29 +174,29 @@
               </template>
               已支付
             </el-descriptions-item>
-            <el-descriptions-item v-if="item.check==='0'" label-class-name="label-verify" content-class-name="content-verify">
-              <template slot="label">
-                审核状态
-              </template>
-              未审核
-            </el-descriptions-item>
-            <el-descriptions-item v-else label-class-name="label-verify" content-class-name="content-verify">
-              <template slot="label">
-                审核状态
-              </template>
-              已审核
-            </el-descriptions-item>
             <el-descriptions-item label-class-name="label-order_time" content-class-name="content-order_time">
               <template slot="label">
                 交易时间
               </template>
               {{item.order_time}}
             </el-descriptions-item>
-            <el-descriptions-item label-class-name="label-duration" content-class-name="content-duration">
+            <el-descriptions-item label-class-name="label-start_time" content-class-name="content-order_time">
+              <template slot="label">
+                开始时间
+              </template>
+              {{item.start_time}}
+            </el-descriptions-item>
+            <el-descriptions-item v-if="item.type==='0'" label-class-name="label-duration" content-class-name="content-duration">
               <template slot="label">
                 租借时长
               </template>
-              {{item.duration}}
+              {{item.duration}}天
+            </el-descriptions-item>
+            <el-descriptions-item v-else label-class-name="label-duration" content-class-name="content-duration">
+              <template slot="label">
+                租借时长
+              </template>
+              {{item.duration}}月
             </el-descriptions-item>
             <el-descriptions-item label-class-name="label-amount" content-class-name="content-amount">
               <template slot="label">
@@ -217,10 +218,13 @@
 </template>
 
 <script>
+import qs from "qs";
+
 export default {
   created() {
     this.$emit('active',2);
     window.myData = this;
+    this.get_order_info();
   },
   name: "AdminOrder",
   data() {
@@ -253,47 +257,144 @@ export default {
         select2: '3',
         label: '房源ID'
       }],
-      order: [{
-        id: '2',
-        uid: '3',
-        hid: '4',
-        type: '0',
-        paid: '1',
-        check: '1',
-        order_time: '2022/1/12',
-        duration: '200',
-        amount: '50000',
-        details: '',
-        visible: true
-      }],
-      order2: [{
-        id: '1',
-        uid: '2',
-        hid: '3',
-        type: '1',
-        paid: '0',
-        check: '0',
-        order_time: '2022/1/22',
-        duration: '300',
-        amount: '70000',
-        details: '',
-        visible: true
-      }, {
-        id: '3',
-        uid: '4',
-        hid: '5',
-        type: '0',
-        paid: '0',
-        check: '0',
-        order_time: '2022/3/12',
-        duration: '100',
-        amount: '30000',
-        details: '',
-        visible: true
-      }]
+      order: [],
+      order2: []
     }
   },
   methods: {
+    get_order_info() {
+      this.$axios({
+        method: 'get',
+        url: "http://127.0.0.1:8000/order_ctrl/get_order_info/"
+      })
+          .then(res => {
+            console.log(res)
+            for (let i = 0; i < res.data.length; i++) {
+              let tmp = {
+                id: res.data[i].oid.toString(),
+                uid: res.data[i].uid.toString(),
+                hid: res.data[i].hid.toString(),
+                type: '',
+                paid: '',
+                check: res.data[i].status.toString(),
+                order_time: res.data[i].order_time,
+                start_time: res.data[i].start_time,
+                duration: res.data[i].duration.toString(),
+                amount: res.data[i].amount.toString(),
+                details: res.data[i].details,
+                visible: true
+              }
+              if (res.data[i].type!==null) {
+                tmp.type = res.data[i].type.toString()
+              }
+              if (res.data[i].paid!==null) {
+                tmp.paid = res.data[i].paid.toString()
+              }
+              tmp.order_time = tmp.order_time.replace('T',' ')
+              tmp.start_time = tmp.start_time.replace('T',' ')
+              tmp.order_time = tmp.order_time.substring(0, 19)
+              tmp.start_time = tmp.start_time.substring(0, 19)
+              console.log(tmp)
+              if (tmp.check === '1') {
+                this.order.push(tmp)
+              } else if (tmp.check === '0') {
+                this.order2.push(tmp)
+              }
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    del_order(index, which) {
+      let formData
+      if (which === 1) {
+        formData = {'orderid': this.order[index].id}
+      } else {
+        formData = {'orderid': this.order2[index].id}
+      }
+      console.log(formData)
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/order_ctrl/del_order/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            console.log(res)
+            switch (res.data.errno) {
+              case 0:
+                this.$message.success(res.data.msg)
+                break
+              case 1002:
+                this.$message.warning(res.data.msg)
+                break
+              case 1001:
+                this.$message.warning(res.data.msg)
+                break
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    approved(index) {
+      const formData = {'orderid': this.order2[index].id}
+      console.log(formData)
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/order_ctrl/approved/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            console.log(res)
+            switch (res.data.errno) {
+              case 0:
+                this.$message.success(res.data.msg)
+                break
+              case 1002:
+                this.$message.warning(res.data.msg)
+                break
+              case 1003:
+                this.$message.warning(res.data.msg)
+                break
+              case 1001:
+                this.$message.warning(res.data.msg)
+                break
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    disapproved(index) {
+      const formData = {'orderid': this.order2[index].id}
+      console.log(formData)
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/order_ctrl/disapproved/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            console.log(res)
+            switch (res.data.errno) {
+              case 0:
+                this.$message.success('驳回成功')
+                break
+              case 1002:
+                this.$message.warning(res.data.msg)
+                break
+              case 1003:
+                this.$message.warning(res.data.msg)
+                break
+              case 1001:
+                this.$message.warning(res.data.msg)
+                break
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
     searchOrder1() {
       let i, len = this.order.length, flag = 0;
       if (this.select1 === '1') {
@@ -417,10 +518,6 @@ export default {
         type: 'warning'
       }).then(() => {
         this.Delete(index)
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -429,6 +526,7 @@ export default {
       });
     },
     Delete(index) {
+      this.del_order(index, 1)
       this.order.splice(index, 1);
     },
     open2(index) {
@@ -440,10 +538,6 @@ export default {
         type: 'warning'
       }).then(() => {
         this.Delete2(index)
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -452,9 +546,10 @@ export default {
       });
     },
     Delete2(index) {
+      this.del_order(index, 2)
       this.order2.splice(index, 1);
     },
-    check(index) {
+    check1(index) {
       this.$confirm('此操作将审核通过该订单, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -463,6 +558,7 @@ export default {
         type: 'warning'
       }).then(() => {
         // 调用接口
+        this.approved(index)
         let tmp = {
           id: this.order2[index].id,
           uid: this.order2[index].uid,
@@ -471,6 +567,7 @@ export default {
           paid: this.order2[index].paid,
           check: '1',
           order_time: this.order2[index].order_time,
+          start_time: this.order2[index].start_time,
           duration: this.order2[index].duration,
           amount: this.order2[index].amount,
           details: this.order2[index].details,
@@ -480,14 +577,31 @@ export default {
         this.order2.splice(index, 1)
         this.searchOrder1();
         this.searchOrder2();
-        this.$message({
-          type: 'success',
-          message: '审核成功!'
-        });
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消审核'
+          message: '已取消通过'
+        });
+      });
+    },
+    check2(index) {
+      this.$confirm('此操作将审核驳回该订单, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        confirmButtonClass: 'confirm',
+        cancelButtonClass: 'cancel',
+        type: 'warning'
+      }).then(() => {
+        // 调用接口
+        this.disapproved(index)
+
+        this.order2.splice(index, 1)
+        this.searchOrder1();
+        this.searchOrder2();
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消驳回'
         });
       });
     },
@@ -533,20 +647,23 @@ export default {
   >>> .label-uid, >>> .label-hid, >>> .label-type {
     width: 130px;
   }
-  >>> .content-uid, >>> .content-hid {
+  >>> .content-uid  {
     width: 180px;
+  }
+  >>> .content-hid {
+    width: 240px;
   }
 </style>
 
 <style>
-.confirm {
+.dialog-footer .confirm, .el-message-box__btns .confirm {
   background-color: #42b983 !important;
   border: none !important;
 }
-.confirm:hover {
+.dialog-footer .confirm:hover, .el-message-box__btns .confirm:hover {
   background-color: #3cad7a !important;
 }
-.cancel:hover {
+.dialog-footer .cancel:hover, .el-message-box__btns .cancel:hover  {
   background-color: #d7eae2 !important;
   color: #42b983 !important;
   border-color: #d7eae2 !important;

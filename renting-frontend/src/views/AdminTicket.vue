@@ -470,10 +470,14 @@
 </template>
 
 <script>
+import qs from "qs";
+
 export default {
   created() {
     this.$emit('active',4);
     window.myData = this;
+    this.get_ticket_info()
+    this.get_complaints()
   },
   name: "AdminTicket",
   data() {
@@ -527,73 +531,249 @@ export default {
         label: '用户ID'
       }],
       select3: '1',
-      ticket1: [{
-        id: '1',
-        uid: '2',
-        hid: '3',
-        wid: '',
-        info: '水管坏了',
-        // 测试用的本地图片
-        pictureSrc: require('../assets/logo.png'),
-        status: '1',
-        date: '',
-        comment: '',
-        details: '',
-        visible: true
-      }, {
-        id: '2',
-        uid: '1',
-        hid: '4',
-        wid: '',
-        info: '空调坏了',
-        // 测试用的本地图片
-        pictureSrc: require('../assets/logo.png'),
-        status: '1',
-        date: '',
-        comment: '',
-        details: '',
-        visible: true
-      }],
+      ticket1: [],
       ticket2: [],
-      ticket3: [{
-        id: '3',
-        uid: '2',
-        hid: '5',
-        wid: '2',
-        info: '电视机坏了',
-        // 测试用的本地图片
-        pictureSrc: require('../assets/logo.png'),
-        status: '3',
-        date: '2022/3/12',
-        comment: '',
-        details: '',
-        handleImage: require('../assets/logo.png'),
-        handleText: '11111',
-        visible: true
-      }],
+      ticket3: [],
       ticket4: [],
-      complaint1: [{
-        id: '1',
-        contents: '212321312',
-        pictureSrc: require('../assets/logo.png'),
-        tid: '1',
-        uid: '2',
-        visible: true
-      }],
-      complaint2: [
-        {
-          id: '2',
-          contents: '212321312',
-          pictureSrc: require('../assets/logo.png'),
-          tid: '2',
-          uid: '3',
-          reply: '1111',
-          visible: true
-        }
-      ]
+      complaint1: [],
+      complaint2: []
     }
   },
   methods: {
+    get_ticket_info() {
+      this.$axios({
+        method: 'get',
+        url: "http://127.0.0.1:8000/ticket_ctrl/get_ticket_info/"
+      })
+          .then(res => {
+            console.log(res)
+            for (let i = 0; i < res.data.length; i++) {
+              let tmp = {
+                id: '',
+                uid: '',
+                wid: '',
+                hid: '',
+                info: res.data[i].info,
+                pictureSrc: res.data[i].pictures,
+                status: '',
+                date: res.data[i].date,
+                comment: '',
+                details: res.data[i].details,
+                handleImage: res.data[i].materials_pic,
+                handleText: res.data[i].materials_text,
+                visible: true
+              }
+              if (res.data[i].id!==null) {
+                tmp.id = res.data[i].id.toString()
+              }
+              if (res.data[i].uid!==null) {
+                tmp.uid = res.data[i].uid.toString()
+              }
+              if (res.data[i].wid!==null) {
+                tmp.wid = res.data[i].wid.toString()
+              }
+              if (res.data[i].hid!==null) {
+                tmp.hid = res.data[i].hid.toString()
+              }
+              if (res.data[i].status!==null) {
+                tmp.status = res.data[i].status.toString()
+              }
+              if (res.data[i].comment!==null) {
+                tmp.comment = res.data[i].comment.toString()
+              }
+              if (tmp.status==='1') {
+                this.ticket1.push(tmp)
+              } else if (tmp.status==='2') {
+                this.ticket2.push(tmp)
+              } else if (tmp.status==='3') {
+                this.ticket3.push(tmp)
+              } else if (tmp.status==='4') {
+                this.ticket4.push(tmp)
+              }
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    get_complaints() {
+      this.$axios({
+        method: 'get',
+        url: "http://127.0.0.1:8000/ticket_ctrl/get_complaints/"
+      })
+          .then(res => {
+            console.log(res)
+            for (let i = 0; i < res.data.length; i++) {
+              let tmp = {
+                id: res.data[i].id.toString(),
+                uid: res.data[i].uid.toString(),
+                tid: res.data[i].tid.toString(),
+                contents: res.data[i].contents,
+                pictureSrc: res.data[i].pictures,
+                reply: res.data[i].reply,
+                visible: true
+              }
+              if (tmp.reply!==null && tmp.reply!=='') {
+                this.complaint2.push(tmp)
+              } else {
+                this.complaint1.push(tmp)
+              }
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    dateZero(time) {
+      if (time < 10) {
+        time = "" + "0" + time;
+      }
+      return time;
+    },
+    create_ticket(index) {
+      let formData = {
+        'ticketid': this.ticket1[index].id,
+        'workerid': this.form1.wid,
+        'date': ''
+      }
+      let time = this.form1.date
+      formData.date = this.dateZero(time.getFullYear())+'-'+this.dateZero(time.getMonth()+1)
+          +'-'+this.dateZero(time.getDate())
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/ticket_ctrl/create_ticket/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            console.log(res)
+            switch (res.data.errno) {
+              case 0:
+                this.$message.success(res.data.msg)
+                let tmp = {
+                  id: this.ticket1[index].id,
+                  uid: this.ticket1[index].uid,
+                  hid: this.ticket1[index].hid,
+                  wid: this.form1.wid,
+                  info: this.ticket1[index].info,
+                  pictureSrc: this.ticket1[index].pictureSrc,
+                  status: '2',
+                  date: formData.date,
+                  comment: '',
+                  details: '',
+                  visible: true
+                }
+                this.ticket2.push(tmp);
+                this.ticket1.splice(index, 1);
+                this.dialogFormVisible1 = false;
+                this.search1();
+                this.search2();
+                break
+              case 1001:
+                this.$message.warning(res.data.msg)
+                break
+              case 1002:
+                this.$message.warning(res.data.msg)
+                break
+              case 1005:
+                this.$message.warning(res.data.msg)
+                break
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    reply_complaint(index) {
+      let formData = {
+        'complaintid': this.complaint1[index].id,
+        'reply': this.reply
+      }
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/ticket_ctrl/reply_complaint/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            console.log(res)
+            switch (res.data.errno) {
+              case 0:
+                this.$message.success(res.data.msg)
+                let tmp = {
+                  id: this.complaint1[index].id,
+                  contents: this.complaint1[index].contents,
+                  pictureSrc: this.complaint1[index].pictureSrc,
+                  tid: this.complaint1[index].tid,
+                  uid: this.complaint1[index].uid,
+                  reply: this.reply,
+                  visible: true
+                }
+                this.complaint2.push(tmp);
+                this.complaint1.splice(index, 1);
+                this.dialogFormVisible2 = false;
+                this.search3();
+                this.search4();
+                break
+              case 1001:
+                this.$message.warning(res.data.msg)
+                break
+              case 1003:
+                this.$message.warning(res.data.msg)
+                break
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    check_ticket(index) {
+      let formData = {
+        'ticketid': this.ticket3[index].id,
+      }
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/ticket_ctrl/check_ticket/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            console.log(res)
+            switch (res.data.errno) {
+              case 0:
+                this.$message.success(res.data.msg)
+                let tmp = {
+                  id: this.ticket3[index].id,
+                  uid: this.ticket3[index].uid,
+                  hid: this.ticket3[index].hid,
+                  wid: this.ticket3[index].wid,
+                  info: this.ticket3[index].info,
+                  pictureSrc: this.ticket3[index].pictureSrc,
+                  status: '4',
+                  date: this.ticket3[index].date,
+                  comment: '',
+                  details: '',
+                  handleImage: this.ticket3[index].handleImage,
+                  handleText: this.ticket3[index].handleText,
+                  visible: true
+                }
+                this.ticket4.push(tmp);
+                this.ticket3.splice(index, 1);
+                this.search5();
+                this.search6();
+                break
+              case 1001:
+                this.$message.warning(res.data.msg)
+                break
+              case 1002:
+                this.$message.warning(res.data.msg)
+                break
+              case 1004:
+                this.$message.warning(res.data.msg)
+                break
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
     makeTicket() {
       this.form1.wid = '';
       this.form1.date = '';
@@ -603,44 +783,14 @@ export default {
       if (this.form1.wid===''||this.form1.date==='') {
         this.$message.error('请填写完整内容!')
       } else {
-        let tmp = {
-          id: this.ticket1[index].id,
-          uid: this.ticket1[index].uid,
-          hid: this.ticket1[index].hid,
-          wid: this.form1.wid,
-          info: this.ticket1[index].info,
-          pictureSrc: this.ticket1[index].pictureSrc,
-          status: '2',
-          date: this.form1.date.getFullYear()+'/'+(this.form1.date.getMonth()+1)+'/'+this.form1.date.getDate(),
-          comment: '',
-          details: '',
-          visible: true
-        }
-        this.ticket2.push(tmp);
-        this.ticket1.splice(index, 1);
-        this.dialogFormVisible1 = false;
-        this.search1();
-        this.search2();
+        this.create_ticket(index)
       }
     },
     Confirm2(index) {
       if (this.reply==='') {
         this.$message.error('请填写回复内容！')
       } else {
-        let tmp = {
-          id: this.complaint1[index].id,
-          contents: this.complaint1[index].contents,
-          pictureSrc: this.complaint1[index].pictureSrc,
-          tid: this.complaint1[index].tid,
-          uid: this.complaint1[index].uid,
-          reply: this.reply,
-          visible: true
-        }
-        this.complaint2.push(tmp);
-        this.complaint1.splice(index, 1);
-        this.dialogFormVisible2 = false;
-        this.search3();
-        this.search4();
+        this.reply_complaint(index)
       }
     },
     search1() {
@@ -902,31 +1052,7 @@ export default {
         type: 'warning'
       }).then(() => {
         // 调用接口
-
-        let tmp = {
-          id: this.ticket3[index].id,
-          uid: this.ticket3[index].uid,
-          hid: this.ticket3[index].hid,
-          wid: this.ticket3[index].wid,
-          info: this.ticket3[index].info,
-          // 测试用的本地图片
-          pictureSrc: this.ticket3[index].pictureSrc,
-          status: '4',
-          date: this.ticket3[index].date,
-          comment: '',
-          details: '',
-          handleImage: this.ticket3[index].handleImage,
-          handleText: this.ticket3[index].handleText,
-          visible: true
-        }
-        this.ticket4.push(tmp);
-        this.ticket3.splice(index, 1);
-        this.search5();
-        this.search6();
-        this.$message({
-          type: 'success',
-          message: '审核成功!'
-        });
+        this.check_ticket(index)
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -989,14 +1115,14 @@ export default {
 </style>
 
 <style>
-.confirm {
+.dialog-footer .confirm, .el-message-box__btns .confirm {
   background-color: #42b983 !important;
   border: none !important;
 }
-.confirm:hover {
+.dialog-footer .confirm:hover, .el-message-box__btns .confirm:hover {
   background-color: #3cad7a !important;
 }
-.cancel:hover {
+.dialog-footer .cancel:hover, .el-message-box__btns .cancel:hover  {
   background-color: #d7eae2 !important;
   color: #42b983 !important;
   border-color: #d7eae2 !important;

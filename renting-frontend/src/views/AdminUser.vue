@@ -25,20 +25,21 @@
                 <el-button type="primary" id="modify" size="small" @click="modify(index)">修改</el-button>
                   <el-dialog title="修改信息" :visible.sync="dialogFormVisible1">
                    <el-form :model="form">
-                     <el-form-item label="用户名" :label-width="formLabelWidth">
-                       <el-input v-model="form.username" autocomplete="off" class="input" clearable></el-input>
+                     <el-form-item label="用户名" :label-width="formLabelWidth" required>
+                       <el-input v-model="form.username" autocomplete="off" class="input" placeholder="仅由字母数字下划线组成" clearable></el-input>
                      </el-form-item>
-                     <el-form-item label="手机号" :label-width="formLabelWidth">
-                       <el-input v-model="form.phoneNum" autocomplete="off" class="input" clearable></el-input>
+                     <el-form-item label="手机号" :label-width="formLabelWidth" required>
+                       <el-input v-model="form.phoneNum" autocomplete="off" class="input" placeholder="11位数字" clearable></el-input>
                      </el-form-item>
-                     <el-form-item label="邮箱" :label-width="formLabelWidth">
+                     <el-form-item label="邮箱" :label-width="formLabelWidth" required>
                        <el-input v-model="form.email" autocomplete="off" class="input" clearable></el-input>
                      </el-form-item>
-                     <el-form-item label="年龄" :label-width="formLabelWidth">
+                     <el-form-item label="年龄" :label-width="formLabelWidth" required>
                        <el-input v-model="form.age" autocomplete="off" class="input" clearable></el-input>
                      </el-form-item>
-                     <el-form-item label="性别" :label-width="formLabelWidth">
-                       <el-input v-model="form.sex" autocomplete="off" class="input" clearable></el-input>
+                     <el-form-item label="性别" :label-width="formLabelWidth" required>
+                       <el-radio v-model="form.sex" label="1">男</el-radio>
+                       <el-radio v-model="form.sex" label="0">女</el-radio>
                      </el-form-item>
                    </el-form>
                     <div slot="footer" class="dialog-footer">
@@ -87,11 +88,17 @@
                 </template>
                 {{ item.age }}
               </el-descriptions-item>
-              <el-descriptions-item>
+              <el-descriptions-item v-if="item.sex==='1'">
                 <template slot="label">
                   性别
                 </template>
-                {{ item.sex }}
+                男
+              </el-descriptions-item>
+              <el-descriptions-item v-if="item.sex==='0'">
+                <template slot="label">
+                  性别
+                </template>
+                女
               </el-descriptions-item>
             </el-descriptions>
 
@@ -112,21 +119,21 @@
             <el-button type="primary" id="upload" @click="upload">
               导入<i class="el-icon-upload el-icon--right"></i>
             </el-button>
-              <el-dialog title="导入师傅" :visible.sync="dialogFormVisible2">
-                <el-form :model="form2">
-                  <el-form-item label="用户名" :label-width="formLabelWidth">
-                    <el-input v-model="form2.username" autocomplete="off" class="input" clearable></el-input>
+              <el-dialog title="导入师傅" :visible.sync="dialogFormVisible2" v-if="dialogFormVisible2">
+                <el-form :model="form2" :rules="rules">
+                  <el-form-item label="用户名" :label-width="formLabelWidth" prop="username">
+                    <el-input v-model="form2.username" autocomplete="off" class="input" placeholder="'#'加字母或数字或下划线" clearable></el-input>
                   </el-form-item>
-                  <el-form-item label="密码" :label-width="formLabelWidth">
-                    <el-input v-model="form2.pwd" autocomplete="off" class="input" clearable></el-input>
+                  <el-form-item label="密码" :label-width="formLabelWidth" prop="pwd">
+                    <el-input v-model="form2.pwd" autocomplete="off" class="input" placeholder="必须包含字母和数字" clearable></el-input>
                   </el-form-item>
-                  <el-form-item label="姓名" :label-width="formLabelWidth">
+                  <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="form2.name" autocomplete="off" class="input" clearable></el-input>
                   </el-form-item>
                   <el-form-item label="手机号" :label-width="formLabelWidth">
-                    <el-input v-model="form2.phoneNum" autocomplete="off" class="input" clearable></el-input>
+                    <el-input v-model="form2.phoneNum" autocomplete="off" class="input" required placeholder="11位数字" clearable></el-input>
                   </el-form-item>
-                  <el-form-item label="照片" :label-width="formLabelWidth">
+                  <el-form-item label="照片" :label-width="formLabelWidth" required>
                     <el-upload
                         class="upload-demo"
                         action="#"
@@ -141,7 +148,7 @@
                     <img v-if="form2.photo" :src="form2.photo" width="120px" height="120px">
                   </el-form-item>
                   <el-form-item label="信息" :label-width="formLabelWidth">
-                    <el-input v-model="form2.description" autocomplete="off" class="input" clearable></el-input>
+                    <el-input type="textarea" v-model="form2.description" autocomplete="off" class="input" clearable></el-input>
                   </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -205,10 +212,14 @@
 </template>
 
 <script>
+import qs from "qs";
+
 export default {
   created() {
     this.$emit('active',1);
     window.myData = this;
+    this.get_users_info();
+    this.get_workers_info();
   },
   name: "AdminUser",
   data() {
@@ -224,7 +235,19 @@ export default {
       Index : '0',
       noUserVisible : false,
       noWorkerVisible: false,
+      rules: {
+        username: [
+          { required: true, message: "请输入昵称", trigger: "blur" },
+        ],
+        pwd: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+        ],
+        name: [
+          { required: true, message: "请输入姓名", trigger: "blur" },
+        ]
+      },
       form: {
+        id: '',
         username: '',
         phoneNum: '',
         email: '',
@@ -239,65 +262,224 @@ export default {
         photo: '',
         description: ''
       },
-      user: [{
-        userid: '11',
-        username: '哈哈',
-        phoneNum: '123',
-        email: '88888888@qq.com',
-        name: '小明',
-        age: '18',
-        sex: '男',
-        visible: true
-      }, {
-        userid: '22',
-        username: '啦啦啦',
-        phoneNum: '124',
-        email: '833388888@qq.com',
-        name: '小红',
-        age: '12',
-        sex: '女',
-        visible: true
-      }, {
-        userid: '33',
-        username: '嘿嘿',
-        phoneNum: '125',
-        email: '833382188@qq.com',
-        name: '小强',
-        age: '11',
-        sex: '男',
-        visible: true
-      }, {
-        userid: '44',
-        username: '呵呵',
-        phoneNum: '126',
-        email: '833388338@qq.com',
-        name: '小李',
-        age: '14',
-        sex: '女',
-        visible: true
-      }],
-      worker: [{
-        // 待修改：后面要换成base64
-        photoSrc: require('../assets/logo.png'),
-        workerid: '1',
-        username: '飒飒飒飒',
-        phoneNum: '1111111',
-        name: '王师傅',
-        description: '认真工作30年',
-        visible: true
-      }, {
-        // 待修改：后面要换成base64
-        photoSrc: require('../assets/logo.png'),
-        workerid: '2',
-        username: '强强',
-        phoneNum: '1122222',
-        name: '李师傅',
-        description: '认真摸鱼30年',
-        visible: true
-      }],
+      user: [],
+      worker: [],
     };
   },
   methods: {
+    get_users_info() {
+
+      this.$axios({
+        method: 'get',
+        url: "http://127.0.0.1:8000/user_ctrl/get_users_info/"
+      })
+          .then(res => {
+            console.log(res)
+            for (let i = 0; i < res.data.length; i++) {
+              let tmp = {
+                userid: res.data[i].id.toString(),
+                username: res.data[i].username,
+                phoneNum: res.data[i].tel,
+                email: res.data[i].email,
+                name: res.data[i].name,
+                age: '',
+                sex: '',
+                visible: true
+              }
+              if (res.data[i].age!==null) {
+                tmp.age = res.data[i].age.toString()
+              }
+              if (res.data[i].sex!==null) {
+                tmp.sex = res.data[i].sex.toString()
+              }
+              this.user.push(tmp)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    get_workers_info() {
+      this.$axios({
+        method: 'get',
+        url: "http://127.0.0.1:8000/user_ctrl/get_workers_info/"
+      })
+          .then(res => {
+            console.log(res)
+            for (let i = 0; i < res.data.length; i++) {
+              let tmp = {
+                photoSrc: res.data[i].photo,
+                workerid: res.data[i].id.toString(),
+                username: res.data[i].username,
+                phoneNum: res.data[i].tel,
+                name: res.data[i].name,
+                description: res.data[i].description,
+                visible: true
+              }
+              this.worker.push(tmp)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    add_worker() {
+      const formData = {
+        'username': this.form2.username,
+        'pwd': this.form2.pwd,
+        'name': this.form2.name,
+        'phoneNum': this.form2.phoneNum,
+        'photo': this.form2.photo,
+        'description': this.form2.description
+      }
+      console.log(formData)
+
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/user_ctrl/add_worker/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            console.log(res)
+            switch (res.data.errno) {
+              case 0:
+                this.$message.success(res.data.msg)
+                this.dialogFormVisible2 = false;
+                this.worker = [];
+                this.get_workers_info()
+                break
+              case 1003:
+                this.$message.warning(res.data.msg)
+                break
+              case 1002:
+                this.$message.warning(res.data.msg)
+                break
+              case 1009:
+                this.$message.warning(res.data.msg)
+                break
+              case 1008:
+                this.$message.warning(res.data.msg)
+                break
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    update_info() {
+      const formData = {
+        'userid': this.form.id,
+        'username': this.form.username,
+        'phoneNum': this.form.phoneNum,
+        'email': this.form.email,
+        'age': this.form.age,
+        'sex': this.form.sex
+      };
+      console.log(formData)
+
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/user_ctrl/update_info/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            console.log(res)
+            switch (res.data.errno) {
+              case 0:
+                this.$message.success(res.data.msg)
+                this.dialogFormVisible1 = false;
+                this.user[this.Index].username = this.form.username;
+                this.user[this.Index].phoneNum = this.form.phoneNum;
+                this.user[this.Index].email = this.form.email;
+                this.user[this.Index].age = this.form.age;
+                this.user[this.Index].sex = this.form.sex;
+                break
+              case 1001:
+                this.$message.warning(res.data.msg)
+                break
+              case 1002:
+                this.$message.warning(res.data.msg)
+                break
+              case 1003:
+                this.$message.warning(res.data.msg)
+                break
+              case 1004:
+                this.$message.warning(res.data.msg)
+                break
+              case 1005:
+                this.$message.warning(res.data.msg)
+                break
+              case 1006:
+                this.$message.warning(res.data.msg)
+                break
+              case 1007:
+                this.$message.warning(res.data.msg)
+                break
+              case 1010:
+                this.$message.warning(res.data.msg)
+                break
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    del_user(index) {
+      const formData = {'userid': this.user[index].userid}
+
+      console.log(formData)
+
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/user_ctrl/del_user/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            switch (res.data.errno) {
+              case 0:
+                this.$message.success(res.data.msg)
+                this.user.splice(index, 1);
+                break
+              case 1001:
+                this.$message.warning(res.data.msg)
+                break
+              case 1007:
+                this.$message.warning(res.data.msg)
+                break
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    del_worker(index) {
+      const formData = {'workerid': this.worker[index].workerid}
+
+      console.log(formData)
+
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/user_ctrl/del_worker/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            switch (res.data.errno) {
+              case 0:
+                this.$message.success(res.data.msg)
+                this.worker.splice(index, 1);
+                break
+              case 1001:
+                this.$message.warning(res.data.msg)
+                break
+              case 1007:
+                this.$message.warning(res.data.msg)
+                break
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
     handleClick(tab, event) {
       console.log(tab, event);
     },
@@ -384,23 +566,27 @@ export default {
       }
     },
     importWorker() {
-      this.dialogFormVisible2 = false;
       let tmp = {
-        workerid: '10',
         username: this.form2.username,
+        pwd: this.form2.pwd,
         name: this.form2.name,
         phoneNum: this.form2.phoneNum,
         photoSrc: this.form2.photo,
         description: this.form2.description,
         visible: true
       }
-      this.worker.push(tmp);
+      if (tmp.username===''||tmp.name===''||tmp.phoneNum===''||tmp.photoSrc===''||tmp.pwd==='') {
+        this.$message.warning('请填写完整信息！')
+        return
+      }
+      this.add_worker()
       this.searchWorker();
     },
     modify(index) {
       console.log(index)
       this.Index = index;
       this.dialogFormVisible1 = true;
+      this.form.id = this.user[index].userid;
       this.form.username = this.user[index].username;
       this.form.phoneNum = this.user[index].phoneNum;
       this.form.email = this.user[index].email;
@@ -408,18 +594,13 @@ export default {
       this.form.sex = this.user[index].sex;
     },
     Confirm() {
-      this.dialogFormVisible1 = false;
-      this.user[this.Index].username = this.form.username;
-      this.user[this.Index].phoneNum = this.form.phoneNum;
-      this.user[this.Index].email = this.form.email;
-      this.user[this.Index].age = this.form.age;
-      this.user[this.Index].sex = this.form.sex;
+      this.update_info()
     },
     Delete(index) {
-      this.user.splice(index, 1);
+      this.del_user(index)
     },
     Delete2(index) {
-      this.worker.splice(index, 1);
+      this.del_worker(index)
     },
     open(index) {
       this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
@@ -430,10 +611,6 @@ export default {
         type: 'warning'
       }).then(() => {
         this.Delete(index)
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -450,10 +627,6 @@ export default {
         type: 'warning'
       }).then(() => {
         this.Delete2(index)
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -500,7 +673,8 @@ export default {
   .el-select-dropdown__item.selected, .el-select-dropdown__item:hover{
     color: #42b983 !important;
   }
-  >>> .input-with-select > .el-input__inner:focus,>>> .input > .el-input__inner:focus{
+  >>> .input-with-select > .el-input__inner:focus,
+  >>> .input > .el-input__inner:focus, >>> .input > .el-textarea__inner:focus{
     border-color: #42b983 !important;
   }
   #upload {
@@ -545,16 +719,16 @@ export default {
 </style>
 
 <style>
-  .confirm {
-    background-color: #42b983 !important;
-    border: none !important;
-  }
-  .confirm:hover {
-    background-color: #3cad7a !important;
-  }
-  .cancel:hover {
-    background-color: #d7eae2 !important;
-    color: #42b983 !important;
-    border-color: #d7eae2 !important;
-  }
+.dialog-footer .confirm, .el-message-box__btns .confirm {
+  background-color: #42b983 !important;
+  border: none !important;
+}
+.dialog-footer .confirm:hover, .el-message-box__btns .confirm:hover {
+  background-color: #3cad7a !important;
+}
+.dialog-footer .cancel:hover, .el-message-box__btns .cancel:hover  {
+  background-color: #d7eae2 !important;
+  color: #42b983 !important;
+  border-color: #d7eae2 !important;
+}
 </style>

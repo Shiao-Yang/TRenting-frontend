@@ -1,6 +1,7 @@
 <template>
   <div class="worker">
-    <el-container class="operation-wrapper">
+    <div ><router-link to="/" id="quit">退出</router-link></div>
+    <el-container class="operation-wrapper" style="position: relative;top: 11px">
       <el-header class="el-header" style="height: 140px; padding: 0px">
         <div id="head">
           <h1 class="title">师 &nbsp;傅 &nbsp;页 &nbsp;面</h1>
@@ -29,7 +30,7 @@
         </el-aside>
         <el-main class="el-main">
           <template>
-            <el-tabs v-if="index==='1'" class="el-tabs" type="border-card" style="height: 490px">
+            <el-tabs v-if="index==='1'" class="el-tabs" type="border-card" style="height: 550px">
               <div class="block" style="padding-bottom: 15px;border-bottom: solid 1px #e6e6e6">
                 <el-avatar :size="80" :src="worker.photo" style="background-color: white;border: solid 1px #e6e6e6">
                 </el-avatar>
@@ -236,9 +237,13 @@
 </template>
 
 <script>
+import qs from "qs";
+
 export default {
   created() {
     window.myData = this;
+    this.get_worker_info()
+    this.select_tickets()
   },
   name: "Worker",
   data() {
@@ -258,50 +263,157 @@ export default {
         handleImage: '',
         handleText: '',
       },
-      worker: {
-        id: '1',
-        username: '借酒消愁愁更愁',
-        password: '12345678',
-        name: '老王',
-        tel: '17708327642',
-        photo: require('../assets/logo.png'),
-        description: '我是人见人爱的隔壁老王111111111111111111111我是人见人爱的隔壁老王111111111111111111111我是人见人爱的隔壁老王111111111111111111111我是人见人爱的隔'
-      },
-      ticket1: [{
-        id: '2',
-        uid: '1',
-        hid: '4',
-        wid: '1',
-        info: '空调坏了',
-        // 测试用的本地图片
-        pictureSrc: require('../assets/logo.png'),
-        status: '2',
-        date: '2022/3/11',
-        comment: '',
-        details: '',
-        handleImage: '',
-        handleText: '',
-        visible: true
-      }, {
-        id: '3',
-        uid: '2',
-        hid: '2',
-        wid: '1',
-        info: '电视机坏了',
-        // 测试用的本地图片
-        pictureSrc: require('../assets/logo.png'),
-        status: '2',
-        date: '2022/3/13',
-        comment: '',
-        details: '',
-        handleImage: '',
-        handleText: '',
-        visible: true
-      }],
+      worker: {},
+      ticket1: [],
       ticket2: []
     }
   },
   methods: {
+    get_worker_info() {
+      let formData = {'workerid': '3'}
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/worker/get_worker_info/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            console.log(res)
+            this.worker={
+              id: '3',
+              username: res.data[0].username,
+              password: res.data[0].password,
+              name: res.data[0].name,
+              tel: res.data[0].tel,
+              photo: res.data[0].photo,
+              description: res.data[0].description,
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    select_tickets() {
+      let formData = {'workerid': '3'}
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/worker/select_tickets/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            console.log(res)
+            switch (res.data.errno) {
+              case 1002:
+                this.$message.warning(res.data.msg)
+                break
+              case 1001:
+                this.$message.warning(res.data.msg)
+                break
+              default:
+                for (let i = 0; i < res.data.length; i++) {
+                  let tmp = {
+                    id: '',
+                    uid: '',
+                    wid: '',
+                    hid: '',
+                    info: res.data[i].info,
+                    pictureSrc: res.data[i].pictures,
+                    status: '',
+                    date: res.data[i].date,
+                    comment: '',
+                    details: res.data[i].details,
+                    handleImage: res.data[i].materials_pic,
+                    handleText: res.data[i].materials_text,
+                    visible: true
+                  }
+                  if (res.data[i].id!==null) {
+                    tmp.id = res.data[i].id.toString()
+                  }
+                  if (res.data[i].uid!==null) {
+                    tmp.uid = res.data[i].uid.toString()
+                  }
+                  if (res.data[i].wid!==null) {
+                    tmp.wid = res.data[i].wid.toString()
+                  }
+                  if (res.data[i].hid!==null) {
+                    tmp.hid = res.data[i].hid.toString()
+                  }
+                  if (res.data[i].status!==null) {
+                    tmp.status = res.data[i].status.toString()
+                  }
+                  if (res.data[i].comment!==null) {
+                    tmp.comment = res.data[i].comment.toString()
+                  }
+                  if (tmp.status==='2') {
+                    this.ticket1.push(tmp)
+                  } else if (tmp.status==='3') {
+                    this.ticket2.push(tmp)
+                  }
+                }
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
+    submit_materials(index) {
+      let formData = {
+        'ticketid': this.ticket1[this.Index].id,
+        'materials_pic': this.form.handleImage,
+        'materials_text': this.form.handleText
+      }
+      console.log(formData)
+      this.$axios({
+        method: 'post',
+        url: "http://127.0.0.1:8000/worker/submit_materials/",
+        data: qs.stringify(formData)
+      })
+          .then(res => {
+            console.log(res)
+            switch (res.data.errno) {
+              case 0:
+                this.$message.success(res.data.msg)
+                let tmp = {
+                  handleImage: this.form.handleImage,
+                  handleText: this.form.handleText,
+                  id: this.ticket1[this.Index].id,
+                  uid: this.ticket1[this.Index].uid,
+                  hid: this.ticket1[this.Index].hid,
+                  wid: this.ticket1[this.Index].wid,
+                  info: this.ticket1[this.Index].info,
+                  pictureSrc: this.ticket1[this.Index].pictureSrc,
+                  status: '3',
+                  date: this.ticket1[this.Index].date,
+                  comment: '',
+                  details: '',
+                  visible: true
+                }
+                this.ticket2.push(tmp);
+                this.ticket1.splice(this.Index, 1);
+                this.dialogFormVisible = false
+                this.search1()
+                this.search2()
+                break
+              case 1001:
+                this.$message.warning(res.data.msg)
+                break
+              case 1002:
+                this.$message.warning(res.data.msg)
+                break
+              case 1003:
+                this.$message.warning(res.data.msg)
+                break
+              case 1004:
+                this.$message.warning(res.data.msg)
+                break
+              case 1005:
+                this.$message.warning(res.data.msg)
+                break
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
     handleSelect(index, indexPath) {
       console.log(index, indexPath);
       this.index = index;
@@ -363,27 +475,7 @@ export default {
         this.$message.error("请提交完整内容！")
         return
       }
-      let tmp = {
-        handleImage: this.form.handleImage,
-        handleText: this.form.handleText,
-        id: this.ticket1[this.Index].id,
-        uid: this.ticket1[this.Index].uid,
-        hid: this.ticket1[this.Index].hid,
-        wid: this.ticket1[this.Index].wid,
-        info: this.ticket1[this.Index].info,
-        // 测试用的本地图片
-        pictureSrc: this.ticket1[this.Index].pictureSrc,
-        status: '3',
-        date: this.ticket1[this.Index].date,
-        comment: '',
-        details: '',
-        visible: true
-      }
-      this.ticket2.push(tmp);
-      this.ticket1.splice(this.Index, 1);
-      this.dialogFormVisible = false
-      this.search1()
-      this.search2()
+      this.submit_materials(index)
     },
     onChangeUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2
@@ -424,8 +516,8 @@ a {
 }
 .el-menu {
   background-color: #f9fafc;
-  height: 520px;
-  margin-left: 260px;
+  height: 580px;
+  margin-left: 200px;
   border-right: none;
   border-bottom: solid 1px #e6e6e6;
 }
@@ -437,7 +529,7 @@ a {
 }
 .el-main {
   padding: 0px !important;
-  margin-right: 260px
+  margin-right: 160px
 }
 >>> .el-tabs__item.is-active{
   color: #42b983 !important;
@@ -457,7 +549,7 @@ a {
 }
 
 .el-tab-pane {
-  height: 421px;
+  height: 481px;
   overflow-y: scroll;
 }
 .button, .upload{
@@ -483,6 +575,15 @@ a {
 }
 >>> .content-uid, >>> .content-hid {
   width: 120px;
+}
+#quit {
+  position: absolute;
+  top: 0px;
+  right: 20px;
+  color: #6d6d73;
+}
+#quit:hover {
+  color: #38383b;
 }
 </style>
 

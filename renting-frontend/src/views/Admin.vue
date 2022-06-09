@@ -1,6 +1,7 @@
 <template>
   <div class="adminUser">
-    <el-container class="operation-wrapper">
+    <div ><router-link to="/" id="quit">退出</router-link></div>
+    <el-container class="operation-wrapper" style="position: relative;top: 11px">
       <el-header class="el-header" style="height: 140px; padding: 0px">
         <div id="head">
           <h1 class="title">客 服 管 理 页 面</h1>
@@ -93,5 +94,14 @@ export default {
   }
   .el-menu {
     height: 600px;
+  }
+  #quit {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    color: #6d6d73;
+  }
+  #quit:hover {
+    color: #38383b;
   }
 </style>

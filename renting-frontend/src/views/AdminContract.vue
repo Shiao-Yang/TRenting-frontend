@@ -18,7 +18,7 @@
               <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
             </el-input>
           </div>
-          <el-empty description="暂无用户" :image-size="200" v-if="contract.length === 0"></el-empty>
+          <el-empty description="暂无合同" :image-size="200" v-if="contract.length === 0"></el-empty>
           <el-empty description="搜索为空" :image-size="200" v-if="contract.length !== 0 && this.noContractVisible"></el-empty>
           <!-- 显示合同 -->
           <el-descriptions v-for='(item,index) in contract' v-if="item.visible" :key="index"
@@ -27,8 +27,8 @@
               <!-- 查看合同 -->
               <el-button type="primary" class="button" size="small" @click="check(index)">查看</el-button>
               <el-dialog title="查看合同" :visible.sync="dialogFormVisible">
-                <div class="text">甲方ID(出租方): <span class="box">{{form.hid}}</span></div>
-                <div class="text">乙方ID(承租方): <span class="box">{{form.uid}}</span></div>
+                <div class="text">甲方(出租方): <span class="box">青年租房</span></div>
+                <div class="text">乙方(承租方): <span class="box">{{form.name}}</span></div>
                 <div class="text">经双方协商甲方将位于 <u>{{form.location}}</u> 房屋出租给乙方居住使用。</div>
                 <div class="text">一、租房从 <u>{{form.order_time}}</u> 起持续 <u>{{form.duration}}</u> 月为止。</div>
                 <div class="text">二、总租金为 <u>{{form.amount}}</u> 元，缴租为每月支付一次。</div>
@@ -54,15 +54,15 @@
             <!-- 合同项 -->
             <el-descriptions-item label-class-name="label-hid" content-class-name="content-hid">
               <template slot="label">
-                甲方ID
+                甲方
               </template>
-              {{item.hid}}
+              青年租房
             </el-descriptions-item>
             <el-descriptions-item label-class-name="label-uid" content-class-name="content-uid">
               <template slot="label">
-                乙方ID
+                乙方
               </template>
-              {{ item.uid }}
+              {{ item.name }}
             </el-descriptions-item>
           </el-descriptions>
         </el-tab-pane>
@@ -76,6 +76,7 @@ export default {
   created() {
     this.$emit('active',5);
     window.myData = this;
+    this.create_contract()
   },
   name: "AdminContract",
   data() {
@@ -88,6 +89,7 @@ export default {
       form: {
         hid: '',
         uid: '',
+        name: '',
         location: '',
         order_time: '',
         duration: '',
@@ -100,30 +102,41 @@ export default {
         select: '2',
         label: '用户ID'
       }],
-      contract: [{
-        id: '1',
-        uid: '2',
-        hid: '3',
-        order_time: '2022/1/11',
-        duration: '10',
-        amount: '30000',
-        location: '北京海淀', // 要让后端返回
-        visible: true
-      }, {
-        id: '2',
-        uid: '3',
-        hid: '4',
-        order_time: '2022/2/12',
-        duration: '8',
-        amount: '24000',
-        location: '北京海淀区学院路37号', // 要让后端返回
-        visible: true
-      }]
+      contract: []
     }
   },
   methods: {
+    create_contract() {
+      this.$axios({
+        method: 'get',
+        url: "http://127.0.0.1:8000/contract/create_contract/"
+      })
+          .then(res => {
+            console.log(res)
+            for (let i = 0; i < res.data.length; i++) {
+              let tmp = {
+                id: res.data[i].oid.toString(),
+                uid: res.data[i].uid.toString(),
+                hid: res.data[i].hid.toString(),
+                name: res.data[i].name,
+                location: res.data[i].location,
+                order_time: res.data[i].order_time,
+                duration: res.data[i].duration,
+                amount: res.data[i].amount,
+                visible: true
+              }
+              tmp.order_time = tmp.order_time.replace('T',' ')
+              tmp.order_time = tmp.order_time.substring(0, 19)
+              this.contract.push(tmp)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+    },
     check(index) {
       this.dialogFormVisible = true;
+      this.form.name = this.contract[index].name,
       this.form.uid = this.contract[index].uid;
       this.form.hid = this.contract[index].hid;
       this.form.location = this.contract[index].location;
@@ -223,7 +236,7 @@ export default {
 </style>
 
 <style>
-.cancel:hover {
+.dialog-footer .cancel:hover {
   background-color: #d7eae2 !important;
   color: #42b983 !important;
   border-color: #d7eae2 !important;
