@@ -268,7 +268,7 @@
                   </el-table-column>
                   <el-table-column align="center" prop="amount" label="交易额" >
                   </el-table-column>
-                  <el-table-column align="center" label="订单操作" width="200">
+                  <el-table-column align="center" label="订单操作" width="300">
                     <template v-slot="scope">
                       <div v-if="(scope.row.status===1||scope.row.status===0)&&scope.row.paid===0">
                         <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="payOrder2(scope.row.oid)">
@@ -430,7 +430,7 @@
                   </el-table-column>
                   <el-table-column align="center" prop="amount" label="交易额" >
                   </el-table-column>
-                  <el-table-column align="center" label="订单操作" width="200">
+                  <el-table-column align="center" label="订单操作" width="300">
                     <template v-slot="scope">
                       <div v-if="(scope.row.status===1||scope.row.status===0)&&scope.row.paid===0">
                         <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="payOrder2(scope.row.oid)">
@@ -591,7 +591,7 @@
                   </el-table-column>
                   <el-table-column align="center" prop="amount" label="交易额" >
                   </el-table-column>
-                  <el-table-column align="center" label="订单操作" width="200">
+                  <el-table-column align="center" label="订单操作" width="300">
                     <template v-slot="scope">
                       <div v-if="(scope.row.status===1||scope.row.status===0)&&scope.row.paid===0">
                         <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="payOrder2(scope.row.oid)">
@@ -753,7 +753,7 @@
                   </el-table-column>
                   <el-table-column align="center" prop="amount" label="交易额" >
                   </el-table-column>
-                  <el-table-column align="center" label="订单操作" width="200">
+                  <el-table-column align="center" label="订单操作" width="300">
                     <template v-slot="scope">
                       <div v-if="(scope.row.status===1||scope.row.status===0)&&scope.row.paid===0">
                         <el-button size="mini" type="primary" plain v-if="scope.row.status===1" @click="payOrder2(scope.row.oid)">
