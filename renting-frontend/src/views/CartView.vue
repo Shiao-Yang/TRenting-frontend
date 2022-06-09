@@ -305,7 +305,7 @@
                       {{house.short_price}}&nbsp;&nbsp;元/天
                     </el-descriptions-item>
                     <el-descriptions-item label="长租">
-                      {{house.long_price}}&nbsp;&nbsp;元/天
+                      {{house.long_price}}&nbsp;&nbsp;元/月
                     </el-descriptions-item>
                     <el-descriptions-item label="相关描述">
                       <div v-if="house.detail === null || house.detail === ''">
