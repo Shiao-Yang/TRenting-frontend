@@ -81,11 +81,11 @@ export default {
 }
 
 .cont .mt {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px auto;
   color: black;
   font-size: 24px;
   font-weight: 700;
+  text-align: center;
 }
 
 .cont .mc {
@@ -130,11 +130,13 @@ button {
 }
 
 .btns {
-  margin-top: 30px;
+  margin: 30px auto;
+  text-align: center;
 }
 
 .erwei {
   margin: 20px auto;
+  text-align: center;
 }
 
 .erwei img {

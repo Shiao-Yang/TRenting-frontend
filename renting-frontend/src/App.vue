@@ -16,7 +16,7 @@
           this.$refs.admin.$el.style.color = '#2c3e50';
           // console.log("color为"+link.style.color);
         }
-      }
+      },
     },
     watch: {
       '$route':'getRoute'

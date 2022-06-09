@@ -76,25 +76,25 @@
             <dl>
               <dt>订单中心</dt>
               <dd>
-                <router-link to="/info">我的订单</router-link>
+                <router-link to="/order">我的订单</router-link>
               </dd>
               <dd>
-                <router-link to="/info">评价晒单</router-link>
+                <router-link to="/order">评价晒单</router-link>
               </dd>
             </dl>
             <dl>
               <dt>客户服务</dt>
               <dd>
-                <router-link to="/info">我的报修</router-link>
+                <router-link to="/ticket">我的报修</router-link>
               </dd>
               <dd>
-                <router-link to="/info">报修状态</router-link>
+                <router-link to="/ticket">报修状态</router-link>
               </dd>
               <dd>
-                <router-link to="/info">我的投诉</router-link>
+                <router-link to="/complain">我的投诉</router-link>
               </dd>
               <dd>
-                <router-link to="/info">投诉状态</router-link>
+                <router-link to="/complain">投诉状态</router-link>
               </dd>
             </dl>
             <dl>
@@ -143,7 +143,7 @@
                     </a>
                   </li>
                   <li>
-                    <router-link to="/info" >
+                    <router-link to="/order" >
                       <img class = "more" src="../../assets/more.png">
                       <span style="text-align: center">全部信息</span>
                     </router-link>
@@ -162,31 +162,31 @@
                 <div class="nav">
                   <ul>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/order">
                         <img src="../../assets/pay.png">
                         <span>待付款</span>
                       </router-link>
                     </li>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/order">
                         <img src="../../assets/valid.png">
                         <span>当前有效</span>
                       </router-link>
                     </li>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/order">
                         <img src="../../assets/comment.png">
                         <span>待评价</span>
                       </router-link>
                     </li>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/order">
                         <img src="../../assets/finish.png">
                         <span>已完成</span>
                       </router-link>
                     </li>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/order">
                         <img src="../../assets/more.png">
                         <span>全部订单</span>
                       </router-link>
@@ -203,31 +203,31 @@
                 <div class="nav">
                   <ul>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/ticket">
                         <img src="../../assets/waiting.png">
                         <span>待处理</span>
                       </router-link>
                     </li>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/ticket">
                         <img src="../../assets/repairing.png">
                         <span>正在处理</span>
                       </router-link>
                     </li>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/ticket">
                         <img src="../../assets/comment.png">
                         <span>待评价</span>
                       </router-link>
                     </li>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/ticket">
                         <img src="../../assets/finish.png">
                         <span>已完成</span>
                       </router-link>
                     </li>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/ticket">
                         <img src="../../assets/more.png">
                         <span>全部报修</span>
                       </router-link>
@@ -244,31 +244,31 @@
                 <div class="nav">
                   <ul>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/complain">
                         <img src="../../assets/submit.png">
                         <span>待提交</span>
                       </router-link>
                     </li>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/complain">
                         <img src="../../assets/reply.png">
                         <span>待回复</span>
                       </router-link>
                     </li>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/complain">
                         <img src="../../assets/comment.png">
                         <span>待评价</span>
                       </router-link>
                     </li>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/complain">
                         <img src="../../assets/finish.png">
                         <span>已完成</span>
                       </router-link>
                     </li>
                     <li>
-                      <router-link to="/info">
+                      <router-link to="/complain">
                         <img src="../../assets/more.png">
                         <span>全部投诉</span>
                       </router-link>
@@ -278,7 +278,6 @@
               </div>
             </div>
           </div>
-
           <div class="box-right">
             <div class="my-block my-rec">
               <div class="mt">
@@ -436,18 +435,34 @@ export default {
     getUser(uid)
     {
       let self = this;
-      self.$axios({
-        method: 'GET',
-        url: 'http://127.0.0.1:8000/personal_homepage/get_user',
-        params: uid,
-      })
-          .then(res=>{
-            self.user = res.data;
-            console.log(res.data);
-          })
-          .catch(err=>{
-            console.log(err);
-          })
+      if(uid.uid === undefined || uid.uid === '') {
+        let msg = self.$message({
+          duration: 3000,
+          type: "error",
+          message: "尚未登录，3秒后跳转至主页",
+        });
+        setTimeout(()=>{
+          self.$router.push({
+            path: '/',
+          });
+          msg.close();
+        }, 3000);
+      }
+      else {
+        self.$axios({
+          method: 'GET',
+          url: 'http://127.0.0.1:8000/personal_homepage/get_user',
+          params: uid,
+        })
+            .then(res=>{
+              self.user = res.data;
+              console.log(res.data);
+            })
+            .catch(err=>{
+              console.log(err);
+            })
+      }
+
     },
 
     search() {
