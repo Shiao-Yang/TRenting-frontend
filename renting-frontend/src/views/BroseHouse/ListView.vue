@@ -170,36 +170,37 @@
           </ul>
         </div>
       </div>
-      <div class="content">
-        <div class="content_main">
-          <p class="content_title">
-            已为您找到<span style="color:#00ae66;margin: auto 5px;">{{ this.houses.length }}</span>套房源
-          </p>
-          <ul class="content_filter">
-            <li class="selected" id="cof1" @click="changeSelected('cof1')">
-              <router-link to="/list" >默认</router-link>
-            </li>
-            <li id="cof2" @click="changeSelected('cof2')">
-              <router-link to="#">最新上架</router-link>
-            </li>
-            <li id="cof3" @click="changeSelected('cof3')">
-              <router-link to="#" >价格</router-link>
-            </li>
-            <li id="cof4" @click="changeSelected('cof4')">
-              <router-link to="#" >面积</router-link>
-            </li>
-          </ul>
+      <div class="content-w">
+        <div class="content">
+          <div class="content_main">
+            <p class="content_title">
+              已为您找到<span style="color:#00ae66;margin: auto 5px;">{{ this.houses.length }}</span>套房源
+            </p>
+            <ul class="content_filter">
+              <li class="selected" id="cof1" @click="changeSelected('cof1')">
+                <router-link to="/list" >默认</router-link>
+              </li>
+              <li id="cof2" @click="changeSelected('cof2')">
+                <router-link to="#">最新上架</router-link>
+              </li>
+              <li id="cof3" @click="changeSelected('cof3')">
+                <router-link to="#" >价格</router-link>
+              </li>
+              <li id="cof4" @click="changeSelected('cof4')">
+                <router-link to="#" >面积</router-link>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <div class="content_list">
-        <div class="content_list_item" v-for="(house, index) in houses">
-          <a @click="toDetail(house)" class="link"></a>
-          <a href="javascript:;" class="content_list_item_aside">
-            <img :src="house.pictures">
-          </a>
-          <div class="content_list_item_main">
-            <p class="title">
-              <a href="javascript:;" :to="{path:'/details', query:{hid:house.hid, type: $route.query.type, uid: $route.query.uid}}">
+        <div class="content_list">
+          <div class="content_list_item" v-for="(house, index) in houses">
+            <a @click="toDetail(house)" class="link"></a>
+            <a href="javascript:;" class="content_list_item_aside">
+              <img :src="house.pictures">
+            </a>
+            <div class="content_list_item_main">
+              <p class="title">
+                <a href="javascript:;" :to="{path:'/details', query:{hid:house.hid, type: $route.query.type, uid: $route.query.uid}}">
                 <span>
                   <span v-if="$route.query.type === 'short'">短租</span>
                   <span v-else>长租</span>
@@ -207,14 +208,14 @@
                   <span>{{ house.location }}</span>
                   ·
                   <span>{{ hType[house.type] }}</span></span>
-              </a>
-            </p>
-            <p class="des">
-              <a href="javascript:;" :to="{path:'/details', query:{hid:house.hid, type: $route.query.type, uid: $route.query.uid}}">{{ house.detail }}</a>
-              <i>/</i>
-              {{house.area}} ㎡
-            </p>
-            <span class="price">
+                </a>
+              </p>
+              <p class="des">
+                <a href="javascript:;" :to="{path:'/details', query:{hid:house.hid, type: $route.query.type, uid: $route.query.uid}}">{{ house.detail }}</a>
+                <i>/</i>
+                {{house.area}} ㎡
+              </p>
+              <span class="price">
               <span v-if="$route.query.type === 'short'">
                 <em>{{house.short_price}}</em>
                 元/日
@@ -224,6 +225,7 @@
                 元/月
               </span>
             </span>
+            </div>
           </div>
         </div>
       </div>
@@ -542,6 +544,10 @@ export default {
   font-weight: 700;
 }
 
+.content-w {
+  width: 100%;
+}
+
 .content {
   overflow: hidden;
   width: 1190px;
@@ -593,7 +599,10 @@ export default {
 }
 
 .content_list_item {
-  padding: 30px 0;
+  float: left;
+  width: 1190px;
+  margin-top: 10px;
+  /*padding: 30px 0;*/
   position: relative;
 }
 
