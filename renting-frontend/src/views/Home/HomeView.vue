@@ -74,7 +74,7 @@
             <div v-if = !$store.state.isLogin>
               <router-link to="/login">登录</router-link>
               &nbsp;&nbsp;
-              <router-link to="/login" style="color:#f10215;">免费注册</router-link>
+              <router-link to="/register" style="color:#f10215;">免费注册</router-link>
             </div>
             <div v-else>
 
