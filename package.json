@@ -1,10 +1,6 @@
 {
   "dependencies": {
-<<<<<<< HEAD
     "axios": "^0.27.2",
     "vue-axios": "^3.4.1"
-=======
-    "axios": "^0.27.2"
->>>>>>> zhy
   }
 }
