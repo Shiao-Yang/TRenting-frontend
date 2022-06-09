@@ -6,6 +6,14 @@ import ListView from "@/views/BroseHouse/ListView"
 import DetailsView from "@/views/BroseHouse/DetailsView"
 import confirmOrder from "@/views/ConfirmOrder"
 
+const Admin = () => import('../views/Admin.vue')
+const AdminUser = () => import('../views/AdminUser.vue')
+const AdminOrder = () => import('../views/AdminOrder.vue')
+const AdminHouse = () => import('../views/AdminHouse.vue')
+const AdminTicket = () => import('../views/AdminTicket.vue')
+const AdminContract = () => import('../views/AdminContract.vue')
+const Worker = () => import('../views/Worker')
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -37,6 +45,45 @@ const routes = [
   {
     path: '/confirm',
     component: confirmOrder,
+  },
+  {
+    path: '/worker',
+    name: 'worker',
+    component: Worker
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: Admin,
+    redirect: '/admin/user',
+    children:[
+
+      {
+        path: 'user',
+        name: 'adminUser',
+        component: AdminUser,
+      },
+      {
+        path: 'order',
+        name: 'adminOder',
+        component: AdminOrder,
+      },
+      {
+        path: 'house',
+        name: 'adminHouse',
+        component: AdminHouse,
+      },
+      {
+        path: 'ticket',
+        name: 'adminTicket',
+        component: AdminTicket,
+      },
+      {
+        path: 'contract',
+        name: 'adminContract',
+        component: AdminContract,
+      }
+    ]
   },
 ]
 
