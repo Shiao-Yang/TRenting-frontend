@@ -1,6 +1,6 @@
 <template>
   <div class="worker">
-    <div ><router-link to="/" id="quit">退出</router-link></div>
+    <div ><router-link to="/" id="quit" @click.native="quit">退出</router-link></div>
     <el-container class="operation-wrapper" style="position: relative;top: 11px">
       <el-header class="el-header" style="height: 140px; padding: 0px">
         <div id="head">
@@ -34,18 +34,18 @@
               <div class="block" style="padding-bottom: 15px;border-bottom: solid 1px #e6e6e6">
                 <el-avatar :size="80" :src="worker.photo" style="background-color: white;border: solid 1px #e6e6e6">
                 </el-avatar>
-                <span style="position: absolute;color: #42b983;left: 100px;top: 45px">{{worker.username}}</span>
+                <span style="position: absolute;color: #42b983;left: 100px;top: 45px;font-size: 20px">{{worker.username}}</span>
               </div>
               <div class="block" style="padding: 30px 0px 40px 0px">
-                <span style="margin-left: 85px">ID：{{worker.id}}</span>
-                <span style="position: absolute;left: 420px">密码：{{worker.password}}</span>
+                <span style="margin-left: 85px;font-size: 15px">ID：{{worker.id}}</span>
+                <span style="position: absolute;left: 420px;font-size: 15px">密码：{{worker.password}}</span>
               </div>
               <div class="block" style="padding-bottom: 24px">
-                <span style="margin-left: 85px">姓名：{{worker.name}}</span>
-                <span style="position: absolute;left: 420px">电话：{{worker.tel}}</span>
+                <span style="margin-left: 85px;font-size: 15px">姓名：{{worker.name}}</span>
+                <span style="position: absolute;left: 420px;font-size: 15px">电话：{{worker.tel}}</span>
               </div>
               <div class="block" style="padding-bottom: 200px">
-                <span style="position: absolute;left: 100px;line-height: 1.5"><p>介绍：{{worker.description}}</p></span>
+                <span style="position: absolute;left: 100px;line-height: 1.5;font-size: 15px"><p>介绍：{{worker.description}}</p></span>
               </div>
             </el-tabs>
             <el-tabs v-else class="el-tabs" type="border-card">
@@ -270,7 +270,7 @@ export default {
   },
   methods: {
     get_worker_info() {
-      let formData = {'workerid': '3'}
+      let formData = {'workerid': this.$store.state.userInfo.id}
       this.$axios({
         method: 'post',
         url: "http://127.0.0.1:8000/worker/get_worker_info/",
@@ -293,7 +293,7 @@ export default {
           })
     },
     select_tickets() {
-      let formData = {'workerid': '3'}
+      let formData = {'workerid': this.$store.state.userInfo.id}
       this.$axios({
         method: 'post',
         url: "http://127.0.0.1:8000/worker/select_tickets/",
@@ -491,6 +491,9 @@ export default {
       }
       reader.readAsDataURL(file.raw)
       console.log(this.form.handleImage)
+    },
+    quit() {
+      this.$store.state.userInfo.id = ''
     }
   }
 }

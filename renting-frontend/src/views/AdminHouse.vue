@@ -500,6 +500,9 @@ export default {
               case 1001:
                 this.$message.warning(res.data.msg)
                 break
+              case 1004:
+                this.$message.warning(res.data.msg)
+                break
             }
           })
           .catch(err => {

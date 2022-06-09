@@ -1,6 +1,6 @@
 <template>
   <div class="adminUser">
-    <div ><router-link to="/" id="quit">退出</router-link></div>
+    <div ><router-link to="/" id="quit" @click.native="quit">退出</router-link></div>
     <el-container class="operation-wrapper" style="position: relative;top: 11px">
       <el-header class="el-header" style="height: 140px; padding: 0px">
         <div id="head">
@@ -66,6 +66,9 @@ export default {
   methods: {
     active(num) {
       this.activeIndex = num;
+    },
+    quit() {
+      this.$store.state.userInfo.id = ''
     }
   }
 }
