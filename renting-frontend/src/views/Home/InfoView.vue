@@ -574,8 +574,8 @@ export default {
 }
 </script>
 
-<style scoped>
-  @import "../../assets/css/shortcut.css";
+<style lang="css" scoped src="../../assets/css/shortcut.css">
+
 </style>
 
 <style scoped>

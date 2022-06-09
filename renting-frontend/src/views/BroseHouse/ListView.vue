@@ -407,9 +407,10 @@ export default {
   },
 }
 </script>
+<style lang="css" scoped src="../../assets/css/shortcut.css">
 
+</style>
 <style scoped>
-@import url("../../assets/css/shortcut.css");
 
 .search-area {
   position: absolute;
