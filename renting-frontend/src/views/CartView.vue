@@ -337,35 +337,60 @@ export default {
 
     },
     removeFromCart(house) {
+      console.log(1);
       let houseData = {
         hid: house.hid,
         uid: this.$store.state.userInfo.uid,
       }
-      /*
+
       axios({
         methods: 'post',
-        url: '',
+        url: 'http://127.0.0.1:8000/cart/delete/',
         data: qs.stringify(houseData),
       }).then(res => {
         let tmp = res.data;
-        this.$store.state.cartSum -= 1;
-        for(let i = 0; i < this.$store.state.cartInfo.length; i++) {
-          if (this.$store.state.cartInfo[i].hid === houseData.hid) {
-            this.$store.state.cartInfo.splice(i, 1);
-            break;
+        if(tmp.error === 0) {
+          for(let i = 0; i < this.house.length; i++) {
+            if(houseData.hid === house[i].hid) {
+              this.house.splice(i,1);
+              break;
+            }
           }
+
+          this.house_paging = [];
+          this.current_page = 1;
+          if(this.house) {
+            for(let i = 0; i < this.house.length&&i<4; i++) {
+              this.house_paging.push(this.house[i]);
+            }
+          }
+
+          this.$message ({
+            showClose: true,
+            type: "success",
+            message: '删除成功',
+          });
+
         }
       }).catch(err => {
         console.log(err);
+        this.$message ({
+          showClose: true,
+          type: "error",
+          message: '删除失败',
+        });
       })
 
-       */
+      /*
+
       for(let i = 0; i < this.$store.state.cartInfo.length; i++) {
         if (this.$store.state.cartInfo[i].hid === houseData.hid) {
           this.$store.state.cartInfo.splice(i, 1);
           break;
         }
       }
+
+       */
 
     },
     house_change_page(new_page) {

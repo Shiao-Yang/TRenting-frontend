@@ -1,0 +1,7 @@
+[user]
+	email = 2359900215@qq.com
+	name = shiaoyang
+[credential "https://gitee.com"]
+	provider = generic
+[http]
+	sslVerify = false
