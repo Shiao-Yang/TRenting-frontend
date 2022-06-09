@@ -85,18 +85,18 @@
                 <img alt="preview" id="img-main" class="img-main" :src="house.pictures">
               </div>
               <div class="house-info-pic-list">
-                <router-link id="prev" :to="this.$route.path">
+                <a id="prev" @click="changePic('prev')">
                   <img alt="left" class="prev-arrow" src="../../assets/arrow-left.png">
-                </router-link>
-                <router-link id="next" :to="this.$route.path">
+                </a>
+                <a id="next" @click="changePic('next')">
                   <img alt="right" class="next-arrow" src="../../assets/arrow-right.png">
-                </router-link>
+                </a>
                 <div class="items">
                   <ul>
-                    <li>
+                    <li @click="changePic('prev')">
                       <img alt="preview" :src="house.pictures">
                     </li>
-                    <li>
+                    <li @click="changePic('next')">
                       <img alt="preview" :src="house.floor_plan">
                     </li>
                   </ul>
@@ -266,7 +266,16 @@ export default {
 
             })
       }
-    }
+    },
+
+    changePic(option) {
+      if(option === 'prev') {
+        document.getElementById('img-main').setAttribute('src', this.house.pictures);
+      }
+      else if(option === 'next') {
+        document.getElementById('img-main').setAttribute('src', this.house.floor_plan);
+      }
+    },
   },
 
   created() {
