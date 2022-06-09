@@ -143,7 +143,7 @@
                     </a>
                   </li>
                   <li>
-                    <router-link to="/order" >
+                    <router-link to="/cart" >
                       <img class = "more" src="../../assets/more.png">
                       <span style="text-align: center">全部信息</span>
                     </router-link>
