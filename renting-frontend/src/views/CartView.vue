@@ -511,7 +511,7 @@ export default {
     },
     getHouse() {
       var formData = {
-        'id': 1,
+        'id': this.$store.state.userInfo.id,
       };
       console.log(formData);
 
