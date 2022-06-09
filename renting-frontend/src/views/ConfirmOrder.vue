@@ -50,7 +50,7 @@
           <div id="info-nav-search">
             <div class="form">
               <input type="text" v-model="input" id="key" class="text"></input>
-              <button type="button" class="button">
+              <button type="button" class="button" @click="search">
                 搜索
               </button>
             </div>
@@ -119,8 +119,8 @@
                   <div class="item pic">
                     <span class="label">房源预览 :</span>
                     <div class="fl">
-                      <img :src="house.pictures">
-                      <img :src="house.floor_plan">
+                      <img alt="preview" :src="house.pictures">
+                      <img alt="preview" :src="house.floor_plan">
                     </div>
                   </div>
                 </div>
@@ -185,7 +185,7 @@
             <div class="mc">
               <div class="success-info">
                 <div class="success_img">
-                  <img src="../assets/finish.png">
+                  <img alt="preview" src="../assets/finish.png">
                 </div>
                 <div class="success-info-details">
                   <p>订单支付成功！</p>
@@ -227,6 +227,7 @@ export default {
         oid: 0,
         type: '',
         start_time: '',
+        tel: '',
       },
     }
   },
@@ -248,6 +249,7 @@ export default {
             console.log(err);
           })
     },
+
     search() {
       let self = this;
       if(self.input === '' || self.input === undefined) {
@@ -320,6 +322,7 @@ export default {
             console.log(res.data);
             self.success = true;
             self.close();
+            self.$message.success("支付成功!")
             setTimeout(() => {
               self.$router.push({
                 path:'/',
@@ -328,6 +331,9 @@ export default {
                 }
               });
             }, 3000);
+          })
+          .catch(err=> {
+            console.log(err);
           })
 
     },

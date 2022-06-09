@@ -47,7 +47,7 @@
     <div class= "search-area">
       <div class="search-nav">
         <router-link to="/list" class="logo">
-          <img class="logo" src="../assets/logo.png">
+          <img alt="logo" class="logo" src="../assets/logo.png">
         </router-link>
         <ul>
           <li>
@@ -81,22 +81,22 @@
           <div class="house-pic-w">
             <div class="house-pic">
               <div class="house-info-img-main">
-                <img id="img-main" class="img-main" :src="house.pictures">
+                <img alt="preview" id="img-main" class="img-main" :src="house.pictures">
               </div>
               <div class="house-info-pic-list">
                 <router-link id="prev" :to="this.$route.path">
-                  <img class="prev-arrow" src="../assets/arrow-left.png">
+                  <img alt="left" class="prev-arrow" src="../assets/arrow-left.png">
                 </router-link>
                 <router-link id="next" :to="this.$route.path">
-                  <img class="next-arrow" src="../assets/arrow-right.png">
+                  <img alt="right" class="next-arrow" src="../assets/arrow-right.png">
                 </router-link>
                 <div class="items">
                   <ul>
                     <li>
-                      <img :src="house.pictures">
+                      <img alt="preview" :src="house.pictures">
                     </li>
                     <li>
-                      <img :src="house.floor_plan">
+                      <img alt="preview" :src="house.floor_plan">
                     </li>
                   </ul>
                 </div>
@@ -151,7 +151,7 @@
                 </div>
               </li>
               <li class="addToCart">
-                <el-button v-if="house.available === 1" type="success" >添加到购物车</el-button>
+                <el-button v-if="house.available === 1" type="success" @click="addToCart">添加到购物车</el-button>
                 <el-button v-else type="success" disabled>添加到购物车</el-button>
               </li>
             </ul>
@@ -223,6 +223,45 @@ export default {
             console.log(err);
           })
     },
+
+    addToCart() {
+      let self = this;
+      let formData = new FormData();
+      formData.append("uid", self.$route.query.uid);
+      formData.append("hid", self.$route.query.hid);
+      if(self.$route.query.uid === undefined) {
+        self.$message.error("尚未登录!")
+      }
+      else {
+        self.$axios({
+          method: 'POST',
+          url: 'http://127.0.0.1:8000/browse_house/add_cart/',
+          data: formData,
+        })
+            .then(res=> {
+              console.log(res.data);
+              switch (res.data.error){
+                case 0:
+                  self.$message.success("添加至购物车成功");
+                  break;
+                case 2:
+                case 3:
+                  self.$message.error("尚未登录");
+                  break;
+                case 4:
+                  self.$message.error("房源不存在了")
+                  break;
+                case 5:
+                  self.$message.error("房源已存在于购物车中");
+                  break;
+                case 6:
+                  self.$message.error("未知错误，请联系开发者处理");
+                  break;
+              }
+
+            })
+      }
+    }
   },
 
   created() {
@@ -289,7 +328,7 @@ export default {
 
 .search-box {
   float: left;
-  box-shadow: 0px 0px 4px rgb(0 0 0 / 10%);
+  box-shadow: 0 0 4px rgb(0 0 0 / 10%);
   width: 710px;
   height: 48px;
   display: inline-block;

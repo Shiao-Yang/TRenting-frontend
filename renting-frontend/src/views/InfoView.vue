@@ -58,7 +58,7 @@
           <div id="info-nav-search">
             <div class="form">
               <input type="text" v-model="input" id="key" class="text"></input>
-              <button type="button" class="button">
+              <button type="button" class="button" @click="search">
                 搜索
               </button>
             </div>
@@ -348,7 +348,7 @@
                     <div class="item">
                       <span class="label">&nbsp</span>
                       <div class="fl">
-                        <el-button type="success" size="mini" round plain>提交修改</el-button>
+                        <el-button type="success" size="mini" @click="updateInfo" round plain>提交修改</el-button>
                       </div>
                     </div>
                   </div>
@@ -379,6 +379,12 @@
                     <div class="item">
                       <span class="label">确认密码 :</span>
                       <el-input placeholder="请再次输入新密码" v-model="newPass2" maxlength="18" show-password></el-input>
+                    </div>
+                    <div class="item">
+                      <span class="label">&nbsp</span>
+                      <div class="fl">
+                        <el-button type="success" size="mini" @click="updatePassword" round plain>提交修改</el-button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -441,6 +447,26 @@ export default {
           })
     },
 
+    search() {
+      let self = this;
+      if(self.input === '' || self.input === undefined) {
+        self.$router.push({
+          path: '/list',
+          query: {
+            uid: self.$route.query.uid,
+          }})
+      }
+      else {
+        self.$router.push({
+          path: '/list',
+          query: {
+            uid: self.user.uid,
+            keywords: self.input,
+          }})
+      }
+      this.$router.go(0);
+    },
+
     getCart(uid)
     {
       let self = this;
@@ -472,6 +498,69 @@ export default {
             console.log(err);
           })
     },
+
+    updateInfo() {
+      let self=this;
+      let formData = new FormData();
+      formData.append("uid", self.$route.query.uid);
+      formData.append("username", self.user.username);
+      formData.append("phoneNum", self.user.tel);
+      formData.append("email", self.user.email);
+      formData.append("age", self.user.age);
+      formData.append("sex", self.user.sex);
+      self.$axios({
+        method: 'POST',
+        url: 'http://127.0.0.1:8000/user_ctrl/update_info/',
+        data:formData,
+      })
+          .then(res=>{
+            console.log(res.data);
+            self.getUser(self.$route.query.uid);
+          })
+          .catch(err=>{
+            console.log(err);
+          })
+    },
+
+    updatePassword() {
+      let self=this;
+      let formData = new FormData();
+      formData.append("uid", self.$route.query.uid);
+      formData.append("oldPass", self.oldPass);
+      formData.append("newPass1", self.newPass1);
+      formData.append("newPass2", self.newPass2);
+
+      self.$axios({
+        method: 'POST',
+        url: 'http://127.0.0.1:8000/personal_homepage/update_password/',
+        data:formData,
+      })
+          .then(res => {
+            console.log(res.data);
+            switch (res.data.error) {
+              case 0:
+                this.$message.success("修改成功");
+                self.$router.go(0);
+                break;
+              case 2:
+              case 3:
+                this.$message.error('还没有登录哦！')
+                break;
+              case 4:
+                this.$message.error('原密码错误！')
+                break;
+              case 5:
+                this.$message.error('新密码格式错误！')
+                break;
+              case 6:
+                this.$message.error('两次密码输入不一致!')
+                break;
+            }
+          })
+          .catch(err=> {
+            console.log(err);
+          })
+    }
   },
 
   created() {
