@@ -5,7 +5,7 @@
       <el-form ref="form" :model="form" class="form">
         <el-form-item prop="username">
           <el-input
-              placeholder="用户名或邮箱"
+              placeholder="用户名"
               type="username"
               prefix-icon="el-icon-user-solid"
               v-model="form.username"
