@@ -21,24 +21,24 @@
               auto-complete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item id="password" prop="password1">
+        <el-form-item id="password" prop="password_1">
           <el-input
               placeholder="密码"
               show-password
               type="password"
               prefix-icon="el-icon-lock"
-              v-model="ruleForm.password1"
+              v-model="ruleForm.password_1"
               autocomplete="off"
               @keyup.enter.native="login"
           ></el-input>
         </el-form-item>
-        <el-form-item prop="password2">
+        <el-form-item prop="password_2">
           <el-input
               placeholder="确认密码"
               show-password
               type="password"
               prefix-icon="el-icon-lock"
-              v-model="ruleForm.password2"
+              v-model="ruleForm.password_2"
               autocomplete="off"
               @keyup.enter.native="register('ruleForm')"
           ></el-input>
@@ -69,8 +69,8 @@ export default {
       if (value === '') {
         callback(new Error('请输入密码'));
       } else {
-        if (this.ruleForm.password2 !== '') {
-          this.$refs.ruleForm.validateField('password2');
+        if (this.ruleForm.password_2 !== '') {
+          this.$refs.ruleForm.validateField('password_2');
         }
         callback();
       }
@@ -78,7 +78,7 @@ export default {
     var validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'));
-      } else if (value !== this.ruleForm.password1) {
+      } else if (value !== this.ruleForm.password_1) {
         callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
@@ -104,8 +104,8 @@ export default {
       ruleForm: {
         username: '',
         email: '',
-        password1: '',
-        password2: '',
+        password_1: '',
+        password_2: '',
       },
       rules: {
         username: [
@@ -114,10 +114,10 @@ export default {
         email: [
           { validator: checkEmail, trigger: 'blur'}
         ],
-        password1: [
+        password_1: [
           { validator: validatePass1, trigger: 'blur' }
         ],
-        password2: [
+        password_2: [
           { validator: validatePass2, trigger: 'blur' }
         ],
       }
@@ -128,26 +128,30 @@ export default {
       var formData = {
         'username': this.ruleForm.username,
         'email': this.ruleForm.email,
-        'password1': this.ruleForm.password1,
-        'password2': this.ruleForm.password2,
+        'password_1': this.ruleForm.password_1,
+        'password_2': this.ruleForm.password_2,
       };
       console.log(formData);
 
       this.$axios({
         method: 'post',
-        url: "http://127.0.0.1:8000/register/",
+        url: "http://127.0.0.1:8000/login_register/register/",
         data: qs.stringify(formData)
       })
       .then(res => {
-        console.log(res);
+        console.log(res.data);
         switch(res.data.errno) {
           case 0:
+            /*
             this.$store.dispatch('saveUserInfo', {
               user: {
                 'username': this.ruleForm.username,
                 'authorization': 1,
               }
             });
+             */
+            var a = localStorage.getItem('user');
+            console.log(a);
             this.$message.success('注册成功！');
             setTimeout(() => {
               this.$router.push('/login');

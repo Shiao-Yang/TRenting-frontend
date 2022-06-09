@@ -4,6 +4,12 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from "@/views/LoginView.vue";
 import Register from "@/views/Register.vue";
 import InfoView from "@/views/InfoView";
+import OrderView from "@/views/OrderView";
+import CartView from "@/views/CartView";
+import TicketView from "@/views/TicketView";
+import test from "@/views/test";
+import TicketTestView from "@/views/TicketTestView";
+import ComplainView from "@/views/ComplainView";
 
 Vue.use(VueRouter)
 
@@ -42,6 +48,37 @@ const routes = [
     name: 'info',
     component: InfoView
   },
+  {
+    path: '/order',
+    name: 'order',
+    component: OrderView
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: CartView
+  },
+  {
+    path: '/ticket',
+    name: 'ticket',
+    component: TicketView
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: test
+  },
+  {
+    path: '/ticket_test',
+    name: 'ticket_test',
+    component: TicketTestView
+  },
+  {
+    path: '/complain',
+    name: 'complain',
+    component: ComplainView
+  },
+
 ]
 
 const router = new VueRouter({

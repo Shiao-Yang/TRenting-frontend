@@ -57,21 +57,23 @@ export default {
 
       this.$axios({
         method: 'post',
-        url: "http://127.0.0.1:8000/login/",
+        url: "http://127.0.0.1:8000/login_register/login/",
         data: qs.stringify(formData)
       })
       .then(res => {
-        console.log(res)
+        console.log(res.data)
         if(res.data.errno === 0) {
           //alert("登陆成功");
           this.$message.success("登陆成功");
           console.log(res.data);
-          this.$store.dispatch('saveUserInfo', {
-            user: {
+          let user =
+              {
               'username': this.form.username,
               'authorization': 1,
-            }
-          });
+              'uid': res.data.uid,
+              }
+          this.$store.state.userInfo.id = user.id;
+          this.$store.state.userInfo.username = user.username;
           //let user = localStorage.getItem('user');
           //console.log(user);
           this.$router.push('/');
