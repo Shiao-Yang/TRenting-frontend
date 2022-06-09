@@ -189,30 +189,22 @@ export default {
 
       },
       houseType:['未知', '单人间', '双人间', '三人间', '四人间'],
-      numData:[0, 0, 0],
+      numData:{
+        order: 1,
+        tickets: 1,
+        complaints: 1,
+      },
       input: '',
     }
   },
 
   methods:{
-    handleScroll()
-    {
-      let self = this
-      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-      if (scrollTop > 450) {
-        self.needFixed = true;
-        document.getElementById('f-shortcut').style.height = "56px";
-      }
-      else {
-        self.needFixed = false;
-        document.getElementById('f-shortcut').style.height = "0px";
-      }
-    },
     handleText (){
+      let self = this;
       let i=0;
-      let order=this.numData.order;
-      let tickets=this.numData.tickets;
-      let complaints=this.numData.complaints;
+      let order= self.numData.order;
+      let tickets= self.numData.tickets;
+      let complaints= self.numData.complaints;
       let text=["平台已处理报修"+tickets+"次，为您保驾护航", "平台已回复投诉"+complaints+"次，倾听您的声音","平台已成功交易订单"+order+"次，为您竭诚服务"]
       function changeText(){
         i=i%3;
@@ -256,28 +248,36 @@ export default {
 
     search() {
       let self = this;
-      if(self.input === '' || self.input === undefined) {
+      if(document.getElementById('menu-long').className === 'menu-item-check') {
         self.$router.push({
           path: '/list',
           query: {
-            uid: self.$route.query.uid,
-          }})
+            keywords: '',
+            type: 'long',
+          }});
       }
+
+      else if(document.getElementById('menu-short').className === 'menu-item-check') {
+        self.$router.push({
+          path: '/list',
+          query: {
+            keywords: self.input,
+            type: 'short',
+          }});
+      }
+
       else {
         self.$router.push({
           path: '/list',
           query: {
-            uid: self.user.uid,
             keywords: self.input,
-          }})
+          }});
       }
-      this.$router.go(0);
     },
 
     getUser(uid)
     {
       const self = this;
-      console.log(self.$store.state.userInfo.id);
       self.$axios({
         method: 'GET',
         url: 'http://127.0.0.1:8000/homepage/get_user',
@@ -285,6 +285,9 @@ export default {
       })
           .then(res => {
             console.log(res.data);
+          })
+          .catch(err => {
+            console.log(err);
           })
     },
 
@@ -300,8 +303,6 @@ export default {
         uid = 0;
       }
       if(house.id === undefined) {
-        console.log("UNDEFINED");
-
         return ;
       }
 
@@ -323,7 +324,6 @@ export default {
   },
 
   mounted() {
-    window.addEventListener('scroll', this.handleScroll)
     window.onload = this.handleText
   },
 };

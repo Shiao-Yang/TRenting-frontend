@@ -200,7 +200,7 @@
             </a>
             <div class="content_list_item_main">
               <p class="title">
-                <a href="javascript:;" :to="{path:'/details', query:{hid:house.hid, type: $route.query.type, uid: $route.query.uid}}">
+                <a href="javascript:;" :to="{path:'/details', query:{hid:house.hid, type: $route.query.type}}">
                 <span>
                   <span v-if="$route.query.type === 'short'">短租</span>
                   <span v-else>长租</span>
@@ -211,7 +211,7 @@
                 </a>
               </p>
               <p class="des">
-                <a href="javascript:;" :to="{path:'/details', query:{hid:house.hid, type: $route.query.type, uid: $route.query.uid}}">{{ house.detail }}</a>
+                <a href="javascript:;" :to="{path:'/details', query:{hid:house.hid, type: $route.query.type}}">{{ house.detail }}</a>
                 <i>/</i>
                 {{house.area}} ㎡
               </p>
@@ -259,7 +259,7 @@ export default {
       }
     },
     '$route.query': function () {
-      this.getUser({uid:$route.query.uid});
+      this.getUser({uid:this.$store.state.userInfo.id});
       this.searchHouses({keywords:$route.query.keywords});
     },
   },
@@ -354,9 +354,7 @@ export default {
       if(self.input === '' || self.input === undefined) {
         self.$router.push({
           path: '/list',
-          query: {
-            uid: self.$route.query.uid,
-          }})
+        })
       }
       else {
         self.$router.push({
@@ -399,7 +397,7 @@ export default {
 
   },
   created() {
-    this.getUser({uid: this.$route.query.uid});
+    this.getUser({uid: this.$store.state.uid});
     this.searchHouses({keywords: this.$route.query.keywords});
     this.resetData();
   },

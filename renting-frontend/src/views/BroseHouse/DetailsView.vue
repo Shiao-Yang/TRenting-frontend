@@ -228,9 +228,9 @@ export default {
     addToCart() {
       let self = this;
       let formData = new FormData();
-      formData.append("uid", self.$route.query.uid);
+      formData.append("uid", self.$store.state.userInfo.id);
       formData.append("hid", self.$route.query.hid);
-      if(self.$route.query.uid === undefined) {
+      if(self.$store.state.userInfo.id === undefined && self.$store.state.userInfo.id === '') {
         self.$message.error("尚未登录!")
       }
       else {
@@ -241,24 +241,28 @@ export default {
         })
             .then(res=> {
               console.log(res.data);
+              let msg;
               switch (res.data.error){
                 case 0:
-                  self.$message.success("添加至购物车成功");
+                  msg = self.$message.success("添加至购物车成功");
                   break;
                 case 2:
                 case 3:
-                  self.$message.error("尚未登录");
+                  msg = self.$message.error("尚未登录");
                   break;
                 case 4:
-                  self.$message.error("房源不存在了")
+                  msg = self.$message.error("房源不存在了")
                   break;
                 case 5:
-                  self.$message.error("房源已存在于购物车中");
+                  msg = self.$message.error("房源已存在于购物车中");
                   break;
                 case 6:
-                  self.$message.error("未知错误，请联系开发者处理");
+                  msg = self.$message.error("未知错误，请联系开发者处理");
                   break;
               }
+              setTimeout(()=>{
+                msg.close();
+              }, 2000);
 
             })
       }
@@ -266,7 +270,7 @@ export default {
   },
 
   created() {
-    this.getUser({uid:this.$route.query.uid})
+    this.getUser({uid:this.$store.state.userInfo.id})
     this.getHouse({hid:this.$route.query.hid})
   },
 

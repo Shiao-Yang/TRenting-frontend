@@ -32,6 +32,7 @@ input[type=button]:hover{
 a {
   color: #666;
   text-decoration: none;
+  cursor: pointer;
 }
 
 
