@@ -244,6 +244,7 @@ export default {
     window.myData = this;
     this.get_worker_info()
     this.select_tickets()
+    this.getUser({uid: this.$store.state.userInfo.id})
   },
   name: "Worker",
   data() {
@@ -269,6 +270,18 @@ export default {
     }
   },
   methods: {
+    getUser(uid) {
+      let self = this;
+      if (self.$store.state.userInfo.id === undefined || self.$store.state.userInfo.id === '') {
+        let msg = this.$message.error("尚未登录，3秒后跳转至首页");
+        setTimeout(() => {
+          this.$router.push({
+            path: '/'
+          });
+          msg.close();
+        }, 3000);
+      }
+    },
     get_worker_info() {
       let formData = {'workerid': this.$store.state.userInfo.id}
       this.$axios({
@@ -303,7 +316,6 @@ export default {
             console.log(res)
             switch (res.data.errno) {
               case 1002:
-                this.$message.warning(res.data.msg)
                 break
               case 1001:
                 this.$message.warning(res.data.msg)
