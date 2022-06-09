@@ -277,6 +277,7 @@ export default {
     getUser(uid)
     {
       const self = this;
+      console.log(self.$store.state.userInfo.id);
       self.$axios({
         method: 'GET',
         url: 'http://127.0.0.1:8000/homepage/get_user',
