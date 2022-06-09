@@ -8,9 +8,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.prototype.$axios = axios
 Vue.use(VueAxios, axios) // 安装插件
+Vue.use(ElementUI);
 
 Vue.config.productionTip = false
-Vue.use(ElementUI);
 
 new Vue({
   router,
