@@ -130,7 +130,7 @@
                     <el-input v-model="form2.username" autocomplete="off" class="input" placeholder="'#'加字母或数字或下划线" clearable></el-input>
                   </el-form-item>
                   <el-form-item label="密码" :label-width="formLabelWidth" prop="pwd">
-                    <el-input v-model="form2.pwd" autocomplete="off" class="input" placeholder="必须包含字母和数字" clearable></el-input>
+                    <el-input v-model="form2.pwd" autocomplete="off" class="input" placeholder="必须包含字母和数字，长度8-16" clearable></el-input>
                   </el-form-item>
                   <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="form2.name" autocomplete="off" class="input" clearable></el-input>

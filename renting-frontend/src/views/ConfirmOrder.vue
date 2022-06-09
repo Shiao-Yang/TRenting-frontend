@@ -570,7 +570,8 @@ a {
 .mc .form .item {
   display: block;
   margin-bottom: 10px;
-  min-height: 30px;
+  width: 100%;
+  height: 40px;
 }
 
 .mc .form .pic {
@@ -590,8 +591,9 @@ a {
 
 .fl {
   float: left;
-  padding: 6px 0;
+  padding: 6px;
 }
+
 .mc .form .item img {
   margin-top: 10px;
   width: 100px;
@@ -602,10 +604,12 @@ a {
 
 .price {
   color: #f10215;
+  padding: 0;
 }
 
 .priceNum {
   color: #f10215;
+  padding: 0;
   font-weight: 700;
   font-size: 20px;
 }
