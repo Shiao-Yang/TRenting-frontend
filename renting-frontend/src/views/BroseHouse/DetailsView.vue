@@ -179,7 +179,7 @@ export default {
         username: '',
         avatar: '',
       },
-      houseType:['未知', '单人间', '双人间', '三人间', '四人间'],
+      houseType:['未知', '单人间', '双人间', '四人间'],
       input: '',
       house: {
         hid : 0,

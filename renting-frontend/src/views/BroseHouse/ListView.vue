@@ -251,7 +251,7 @@ export default {
         uid: '',
       },
       price: [],
-      hType: ['未知', '单人间', '双人间', '三人间', '四人间+'],
+      hType: ['未知', '单人间', '双人间', '四人间+'],
       houseType: [],
       houses: [],
       sType: '',
