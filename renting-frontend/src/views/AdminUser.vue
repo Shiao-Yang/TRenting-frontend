@@ -94,11 +94,16 @@
                 </template>
                 男
               </el-descriptions-item>
-              <el-descriptions-item v-if="item.sex==='0'">
+              <el-descriptions-item v-else-if="item.sex==='0'">
                 <template slot="label">
                   性别
                 </template>
                 女
+              </el-descriptions-item>
+              <el-descriptions-item v-else>
+                <template slot="label">
+                  性别
+                </template>
               </el-descriptions-item>
             </el-descriptions>
 
