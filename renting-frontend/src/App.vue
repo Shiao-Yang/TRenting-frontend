@@ -43,10 +43,6 @@
   }
 </script>
 <style>
-* {
-  margin: 0;
-  padding: 0;
-}
 nav {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -62,6 +58,7 @@ nav {
   font: 10px/1.5 Microsoft YaHei,Heiti SC,tahoma,arial,Hiragino Sans GB,"\5B8B\4F53",sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
 .el-dialog {
   margin-top: 80px !important;
 }
