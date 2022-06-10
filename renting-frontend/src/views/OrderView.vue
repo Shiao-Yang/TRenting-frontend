@@ -291,7 +291,7 @@
                         </el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 0">
-                        <el-button type="info" plain size="mini" slot="reference" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">续约</el-button>
+                        <el-button type="primary" plain size="mini" slot="reference" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">续约</el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 1">
                         <el-button type="primary" plain size="mini" slot="reference" @click="dialogVisible2=true; ticketForm.hid = scope.row.hid; ticketForm.info = ''; ticketForm.img='';">提交报修</el-button>
@@ -614,7 +614,7 @@
                         </el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 0">
-                        <el-button type="info" plain size="mini" slot="reference" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">续约</el-button>
+                        <el-button type="primary" plain size="mini" slot="reference" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">续约</el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 1">
                         <el-button type="primary" plain size="mini" slot="reference" @click="dialogVisible2=true; ticketForm.hid = scope.row.hid; ticketForm.info = ''; ticketForm.img='';">提交报修</el-button>
@@ -776,7 +776,7 @@
                         </el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 0">
-                        <el-button type="info" plain size="mini" slot="reference" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">续约</el-button>
+                        <el-button type="primary" plain size="mini" slot="reference" @click="dialogVisible3=true; continueOrderForm.oid=scope.row.oid;">续约</el-button>
                       </div>
                       <div v-if="scope.row.status===1&&scope.row.paid===1&&scope.row.valid === 1">
                         <el-button type="primary" plain size="mini" slot="reference" @click="dialogVisible2=true; ticketForm.hid = scope.row.hid; ticketForm.info = ''; ticketForm.img='';">提交报修</el-button>
@@ -1462,6 +1462,7 @@ export default {
         this.order_unpaid = [];
         this.order_finished = [];
         this.order_valid = [];
+        let long_sum = 0
         for(let i = 0; i < this.order_all.length; i++) {
           let tmp = this.order_all[i];
           let hid = tmp.hid;
@@ -1550,6 +1551,7 @@ export default {
 
           let t,end_time;
           let date = new Date();
+
           //console.log(date);
 
           t = this.order_all[i]['start_time'];
@@ -1587,6 +1589,7 @@ export default {
             if(this.order_all[i].status === 1 && this.order_all[i].paid === 1){
               this.order_all[i].valid = 1;
               this.order_valid.push(this.order_all[i]);
+              long_sum++;
             }
           }
 
@@ -1703,7 +1706,10 @@ export default {
               this.order_valid_paging.push(this.order_valid[i]);
             }
           }
+
+          this.checkDate(long_sum);
           //console.log(a);
+
 
 
       })
@@ -1954,6 +1960,44 @@ export default {
       setTimeout(()=>{
         this.$router.push({path:'/'});
       }, 3000);
+    },
+    checkDate(long_sum) {
+      let date = new Date();
+      let day = date.getDate();
+      if(day === 10 && long_sum > 0) {
+        this.sendEmail(this.$store.state.userInfo.id);
+      }
+      else {
+        return;
+      }
+    },
+    sendEmail(uid) {
+      let userId = {
+        uid: uid,
+      }
+      console.log(userId);
+      this.$axios({
+        method: 'post',
+        url: 'http://127.0.0.1:8000/order/send_alone_email/',
+        data: qs.stringify(userId),
+      }).then(res => {
+        if(res.data.error === 0) {
+          this.$message({
+            showClose: true,
+            type: 'success',
+            message: res.data.msg,
+          });
+        }
+        else {
+          this.$message({
+            showClose: true,
+            type: 'error',
+            message: res.data.msg,
+          });
+        }
+      }).catch(err => {
+        console.log(err);
+      })
     }
   },
 
