@@ -508,7 +508,7 @@ export default {
           this.$message ({
             showClose: true,
             type: 'error',
-            message: 'msg',
+            message: res.data.msg,
           });
         }
         this.dialogVisible=false;
