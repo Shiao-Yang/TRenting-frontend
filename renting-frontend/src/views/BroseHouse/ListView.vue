@@ -88,32 +88,6 @@
         <div class="filter_wr">
           <ul>
             <li class="filter_item filter_item_aside">
-              <router-link to="/list">区域</router-link>
-            </li>
-            <li class="filter_item strong">
-              <router-link to="#">不限</router-link>
-            </li>
-            <li class="filter_item">
-              <router-link to="#">海淀</router-link>
-            </li>
-            <li class="filter_item">
-              <router-link to="#">朝阳</router-link>
-            </li>
-            <li class="filter_item">
-              <router-link to="#">顺义</router-link>
-            </li>
-            <li class="filter_item">
-              <router-link to="#">大兴</router-link>
-            </li>
-            <li class="filter_item">
-              <router-link to="#">丰台</router-link>
-            </li>
-            <li class="filter_item">
-              <router-link to="#">昌平</router-link>
-            </li>
-          </ul>
-          <ul>
-            <li class="filter_item filter_item_aside">
               <router-link to="#">方式</router-link>
             </li>
             <li class="filter_item_strong" id="fil1" v-if="this.$route.query.type === undefined">
@@ -167,9 +141,6 @@
             </li>
             <li>
               <el-checkbox label="两居" v-model="houseType"></el-checkbox>
-            </li>
-            <li>
-              <el-checkbox label="三居" v-model="houseType"></el-checkbox>
             </li>
             <li>
               <el-checkbox label="四居+" v-model="houseType"></el-checkbox>
@@ -403,7 +374,7 @@ export default {
     logOut() {
       this.$store.commit('logout');
       this.$router.go(0);
-    }
+    },
 
 
   },
