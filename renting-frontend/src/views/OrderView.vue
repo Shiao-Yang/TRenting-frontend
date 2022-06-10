@@ -1589,6 +1589,8 @@ export default {
             if(this.order_all[i].status === 1 && this.order_all[i].paid === 1){
               this.order_all[i].valid = 1;
               this.order_valid.push(this.order_all[i]);
+            }
+            if(this.order_all[i].status === 1 && this.order_all[i].paid === 0) {
               long_sum++;
             }
           }
