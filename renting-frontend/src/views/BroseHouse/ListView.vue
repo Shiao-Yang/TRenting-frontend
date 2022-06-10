@@ -194,15 +194,15 @@
                 {{house.area}} ㎡
               </p>
               <span class="price">
-              <span v-if="$route.query.type === 'short'">
-                <em>{{house.short_price}}</em>
-                元/日
+                <span v-if="$route.query.type === 'short'">
+                  <em>{{house.short_price}}</em>
+                  元/日
+                </span>
+                <span v-else>
+                  <em>{{house.long_price}}</em>
+                  元/月
+                </span>
               </span>
-              <span v-else>
-                <em>{{house.long_price}}</em>
-                元/月
-              </span>
-            </span>
             </div>
           </div>
         </div>
@@ -221,7 +221,7 @@ export default {
       user: {
         uid: '',
       },
-      price: [],
+      price: this.$route.query.price,
       hType: ['未知', '单人间', '双人间', '四人间+'],
       houseType: [],
       houses: [],
@@ -294,6 +294,57 @@ export default {
             .then(res => {
               self.houses = res.data;
               console.log(self.houses);
+              let house_list = []
+              for(let i=0; i< self.houses.length; i++) {
+                if(self.$route.query.type === 'undefined') {
+                  let house = self.houses[i];
+                  if(Math.round(Math.random()*100)<=50) {
+                    house["price"] = self.houses[i].short_price;
+                    house["rentType"] = 'short';
+                  }
+                  else {
+                    house["price"] = house[i].long_price;
+                    house["rentType"] = 'long';
+                  }
+                  house_list.push(house);
+                }
+
+                else if(self.$route.query.type === 'short') {
+                  let house = self.houses[i];
+                  house["price"] = house[i].short_price;
+                  house["rentType"] = 'short';
+                  if(self.$route.query.limit_left === undefined || self.$route.query.limit_left === '') {
+                    house_list.push(house);
+                  }
+
+                  else {
+                    if(house.price >= self.$route.query.limit_left) {
+                      if(self.$route.query.limit_right === undefined || self.$route.query.limit_right === '' || house.price <= self.$route.query.limit_right) {
+                        house_list.push(house);
+                      }
+                    }
+                  }
+
+                }
+
+                else if(self.$route.query.type === 'long') {
+                  let house = self.houses[i];
+                  house["price"] = house.long_price;
+                  house["rentType"] = 'long';
+                  console.log(house);
+                  if(self.$route.query.limit_left === undefined || self.$route.query.limit_left === '') {
+                    house_list.push(house);
+                  }
+                  else{
+                    if(house.price >= self.$route.query.limit_left) {
+                      if(self.$route.query.limit_right === undefined || self.$route.query.limit_right === '' || house.price <= self.$route.query.limit_right) {
+                        house_list.push(house);
+                      }
+                    }
+                  }
+                }
+              }
+              self.houses = house_list;
             })
             .catch(err => {
               console.log(err);
@@ -308,11 +359,64 @@ export default {
             .then(res => {
               self.houses = res.data;
               console.log(self.houses);
+              let house_list = []
+              for(let i=0; i< self.houses.length; i++) {
+                if(self.$route.query.type === 'undefined') {
+                  let house = self.houses[i];
+                  if(Math.round(Math.random()*100)<=50) {
+                    house["price"] = self.houses[i].short_price;
+                    house["rentType"] = 'short';
+                  }
+                  else {
+                    house["price"] = house[i].long_price;
+                    house["rentType"] = 'long';
+                  }
+                  house_list.push(house);
+                }
+
+                else if(self.$route.query.type === 'short') {
+                  let house = self.houses[i];
+                  house["price"] = house[i].short_price;
+                  house["rentType"] = 'short';
+                  if(self.$route.query.limit_left === undefined || self.$route.query.limit_left === '') {
+                    house_list.push(house);
+                  }
+
+                  else {
+                    if(house.price >= self.$route.query.limit_left) {
+                      if(self.$route.query.limit_right === undefined || self.$route.query.limit_right === '' || house.price <= self.$route.query.limit_right) {
+                        house_list.push(house);
+                      }
+                    }
+                  }
+
+                }
+
+                else if(self.$route.query.type === 'long') {
+                  let house = self.houses[i];
+                  house["price"] = house.long_price;
+                  house["rentType"] = 'long';
+                  console.log(house);
+                  if(self.$route.query.limit_left === undefined || self.$route.query.limit_left === '') {
+                    house_list.push(house);
+                  }
+                  else{
+                    if(house.price >= self.$route.query.limit_left) {
+                      if(self.$route.query.limit_right === undefined || self.$route.query.limit_right === '' || house.price <= self.$route.query.limit_right) {
+                        house_list.push(house);
+                      }
+                    }
+                  }
+                }
+              }
+              self.houses = house_list;
             })
             .catch(err => {
               console.log(err);
             })
       }
+
+
 
     },
 
