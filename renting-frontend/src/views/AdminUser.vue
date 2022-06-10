@@ -135,7 +135,7 @@
                   <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="form2.name" autocomplete="off" class="input" clearable></el-input>
                   </el-form-item>
-                  <el-form-item label="手机号" :label-width="formLabelWidth">
+                  <el-form-item label="手机号" :label-width="formLabelWidth" prop="tel">
                     <el-input v-model="form2.phoneNum" autocomplete="off" class="input" required placeholder="11位数字" clearable></el-input>
                   </el-form-item>
                   <el-form-item label="照片" :label-width="formLabelWidth" required>
@@ -249,6 +249,9 @@ export default {
         ],
         name: [
           { required: true, message: "请输入姓名", trigger: "blur" },
+        ],
+        tel: [
+          { required: true, message: "请输入手机号", trigger: "blur" }
         ]
       },
       form: {
