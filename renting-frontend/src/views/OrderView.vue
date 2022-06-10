@@ -868,7 +868,7 @@
 
             </el-tabs>
           </div>
-          <el-button type="success" @click="test">test</el-button>
+          <!--el-button type="success" @click="test">test</el-button-->
 
 
 

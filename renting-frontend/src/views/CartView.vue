@@ -181,7 +181,7 @@
                    {{this.orderForm.amount=(this.orderForm.duration*house_data.short_price)}}
                  </div>
                   <div v-if="orderForm.type===1">
-                    {{this.orderForm.amount=house_data.long_price}}
+                    {{this.orderForm.amount=(this.orderForm.duration*house_data.long_price)}}
                   </div>
                 </el-form-item>
 
@@ -322,7 +322,7 @@ export default {
       house_paging: [],
       orderForm: {
         hid: null,
-        uid: 1,
+        uid: this.$store.state.userInfo.id,
         type: null,
         order_time: null,
         start_time: null,
@@ -561,7 +561,7 @@ export default {
       console.log(1);
       let houseData = {
         hid: house.id,
-        uid: 1,
+        uid: this.$store.state.userInfo.id,
       }
 
       console.log(2);
