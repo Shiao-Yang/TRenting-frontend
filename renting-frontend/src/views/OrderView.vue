@@ -1709,7 +1709,7 @@ export default {
             }
           }
 
-          this.checkDate(long_sum);
+          //this.checkDate(long_sum);
           //console.log(a);
 
 
