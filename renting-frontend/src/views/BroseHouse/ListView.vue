@@ -109,43 +109,43 @@
               <router-link :to="{path: '/list', query: {type: 'short', uid: user.uid}}">短租</router-link>
             </li>
           </ul>
-          <ul>
-            <li class="filter_item_aside filter_item">
-              <router-link to="/list">租金</router-link>
-            </li>
-            <li class="filter_item">
-              <el-checkbox label="≤1000元" value="[1000]" v-model="price"></el-checkbox>
-            </li>
-            <li>
-              <el-checkbox label="1000~1500元" v-model="price"></el-checkbox>
-            </li>
-            <li>
-              <el-checkbox label="1500~2000元" v-model="price"></el-checkbox>
-            </li>
-            <li>
-              <el-checkbox label="2000~2500元" v-model="price"></el-checkbox>
-            </li>
-            <li>
-              <el-checkbox label="2500~5000元" v-model="price"></el-checkbox>
-            </li>
-            <li>
-              <el-checkbox label=">5000元" v-model="price"></el-checkbox>
-            </li>
-          </ul>
-          <ul>
-            <li class="filter_item_aside filter_item">
-              <router-link to="/list">户型</router-link>
-            </li>
-            <li class="filter_item">
-              <el-checkbox label="一居" v-model="houseType"></el-checkbox>
-            </li>
-            <li>
-              <el-checkbox label="两居" v-model="houseType"></el-checkbox>
-            </li>
-            <li>
-              <el-checkbox label="四居+" v-model="houseType"></el-checkbox>
-            </li>
-          </ul>
+<!--          <ul>-->
+<!--            <li class="filter_item_aside filter_item">-->
+<!--              <router-link to="/list">租金</router-link>-->
+<!--            </li>-->
+<!--            <li class="filter_item">-->
+<!--              <el-checkbox label="≤1000元" value="[1000]" v-model="price"></el-checkbox>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <el-checkbox label="1000~1500元" v-model="price"></el-checkbox>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <el-checkbox label="1500~2000元" v-model="price"></el-checkbox>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <el-checkbox label="2000~2500元" v-model="price"></el-checkbox>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <el-checkbox label="2500~5000元" v-model="price"></el-checkbox>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <el-checkbox label=">5000元" v-model="price"></el-checkbox>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--          <ul>-->
+<!--            <li class="filter_item_aside filter_item">-->
+<!--              <router-link to="/list">户型</router-link>-->
+<!--            </li>-->
+<!--            <li class="filter_item">-->
+<!--              <el-checkbox label="一居" v-model="houseType"></el-checkbox>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <el-checkbox label="两居" v-model="houseType"></el-checkbox>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--              <el-checkbox label="四居+" v-model="houseType"></el-checkbox>-->
+<!--            </li>-->
+<!--          </ul>-->
         </div>
       </div>
       <div class="content-w">
