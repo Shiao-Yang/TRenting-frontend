@@ -39,7 +39,7 @@
           </li>
           <li>
             <div class="dt">
-              <router-link to="/ticket">我的报修</router-link>
+              <router-link to="/ticket_test">我的报修</router-link>
             </div>
           </li>
           <li>
