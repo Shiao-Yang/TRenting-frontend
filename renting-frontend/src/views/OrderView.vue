@@ -257,7 +257,7 @@
                       </el-tag>
                     </template>
                   </el-table-column>
-                  <el-table-column align="center" prop="paid" label="支付状态" >
+                  <el-table-column align="center" prop="paid" label="支付状态" width="130">
                     <template v-slot="scope">
                       <el-tag type="warning" v-if="scope.row.paid==0&&(scope.row.status===1 || scope.row.status===0)">
                         待付款
@@ -419,7 +419,7 @@
                       </el-tag>
                     </template>
                   </el-table-column>
-                  <el-table-column align="center" prop="paid" label="支付状态" >
+                  <el-table-column align="center" prop="paid" label="支付状态" width="130">
                     <template v-slot="scope">
                       <el-tag type="warning" v-if="scope.row.paid==0&&(scope.row.status===1 || scope.row.status===0)">
                         待付款
@@ -580,7 +580,7 @@
                       </el-tag>
                     </template>
                   </el-table-column>
-                  <el-table-column align="center" prop="paid" label="支付状态" >
+                  <el-table-column align="center" prop="paid" label="支付状态" width="130">
                     <template v-slot="scope">
                       <el-tag type="warning" v-if="scope.row.paid==0&&(scope.row.status===1 || scope.row.status===0)">
                         待付款
